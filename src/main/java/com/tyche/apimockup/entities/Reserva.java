@@ -2,97 +2,119 @@ package com.tyche.apimockup.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.lang.reflect.Field;
-import java.util.regex.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Document(collection = "reservas")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class Reserva implements Entidad{
 
-    @JsonProperty("hotel")
-    private String hotel;
-
+    @Id
     @JsonProperty("ReservationNumber")
-    private String reservationNumber;
+    private String reservationNumber = "";
+
+    @JsonProperty("hotel")
+    private String hotel = "";
 
     @JsonProperty("checkoutRealized")
-    private boolean checkoutRealized;
+    private boolean checkoutRealized = false;
 
     @JsonProperty("CheckIn")
-    private String checkIn;
+    private String checkIn = "";
 
     @JsonProperty("Localizador")
-    private String localizador;
+    private String localizador = "";
 
     @JsonProperty("HotelFactura")
-    private String hotelFactura;
+    private String hotelFactura = "";
 
     @JsonProperty("NumReserva")
-    private String numReserva;
+    private String numReserva = "";
 
     @JsonProperty("Bono")
-    private String bono;
+    private String bono = "";
 
     @JsonProperty("Estado")
-    private int estado;
+    private int estado = 0;
 
     @JsonProperty("Habitacion")
-    private String habitacion;
+    private String habitacion = "";
 
     @JsonProperty("THDescripcion")
-    private String thDescripcion;
+    private String thDescripcion = "";
 
     @JsonProperty("THUso")
-    private String thUso;
+    private String thUso = "";
 
     @JsonProperty("Seccion")
-    private String seccion;
+    private String seccion = "";
 
     @JsonProperty("Tarifa")
-    private String tarifa;
+    private String tarifa = "";
 
     @JsonProperty("AD")
-    private int ad;
+    private int ad = 0;
 
     @JsonProperty("NI")
-    private int ni;
+    private int ni = 0;
 
     @JsonProperty("JR")
-    private int jr;
+    private int jr = 0;
 
     @JsonProperty("CU")
-    private int cu;
+    private int cu = 0;
 
     @JsonProperty("PreCheckIn")
-    private String preCheckIn;
+    private String preCheckIn = "";
 
     @JsonProperty("FechaEntrada")
-    private String fechaEntrada;
+    private String fechaEntrada = "";
 
     @JsonProperty("FechaSalida")
-    private String fechaSalida;
+    private String fechaSalida = "";
 
     @JsonProperty("MotivoViaje")
-    private String motivoViaje;
+    private String motivoViaje = "";
 
     @JsonProperty("LlegadaHora")
-    private String llegadaHora;
+    private String llegadaHora = "";
 
     @JsonProperty("THFactura")
-    private String thFactura;
+    private String thFactura = "";
 
     @JsonProperty("Bienvenida")
-    private String bienvenida;
+    private String bienvenida = "";
 
     @JsonProperty("FechaBienv")
-    private String fechaBienv;
+    private String fechaBienv = "";
 
     @JsonProperty("HoraBienv")
-    private String horaBienv;
+    private String horaBienv = "";
 
+    @Override
+    public String[] validar() {
+        List<String> errores = new ArrayList<>();
+
+        if (hotel == null || hotel.isEmpty()) {
+            errores.add("El hotel no puede estar vacío");
+        } else if (! (hotel.matches("^M[1-4]$")) ) {
+            errores.add("El hotel no es válido");
+        }
+        if (reservationNumber == null || reservationNumber.isEmpty()) {
+            errores.add("El número de reserva no puede estar vacío");
+        } else if (! (reservationNumber.matches("^\\d{10}$")) ){
+            errores.add("El número de reserva no es válido");
+        }
+        // ajustar campos para que sean iguales
+        hotelFactura = hotel;
+        numReserva = reservationNumber;
+
+
+        return errores.toArray(new String[0]);
+    }
 }
