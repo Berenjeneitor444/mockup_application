@@ -1,6 +1,7 @@
 package com.tyche.apimockup.repositories;
 
 import com.tyche.apimockup.entities.Entidad;
+import com.tyche.apimockup.entities.filter.Filter;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -19,9 +20,9 @@ abstract class BaseRepository<T extends Entidad> {
     }
     protected abstract Class<T> getEntityClass();
 
-    public List<T> findByFilters(Map<String, Object> filters) {
+    public List<T> findByFilters(Filter filters) {
         Query query = new Query();
-        filters.forEach((key, value) -> query.addCriteria(Criteria.where(key).is(value)));
+        filters.toMap().forEach((key, value) -> query.addCriteria(Criteria.where(key).is(value)));
         return mongoTemplate.find(query, getEntityClass());
     }
 }

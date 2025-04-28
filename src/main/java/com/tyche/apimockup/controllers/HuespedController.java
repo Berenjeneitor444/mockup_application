@@ -1,6 +1,7 @@
 package com.tyche.apimockup.controllers;
 
 import com.tyche.apimockup.entities.Huesped;
+import com.tyche.apimockup.entities.filter.HuespedFilter;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
 import com.tyche.apimockup.services.HuespedService;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class HuespedController {
         return ResponseEntity.ok(huespedService.crearHuesped(huesped));
     }
     @PostMapping("/listar")
-    public ResponseEntity<HuespedResponse> huespedListar(@RequestBody(required = false) Map<String, Object> huesped) {
+    public ResponseEntity<HuespedResponse> huespedListar(@RequestBody(required = false) HuespedFilter huesped) {
         return ResponseEntity.ok(huespedService.listarHuesped(huesped));
     }
 }

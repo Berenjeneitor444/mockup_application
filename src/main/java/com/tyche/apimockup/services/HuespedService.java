@@ -1,6 +1,7 @@
 package com.tyche.apimockup.services;
 
 import com.tyche.apimockup.entities.Huesped;
+import com.tyche.apimockup.entities.filter.HuespedFilter;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
 import com.tyche.apimockup.repositories.HuespedRepository;
 import com.tyche.apimockup.repositories.ReservaRepository;
@@ -21,16 +22,12 @@ public class HuespedService {
         this.validationTool = validationTool;
     }
 
-    public HuespedResponse listarHuesped(Map<String, Object> filtrosSucios) {
-        if (filtrosSucios == null || filtrosSucios.isEmpty()) {
+    public HuespedResponse listarHuesped(HuespedFilter filtros) {
+        if (filtros == null || filtros.isEmpty()) {
             return new HuespedResponse("OK", new String[0], huespedRepository.basicCRUD().findAll());
         }
-        Map<String, Object> filtrosLimpios = validationTool.prepararMapaFiltrado(filtrosSucios);
 
-        if (filtrosLimpios.isEmpty()) {
-            return new HuespedResponse("OK", new String[0], huespedRepository.basicCRUD().findAll());
-        }
-        List<Huesped> listaHuespedes = huespedRepository.findByFilters(filtrosLimpios);
+        List<Huesped> listaHuespedes = huespedRepository.findByFilters(filtros);
         if (listaHuespedes.isEmpty()) {
             return new HuespedResponse("KO", new String[]{"No se han encontrado huespedes con los filtros solicitados"}, null);
         } else {

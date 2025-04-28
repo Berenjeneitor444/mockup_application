@@ -2,6 +2,7 @@ package com.tyche.apimockup.services;
 
 import com.tyche.apimockup.entities.Huesped;
 import com.tyche.apimockup.entities.Reserva;
+import com.tyche.apimockup.entities.filter.ReservaFilter;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
 import com.tyche.apimockup.entities.responses.ReservaResponse;
 import com.tyche.apimockup.repositories.ReservaRepository;
@@ -23,15 +24,11 @@ public class ReservaService {
         this.validationTool = validationTool;
     }
 
-    public ReservaResponse listarReserva(Map<String, Object> filtrosSucios) {
-            if (filtrosSucios == null || filtrosSucios.isEmpty()) {
+    public ReservaResponse listarReserva(ReservaFilter filtros) {
+            if (filtros == null || filtros.isEmpty()) {
                 return new ReservaResponse("OK", new String[0], reservaRepository.basicCRUD().findAll());
             }
-            Map<String, Object> filtrosLimpios = validationTool.prepararMapaFiltrado(filtrosSucios);
-            if (filtrosLimpios.isEmpty()) {
-                return new ReservaResponse("OK", new String[0], reservaRepository.basicCRUD().findAll());
-            }
-            List<Reserva> listaReservas = reservaRepository.findByFilters(filtrosLimpios);
+            List<Reserva> listaReservas = reservaRepository.findByFilters(filtros);
             if (listaReservas.isEmpty()) {
                 return new ReservaResponse("KO", new String[]{"No se han encontrado reservas con los filtros solicitados"}, null);
             } else {
