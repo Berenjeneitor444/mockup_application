@@ -3,6 +3,7 @@ package com.tyche.apimockup.controllers;
 import com.tyche.apimockup.entities.Reserva;
 import com.tyche.apimockup.entities.responses.ReservaResponse;
 import com.tyche.apimockup.services.ReservaService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +20,11 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
     @PostMapping("/crear")
-    public ReservaResponse crearReserva(@RequestBody Reserva reserva) {
-        return reservaService.crearReserva(reserva);
+    public ResponseEntity<ReservaResponse> crearReserva(@RequestBody Reserva reserva) {
+        return ResponseEntity.ok(reservaService.crearReserva(reserva));
     }
     @PostMapping("/listar")
-    public ReservaResponse listarReserva(@RequestBody Map<String, Object> reserva) {
-        return reservaService.listarReserva(reserva);
+    public ResponseEntity<ReservaResponse> listarReserva(@RequestBody(required = false) Map<String, Object> reserva) {
+        return ResponseEntity.ok(reservaService.listarReserva(reserva));
     }
 }

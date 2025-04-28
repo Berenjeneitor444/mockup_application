@@ -1,6 +1,8 @@
 package com.tyche.apimockup.services;
 
+import com.tyche.apimockup.entities.Huesped;
 import com.tyche.apimockup.entities.Reserva;
+import com.tyche.apimockup.entities.responses.HuespedResponse;
 import com.tyche.apimockup.entities.responses.ReservaResponse;
 import com.tyche.apimockup.repositories.ReservaRepository;
 import com.tyche.apimockup.utils.ReservaValidationTool;
@@ -21,10 +23,20 @@ public class ReservaService {
         this.validationTool = validationTool;
     }
 
-    public ReservaResponse listarReserva(Map<String, Object> reserva) {
-        validationTool.prepararMapaFiltrado(reserva);
-        //TODO logica llamar repo
-        return new ReservaResponse("OK",null,reservaRepository.basicCRUD().findAll());
+    public ReservaResponse listarReserva(Map<String, Object> filtrosSucios) {
+            if (filtrosSucios == null || filtrosSucios.isEmpty()) {
+                return new ReservaResponse("OK", new String[0], reservaRepository.basicCRUD().findAll());
+            }
+            Map<String, Object> filtrosLimpios = validationTool.prepararMapaFiltrado(filtrosSucios);
+            if (filtrosLimpios.isEmpty()) {
+                return new ReservaResponse("OK", new String[0], reservaRepository.basicCRUD().findAll());
+            }
+            List<Reserva> listaReservas = reservaRepository.findByFilters(filtrosLimpios);
+            if (listaReservas.isEmpty()) {
+                return new ReservaResponse("KO", new String[]{"No se han encontrado reservas con los filtros solicitados"}, null);
+            } else {
+                return new ReservaResponse("OK", new String[0], listaReservas);
+            }
     }
 
     public ReservaResponse crearReserva(Reserva reserva) {
@@ -38,8 +50,8 @@ public class ReservaService {
     }
     private String[] validatePersistencia(Reserva reserva) {
         List<String> errores = new ArrayList<>();
-        // comprobar que no exista una reserva con el mismo id
-        if (reservaRepository.basicCRUD().findById(reserva.getNumReserva()).isPresent()) {
+        // comprobar que no exista una reserva con el mismo ReservationNumber
+        if (reservaRepository.basicCRUD().findByReservationNumber(reserva.getNumReserva()).isPresent()) {
             errores.add("Ya existe una reserva con el mismo id");
         }
         return errores.toArray(new String[0]);

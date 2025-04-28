@@ -18,7 +18,6 @@ public class HuespedService {
     public HuespedService(HuespedRepository huespedRepository, ReservaRepository reservaRepository, HuespedValidationTool validationTool) {
         this.huespedRepository = huespedRepository;
         this.reservaRepository = reservaRepository;
-
         this.validationTool = validationTool;
     }
 
@@ -27,6 +26,10 @@ public class HuespedService {
             return new HuespedResponse("OK", new String[0], huespedRepository.basicCRUD().findAll());
         }
         Map<String, Object> filtrosLimpios = validationTool.prepararMapaFiltrado(filtrosSucios);
+
+        if (filtrosLimpios.isEmpty()) {
+            return new HuespedResponse("OK", new String[0], huespedRepository.basicCRUD().findAll());
+        }
         List<Huesped> listaHuespedes = huespedRepository.findByFilters(filtrosLimpios);
         if (listaHuespedes.isEmpty()) {
             return new HuespedResponse("KO", new String[]{"No se han encontrado huespedes con los filtros solicitados"}, null);
@@ -49,12 +52,12 @@ public class HuespedService {
     private String[] validatePersistencia(Huesped huesped) {
         List<String> errores = new ArrayList<>();
         // comprobar que no exista un huesped con el mismo id
-        if (huespedRepository.basicCRUD().findById(huesped.getIdHuesped()).isPresent()) {
+        if (huespedRepository.basicCRUD().findByidHuesped(huesped.getIdHuesped()).isPresent()) {
             errores.add("Ya existe un huesped con el mismo id");
         }
         // comprobar que exista una reserva con el mismo NumeroReserva
 
-        if (reservaRepository.basicCRUD().findById(huesped.getReservationNumber()).isEmpty()) {
+        if (reservaRepository.basicCRUD().findByReservationNumber(huesped.getReservationNumber()).isEmpty()) {
             errores.add("No existe una reserva con el mismo id");
         }
         return errores.toArray(new String[0]);

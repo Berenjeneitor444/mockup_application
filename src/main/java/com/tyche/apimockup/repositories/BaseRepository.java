@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,6 @@ abstract class BaseRepository<T extends Entidad> {
     }
     protected abstract Class<T> getEntityClass();
 
-    // TODO: resolver problema no filtra bien
     public List<T> findByFilters(Map<String, Object> filters) {
         Query query = new Query();
         filters.forEach((key, value) -> query.addCriteria(Criteria.where(key).is(value)));
