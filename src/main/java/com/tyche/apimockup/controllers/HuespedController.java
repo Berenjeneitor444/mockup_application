@@ -20,7 +20,7 @@ public class HuespedController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<HuespedResponse> huespedCrear(@RequestBody Huesped huesped) {
+    public ResponseEntity<HuespedResponse> huespedCrear(@RequestBody(required = false) Huesped huesped) {
         return ResponseEntity.ok(huespedService.crearHuesped(huesped));
     }
     @PostMapping("/listar")

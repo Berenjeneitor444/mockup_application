@@ -19,7 +19,7 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
     @PostMapping("/crear")
-    public ResponseEntity<ReservaResponse> crearReserva(@RequestBody Reserva reserva) {
+    public ResponseEntity<ReservaResponse> crearReserva(@RequestBody(required = false) Reserva reserva) {
         return ResponseEntity.ok(reservaService.crearReserva(reserva));
     }
     @PostMapping("/listar")

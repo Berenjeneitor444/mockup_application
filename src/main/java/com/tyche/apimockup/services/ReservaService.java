@@ -4,12 +4,8 @@ import com.tyche.apimockup.entities.persistence.Reserva;
 import com.tyche.apimockup.entities.filter.ReservaFilter;
 import com.tyche.apimockup.entities.responses.ReservaResponse;
 import com.tyche.apimockup.repositories.ReservaRepository;
-
 import com.tyche.apimockup.utils.ReservaValidationUtil;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -23,8 +19,8 @@ public class ReservaService {
     }
 
     public ReservaResponse listarReserva(ReservaFilter filtros) {
-            if (filtros == null || filtros.isEmpty()) {
-                return new ReservaResponse("OK", new String[0], reservaRepository.basicCRUD().findAll());
+            if (filtros == null || filtros.getHotel() == null) {
+                return new ReservaResponse("KO", new String[]{"Es obligatorio indicar el hotel"}, null);
             }
             List<Reserva> listaReservas = reservaRepository.findByFilters(filtros);
             if (listaReservas.isEmpty()) {
@@ -35,6 +31,9 @@ public class ReservaService {
     }
 
     public ReservaResponse crearReserva(Reserva reserva) {
+        if (reserva == null) {
+            return new ReservaResponse("KO", new String[]{"Es obligatorio proporcionar la reserva"}, null);
+        }
         String[] errores = validationUtil.validarTotalidad(reserva);
         if (errores.length == 0) {
             reservaRepository.basicCRUD().save(reserva);

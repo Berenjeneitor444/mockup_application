@@ -20,8 +20,8 @@ public class HuespedService {
     }
 
     public HuespedResponse listarHuesped(HuespedFilter filtros) {
-        if (filtros == null || filtros.isEmpty()) {
-            return new HuespedResponse("OK", new String[0], huespedRepository.basicCRUD().findAll());
+        if (filtros == null || filtros.getHotel() == null) {
+            return new HuespedResponse("KO", new String[]{"Es obligatorio indicar el hotel"}, null);
         }
 
         List<Huesped> listaHuespedes = huespedRepository.findByFilters(filtros);
@@ -33,6 +33,9 @@ public class HuespedService {
     }
 
     public HuespedResponse crearHuesped(Huesped huesped) {
+        if (huesped == null) {
+            return new HuespedResponse("KO", new String[]{"Es obligatorio proporcionar el huesped"}, null);
+        }
         // validar que el huesped sea valido en persistencia y en formato
         String[] errores = validationUtil.validarTotalidad(huesped);
 
