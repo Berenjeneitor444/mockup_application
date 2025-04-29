@@ -1,15 +1,10 @@
-package com.tyche.apimockup.entities;
+package com.tyche.apimockup.entities.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -69,7 +64,7 @@ class DatosComunicacion {
 @Document(collection = "huespedes")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class Huesped implements Entidad{
+public class Huesped {
 
     @JsonProperty("IDHuesped")
     @Field(value = "IDHuesped")
@@ -170,30 +165,4 @@ public class Huesped implements Entidad{
     @JsonProperty("FechaSalida")
     @Field(value = "FechaSalida")
     private String fechaSalida = "";
-
-    @Override
-    public String[] validar() {
-        List<String> errores = new ArrayList<>();
-        if (idHuesped == null || idHuesped.isEmpty()) {
-            errores.add("El ID del huesped no puede estar vacío");
-        } else if (! (idHuesped.matches("^\\d{10}$")) ){
-            errores.add("ID del huesped no es válido");
-        }
-        if (hotel == null || hotel.isEmpty()) {
-            errores.add("El hotel no puede estar vacío");
-        } else if (! (hotel.matches("^M[1-4]$")) ) {
-            errores.add("El hotel no es válido");
-        }
-        if (reservationNumber == null || reservationNumber.isEmpty()) {
-            errores.add("El número de reserva no puede estar vacío");
-        } else if (! (reservationNumber.matches("^\\d{10}$")) ){
-            errores.add("El número de reserva no es válido");
-        }
-
-        // ajustar campos para que sean iguales
-        hotelFactura = hotel;
-        numReserva = reservationNumber;
-
-        return errores.toArray(new String[0]);
-    }
 }

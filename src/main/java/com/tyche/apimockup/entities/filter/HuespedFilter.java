@@ -8,6 +8,9 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HuespedFilter implements Filter {
 
+    @JsonProperty("IDHuesped")
+    private String idHuesped;
+
     @JsonProperty("reservationNumber")
     private String reservationNumber;
 
@@ -17,6 +20,4 @@ public class HuespedFilter implements Filter {
     @JsonProperty("FechaEntrada")
     private String fechaEntrada;
 
-    @JsonProperty("IDHuesped")
-    private String idHuesped;
 }

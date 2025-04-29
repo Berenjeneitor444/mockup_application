@@ -1,19 +1,15 @@
-package com.tyche.apimockup.entities;
+package com.tyche.apimockup.entities.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Document(collection = "reservas")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class Reserva implements Entidad{
+public class Reserva {
 
     @JsonProperty("ReservationNumber")
     @Field(value = "ReservationNumber")
@@ -122,26 +118,4 @@ public class Reserva implements Entidad{
     @JsonProperty("HoraBienv")
     @Field(value = "HoraBienv")
     private String horaBienv = "";
-
-    @Override
-    public String[] validar() {
-        List<String> errores = new ArrayList<>();
-
-        if (hotel == null || hotel.isEmpty()) {
-            errores.add("El hotel no puede estar vacío");
-        } else if (! (hotel.matches("^M[1-4]$")) ) {
-            errores.add("El hotel no es válido");
-        }
-        if (reservationNumber == null || reservationNumber.isEmpty()) {
-            errores.add("El número de reserva no puede estar vacío");
-        } else if (! (reservationNumber.matches("^\\d{10}$")) ){
-            errores.add("El número de reserva no es válido");
-        }
-        // ajustar campos para que sean iguales
-        hotelFactura = hotel;
-        numReserva = reservationNumber;
-
-
-        return errores.toArray(new String[0]);
-    }
 }

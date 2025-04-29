@@ -1,8 +1,5 @@
 package com.tyche.apimockup.entities.responses;
 
-import com.tyche.apimockup.entities.Huesped;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 import java.io.Serializable;

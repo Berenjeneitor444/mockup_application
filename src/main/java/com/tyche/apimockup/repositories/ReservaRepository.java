@@ -1,6 +1,6 @@
 package com.tyche.apimockup.repositories;
 
-import com.tyche.apimockup.entities.Reserva;
+import com.tyche.apimockup.entities.persistence.Reserva;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 

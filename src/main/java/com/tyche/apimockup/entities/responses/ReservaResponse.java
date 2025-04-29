@@ -1,6 +1,5 @@
 package com.tyche.apimockup.entities.responses;
 
-import com.tyche.apimockup.entities.Reserva;
 import lombok.Getter;
 
 @Getter

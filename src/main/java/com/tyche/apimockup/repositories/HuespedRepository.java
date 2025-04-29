@@ -1,21 +1,19 @@
 package com.tyche.apimockup.repositories;
 
-import com.tyche.apimockup.entities.Huesped;
+import com.tyche.apimockup.entities.persistence.Huesped;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Map;
 
 @Repository
 public class HuespedRepository extends BaseRepository<Huesped> {
     private final HuespedBasicCRUD huespedBasicCRUD;
+    private final ReservaBasicCRUD reservaBasicCRUD;
 
-    protected HuespedRepository(MongoTemplate mongoTemplate, HuespedBasicCRUD huespedBasicCRUD) {
+    protected HuespedRepository(MongoTemplate mongoTemplate, HuespedBasicCRUD huespedBasicCRUD,
+                                ReservaBasicCRUD reservaBasicCRUD) {
         super(mongoTemplate);
         this.huespedBasicCRUD = huespedBasicCRUD;
+        this.reservaBasicCRUD = reservaBasicCRUD;
     }
 
     @Override
@@ -25,5 +23,9 @@ public class HuespedRepository extends BaseRepository<Huesped> {
 
     public HuespedBasicCRUD basicCRUD() {
         return huespedBasicCRUD;
+    }
+
+    public boolean reservaExists(String id) {
+        return reservaBasicCRUD.findByReservationNumber(id).isPresent();
     }
 }

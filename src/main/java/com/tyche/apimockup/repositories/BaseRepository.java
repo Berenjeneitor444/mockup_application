@@ -1,6 +1,5 @@
 package com.tyche.apimockup.repositories;
 
-import com.tyche.apimockup.entities.Entidad;
 import com.tyche.apimockup.entities.filter.Filter;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -8,12 +7,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
-abstract class BaseRepository<T extends Entidad> {
+abstract class BaseRepository<T> {
     private final MongoTemplate mongoTemplate;
     protected BaseRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;

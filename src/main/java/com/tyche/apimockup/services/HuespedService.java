@@ -1,11 +1,10 @@
 package com.tyche.apimockup.services;
 
-import com.tyche.apimockup.entities.Huesped;
+import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.entities.filter.HuespedFilter;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
 import com.tyche.apimockup.repositories.HuespedRepository;
-import com.tyche.apimockup.repositories.ReservaRepository;
-import com.tyche.apimockup.utils.HuespedValidationTool;
+import com.tyche.apimockup.utils.HuespedValidationUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -13,13 +12,11 @@ import java.util.*;
 @Service
 public class HuespedService {
     private final HuespedRepository huespedRepository;
-    private final ReservaRepository reservaRepository;
-    private final HuespedValidationTool validationTool;
+    private final HuespedValidationUtil validationUtil;
 
-    public HuespedService(HuespedRepository huespedRepository, ReservaRepository reservaRepository, HuespedValidationTool validationTool) {
+    public HuespedService(HuespedRepository huespedRepository, HuespedValidationUtil validationUtil) {
         this.huespedRepository = huespedRepository;
-        this.reservaRepository = reservaRepository;
-        this.validationTool = validationTool;
+        this.validationUtil = validationUtil;
     }
 
     public HuespedResponse listarHuesped(HuespedFilter filtros) {
@@ -37,7 +34,7 @@ public class HuespedService {
 
     public HuespedResponse crearHuesped(Huesped huesped) {
         // validar que el huesped sea valido en persistencia y en formato
-        String[] errores = validarTotalidad(huesped);
+        String[] errores = validationUtil.validarTotalidad(huesped);
 
         if (errores.length == 0) {
             huespedRepository.basicCRUD().save(huesped);
@@ -45,27 +42,5 @@ public class HuespedService {
         } else {
             return new HuespedResponse("KO", errores, null);
         }
-    }
-    private String[] validatePersistencia(Huesped huesped) {
-        List<String> errores = new ArrayList<>();
-        // comprobar que no exista un huesped con el mismo id
-        if (huespedRepository.basicCRUD().findByidHuesped(huesped.getIdHuesped()).isPresent()) {
-            errores.add("Ya existe un huesped con el mismo id");
-        }
-        // comprobar que exista una reserva con el mismo NumeroReserva
-
-        if (reservaRepository.basicCRUD().findByReservationNumber(huesped.getReservationNumber()).isEmpty()) {
-            errores.add("No existe una reserva con el mismo id");
-        }
-        return errores.toArray(new String[0]);
-
-    }
-    private String[] validarTotalidad(Huesped huesped) {
-        List<String> errores = new ArrayList<>();
-        String[] erroresFormato = validationTool.validarEntidad(huesped);
-        String[] erroresPersistencia = validatePersistencia(huesped);
-        errores.addAll(Arrays.asList(erroresFormato));
-        errores.addAll(Arrays.asList(erroresPersistencia));
-        return errores.toArray(new String[0]);
     }
 }

@@ -1,6 +1,6 @@
 package com.tyche.apimockup.controllers;
 
-import com.tyche.apimockup.entities.Huesped;
+import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.entities.filter.HuespedFilter;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
 import com.tyche.apimockup.services.HuespedService;
@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/huesped")

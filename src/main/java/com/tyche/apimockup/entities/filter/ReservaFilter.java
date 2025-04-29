@@ -18,6 +18,6 @@ public class ReservaFilter implements Filter {
     private String fechaEntrada;
 
     @JsonProperty("Estado")
-    private String estado;
+    private Integer estado;
 
 }
