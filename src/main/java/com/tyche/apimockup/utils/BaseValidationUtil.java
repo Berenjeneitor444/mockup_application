@@ -1,5 +1,6 @@
 package com.tyche.apimockup.utils;
 
+import com.tyche.apimockup.exceptions.BadRequestException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,18 +14,22 @@ import java.util.List;
 public abstract class BaseValidationUtil<T> {
 
     public String[] validarTotalidad(T entity){
-        List<String> errores = new ArrayList<>();
-        List<String> erroresFormato = validarFormato(entity);
-        List<String> erroresPersistencia = validarPersistencia(entity);
+        try {
+            List<String> errores = new ArrayList<>();
+            List<String> erroresFormato = validarFormato(entity);
+            List<String> erroresPersistencia = validarPersistencia(entity);
 
-        if (erroresFormato != null && !erroresFormato.isEmpty()) {
-            errores.addAll(erroresFormato);
-        }
-        if (erroresPersistencia != null && !erroresPersistencia.isEmpty()) {
-            errores.addAll(erroresPersistencia);
-        }
+            if (erroresFormato != null && !erroresFormato.isEmpty()) {
+                errores.addAll(erroresFormato);
+            }
+            if (erroresPersistencia != null && !erroresPersistencia.isEmpty()) {
+                errores.addAll(erroresPersistencia);
+            }
 
-        return errores.toArray(new String[0]);
+            return errores.toArray(new String[0]);
+        } catch (Exception e) {
+            throw new BadRequestException(e);
+        }
     }
     protected static boolean esFechaValida(String fecha) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuuMMddHHmmss")

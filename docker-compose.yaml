@@ -24,7 +24,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: mockupUser
       MONGO_INITDB_ROOT_PASSWORD: TestingApi2025
       MONGO_INITDB_DATABASE: reservasDB
-
+    command: ["--auth"]
 volumes:
   mongo-data:
 
