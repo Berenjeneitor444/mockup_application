@@ -18,11 +18,12 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
     networks:
       - app-network
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mockupUser
-      MONGO_INITDB_ROOT_PASSWORD: TestingApi2025
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: contraseñasupersecreta
       MONGO_INITDB_DATABASE: reservasDB
     command: ["--auth"]
 volumes:
