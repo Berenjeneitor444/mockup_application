@@ -20,7 +20,7 @@ public class ReservaService {
 
     public ReservaResponse listarReserva(ReservaFilter filtros) {
             if (filtros == null || (filtros.getHotel() == null && filtros.getReservationNumber() == null)) {
-                return new ReservaResponse("KO", new String[]{"Es obligatorio indicar el hotel o el numero de reserva"}, null);
+                return new ReservaResponse("KO", new String[]{"Es obligatorio indicar el hotel o el número de reserva"}, null);
             }
             List<Reserva> listaReservas = reservaRepository.findByFilters(filtros);
             if (listaReservas.isEmpty()) {

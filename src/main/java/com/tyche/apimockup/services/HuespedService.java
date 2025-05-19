@@ -20,8 +20,8 @@ public class HuespedService {
     }
 
     public HuespedResponse listarHuesped(HuespedFilter filtros) {
-        if (filtros == null || filtros.getHotel() == null) {
-            return new HuespedResponse("KO", new String[]{"Es obligatorio indicar el hotel"}, null);
+        if (filtros == null || (filtros.getHotel() == null && filtros.getReservationNumber() == null && filtros.getIdHuesped() == null)) {
+            return new HuespedResponse("KO", new String[]{"Es obligatorio indicar el hotel, el número de reserva o el ID de Huesped"}, null);
         }
 
         List<Huesped> listaHuespedes = huespedRepository.findByFilters(filtros);
