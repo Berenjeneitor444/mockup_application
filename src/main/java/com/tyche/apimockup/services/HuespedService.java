@@ -37,8 +37,23 @@ public class HuespedService {
             return new HuespedResponse("KO", new String[]{"Es obligatorio proporcionar el huesped"}, null);
         }
         // validar que el huesped sea valido en persistencia y en formato
-        String[] errores = validationUtil.validarTotalidad(huesped);
+        String[] errores = validationUtil.validarTotalidad(huesped, true);
 
+        if (errores.length == 0) {
+            huespedRepository.basicCRUD().save(huesped);
+            return new HuespedResponse("OK", errores, huesped);
+        } else {
+            return new HuespedResponse("KO", errores, null);
+        }
+    }
+
+    // TODO: no aceptar cambios en idhuesped, esto se podria hacer aceptando otro dto como hice en filtros
+    public HuespedResponse modificarHuesped(Huesped huesped) {
+        if (huesped == null) {
+            return new HuespedResponse("KO", new String[]{"Es obligatorio proporcionar el huesped"}, null);
+        }
+        // validar que el huesped sea valido en persistencia y en formato
+        String[] errores = validationUtil.validarTotalidad(huesped, false);
         if (errores.length == 0) {
             huespedRepository.basicCRUD().save(huesped);
             return new HuespedResponse("OK", errores, huesped);

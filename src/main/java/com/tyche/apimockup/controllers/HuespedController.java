@@ -27,4 +27,8 @@ public class HuespedController {
     public ResponseEntity<HuespedResponse> huespedListar(@RequestBody(required = false) HuespedFilter huesped) {
         return ResponseEntity.ok(huespedService.listarHuesped(huesped));
     }
+    @PostMapping("/modificar")
+    public ResponseEntity<HuespedResponse> huespedModificar(@RequestBody(required = false) Huesped huesped) {
+        return ResponseEntity.ok(huespedService.modificarHuesped(huesped));
+    }
 }

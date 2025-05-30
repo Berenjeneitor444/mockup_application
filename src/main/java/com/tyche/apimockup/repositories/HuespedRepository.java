@@ -26,6 +26,6 @@ public class HuespedRepository extends BaseRepository<Huesped> {
     }
 
     public boolean reservaExists(String id) {
-        return reservaBasicCRUD.findByReservationNumber(id).isPresent();
+        return reservaBasicCRUD.findById(id).isPresent();
     }
 }

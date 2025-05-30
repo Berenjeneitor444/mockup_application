@@ -13,11 +13,11 @@ import java.util.List;
 @Component
 public abstract class BaseValidationUtil<T> {
 
-    public String[] validarTotalidad(T entity){
+    public String[] validarTotalidad(T entity, boolean isCreate) {
         try {
             List<String> errores = new ArrayList<>();
             List<String> erroresFormato = validarFormato(entity);
-            List<String> erroresPersistencia = validarPersistencia(entity);
+            List<String> erroresPersistencia = validarPersistencia(entity, isCreate);
 
             if (erroresFormato != null && !erroresFormato.isEmpty()) {
                 errores.addAll(erroresFormato);
@@ -43,5 +43,5 @@ public abstract class BaseValidationUtil<T> {
     }
 
     protected abstract List<String> validarFormato(T entity);
-    protected abstract List<String> validarPersistencia(T entity);
+    protected abstract List<String> validarPersistencia(T entity, boolean isCreate);
 }

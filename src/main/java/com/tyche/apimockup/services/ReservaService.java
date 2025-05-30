@@ -34,7 +34,20 @@ public class ReservaService {
         if (reserva == null) {
             return new ReservaResponse("KO", new String[]{"Es obligatorio proporcionar la reserva"}, null);
         }
-        String[] errores = validationUtil.validarTotalidad(reserva);
+        String[] errores = validationUtil.validarTotalidad(reserva, true);
+        if (errores.length == 0) {
+            reservaRepository.basicCRUD().save(reserva);
+            return new ReservaResponse("OK", errores, reserva);
+        } else {
+            return new ReservaResponse("KO", errores, null);
+        }
+    }
+    // TODO: no aceptar cambios en reservationNumber ni en AD JR NI CU, esto se podria hacer aceptando otro dto como hice en filtros
+    public ReservaResponse modificarReserva(Reserva reserva) {
+        if (reserva == null) {
+            return new ReservaResponse("KO", new String[]{"Es obligatorio proporcionar la reserva"}, null);
+        }
+        String[] errores = validationUtil.validarTotalidad(reserva, false);
         if (errores.length == 0) {
             reservaRepository.basicCRUD().save(reserva);
             return new ReservaResponse("OK", errores, reserva);

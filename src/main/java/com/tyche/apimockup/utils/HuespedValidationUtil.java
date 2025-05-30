@@ -65,12 +65,17 @@ public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
 
 
     @Override
-    protected List<String> validarPersistencia(Huesped huesped) {
+    protected List<String> validarPersistencia(Huesped huesped, boolean isCreate) {
         List<String> errores = new ArrayList<>();
         // comprobar que no exista un huesped con el mismo id
-        if (repository.basicCRUD().findByidHuesped(huesped.getIdHuesped()).isPresent()) {
-            errores.add("Ya existe un huesped con el mismo id");
+        if (repository.basicCRUD().findById(huesped.getIdHuesped()).isPresent()) {
+            if (isCreate) {
+                errores.add("Ya existe un huesped con el mismo id");
+            }
+        } else if (!isCreate) {
+            errores.add("El Huesped que quieres reemplazar no existe");
         }
+
 
         // comprobar que exista una reserva con el mismo NumeroReserva
         if (!(repository.reservaExists(huesped.getReservationNumber()))) {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ReservaValidationUtil extends BaseValidationUtil<Reserva>{
+public class ReservaValidationUtil extends BaseValidationUtil<Reserva> {
 
     private final ReservaRepository repository;
 
@@ -27,12 +27,12 @@ public class ReservaValidationUtil extends BaseValidationUtil<Reserva>{
 
         if (hotel == null || hotel.isEmpty()) {
             errores.add("El hotel no puede estar vacío");
-        } else if (! (hotel.matches("^M[1-4]$")) ) {
+        } else if (!(hotel.matches("^M[1-4]$"))) {
             errores.add("El hotel no es válido");
         }
         if (reservationNumber == null || reservationNumber.isEmpty()) {
             errores.add("El número de reserva no puede estar vacío");
-        } else if (! (reservationNumber.matches("^\\d{10}$")) ){
+        } else if (!(reservationNumber.matches("^\\d{10}$"))) {
             errores.add("El número de reserva no es válido");
         }
         // ajustar campos para que sean iguales
@@ -58,11 +58,15 @@ public class ReservaValidationUtil extends BaseValidationUtil<Reserva>{
     }
 
     @Override
-    protected List<String> validarPersistencia(Reserva reserva) {
+    protected List<String> validarPersistencia(Reserva reserva, boolean isCreate) {
         List<String> errores = new ArrayList<>();
         // comprobar que no exista una reserva con el mismo ReservationNumber
-        if (repository.basicCRUD().findByReservationNumber(reserva.getNumReserva()).isPresent()) {
-            errores.add("Ya existe una reserva con el mismo id");
+        if (repository.basicCRUD().findById(reserva.getNumReserva()).isPresent()) {
+            if (isCreate) {
+                errores.add("Ya existe una reserva con el mismo id");
+            }
+        } else if (!isCreate) {
+            errores.add("No existe una reserva con el id proporcionado");
         }
         return errores;
     }

@@ -26,4 +26,8 @@ public class ReservaController {
     public ResponseEntity<ReservaResponse> listarReserva(@RequestBody(required = false) ReservaFilter reserva) {
         return ResponseEntity.ok(reservaService.listarReserva(reserva));
     }
+    @PostMapping("/modificar")
+    public ResponseEntity<ReservaResponse> modificarReserva(@RequestBody(required = false) Reserva reserva) {
+        return ResponseEntity.ok(reservaService.modificarReserva(reserva));
+    }
 }
