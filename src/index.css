@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+
+@theme {
+    --color-primary: #660039;
+    --color-secondary: #8b734b;
+    --color-secondary-hover: #755f3e;
+    --color-secondary-focus: rgba(139, 115, 75, 0.4);
+}
