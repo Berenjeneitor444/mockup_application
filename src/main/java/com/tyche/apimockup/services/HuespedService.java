@@ -47,7 +47,6 @@ public class HuespedService {
         }
     }
 
-    // TODO: no aceptar cambios en idhuesped, esto se podria hacer aceptando otro dto como hice en filtros
     public HuespedResponse modificarHuesped(Huesped huesped) {
         if (huesped == null) {
             return new HuespedResponse("KO", new String[]{"Es obligatorio proporcionar el huesped"}, null);
