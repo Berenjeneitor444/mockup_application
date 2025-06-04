@@ -10,11 +10,13 @@ import { huespedExiste } from '../../services/HTTPOperations';
 
 export default function HuespedForm() {
     const handleHuespedOnClick = (IDHuesped: string) => {
+        if (!forEdit) return;
+
         if (!formValid && huespedEditedIndex !== null) {
             formRef.current?.reportValidity();
             return;
         }
-        if (IDHuesped && forEdit) {
+        if (IDHuesped) {
             const huesped = dataHuespedes.find(
                 (huesped) => huesped.IDHuesped === IDHuesped
             );
@@ -235,469 +237,454 @@ export default function HuespedForm() {
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     {/* Datos de comunicación */}
                                     <SeccionForm titulo="Datos de Comunicación">
-                                        <>
-                                            <CampoForm label="Descripción">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="DatosComunicacion.Descripcion"
-                                                    value={
-                                                        dataHuesped[
-                                                            'DatosComunicacion.Descripcion'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Descripción">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="DatosComunicacion.Descripcion"
+                                                value={
+                                                    dataHuesped[
+                                                        'DatosComunicacion.Descripcion'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Dirección">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="DatosComunicacion.Direccion"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.Direccion'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Dirección">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="DatosComunicacion.Direccion"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.Direccion'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Código Postal">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="DatosComunicacion.CodigoPostal"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.CodigoPostal'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Código Postal">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="DatosComunicacion.CodigoPostal"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.CodigoPostal'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Población">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="DatosComunicacion.Poblacion"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.Poblacion'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Población">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="DatosComunicacion.Poblacion"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.Poblacion'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Provincia">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="DatosComunicacion.Provincia"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.Provincia'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Provincia">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="DatosComunicacion.Provincia"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.Provincia'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Comunidad Autónoma">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="DatosComunicacion.ComunidadAutonoma"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.ComunidadAutonoma'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Comunidad Autónoma">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="DatosComunicacion.ComunidadAutonoma"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.ComunidadAutonoma'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="País">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="DatosComunicacion.Pais"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.Pais'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="País">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="DatosComunicacion.Pais"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.Pais'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Apartado de Correos">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="DatosComunicacion.ApartadoCorreos"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.ApartadoCorreos'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Apartado de Correos">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="DatosComunicacion.ApartadoCorreos"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.ApartadoCorreos'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Teléfono">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="tel"
-                                                    name="DatosComunicacion.Telefono"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.Telefono'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Teléfono">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="tel"
+                                                name="DatosComunicacion.Telefono"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.Telefono'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Teléfono Móvil">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="tel"
-                                                    name="DatosComunicacion.TelefonoMovil"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.TelefonoMovil'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Teléfono Móvil">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="tel"
+                                                name="DatosComunicacion.TelefonoMovil"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.TelefonoMovil'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Fax">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="DatosComunicacion.FaxNumber"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.FaxNumber'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Fax">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="DatosComunicacion.FaxNumber"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.FaxNumber'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Correo Electrónico">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="email"
-                                                    name="DatosComunicacion.EMail"
-                                                    value={
-                                                        dataHuesped?.[
-                                                            'DatosComunicacion.EMail'
-                                                        ] ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
-                                        </>
+                                        <CampoForm label="Correo Electrónico">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="email"
+                                                name="DatosComunicacion.EMail"
+                                                value={
+                                                    dataHuesped?.[
+                                                        'DatosComunicacion.EMail'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
                                     </SeccionForm>
                                     {/* Datos personales */}
                                     <SeccionForm titulo="Datos Personales">
-                                        <>
-                                            <CampoForm label="Número Cliente">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="NumeroCliente"
-                                                    value={
-                                                        dataHuesped?.NumeroCliente ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Número Cliente">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="NumeroCliente"
+                                                value={
+                                                    dataHuesped?.NumeroCliente ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="ID Huesped">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="IDHuesped"
-                                                    maxLength={10}
-                                                    minLength={10}
-                                                    readOnly={forEdit}
-                                                    value={
-                                                        dataHuesped?.IDHuesped ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="ID Huesped">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="IDHuesped"
+                                                maxLength={10}
+                                                minLength={10}
+                                                readOnly={forEdit}
+                                                value={
+                                                    dataHuesped?.IDHuesped ?? ''
+                                                }
+                                                required
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Tipo Persona">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="TipoPersona"
-                                                    value={
-                                                        dataHuesped?.TipoPersona ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Tipo Persona">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="TipoPersona"
+                                                value={
+                                                    dataHuesped?.TipoPersona ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Nombre de Pila">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="Nombre_Pila"
-                                                    value={
-                                                        dataHuesped?.Nombre_Pila ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Nombre de Pila">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="Nombre_Pila"
+                                                value={
+                                                    dataHuesped?.Nombre_Pila ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Apellido">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="Nombre"
-                                                    value={
-                                                        dataHuesped?.Nombre ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Apellido">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="Nombre"
+                                                value={
+                                                    dataHuesped?.Nombre ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Fecha de Nacimiento">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="date"
-                                                    name="FechaNacimiento"
-                                                    value={
-                                                        dataHuesped?.FechaNacimiento ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Fecha de Nacimiento">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="date"
+                                                name="FechaNacimiento"
+                                                value={
+                                                    dataHuesped?.FechaNacimiento ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="País de Nacimiento">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="PaisNacimiento"
-                                                    value={
-                                                        dataHuesped?.PaisNacimiento ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
-                                        </>
+                                        <CampoForm label="País de Nacimiento">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="PaisNacimiento"
+                                                value={
+                                                    dataHuesped?.PaisNacimiento ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
                                     </SeccionForm>
 
                                     {/* Datos de documento */}
                                     <SeccionForm titulo="Datos de Documento">
-                                        <>
-                                            <CampoForm label="Tipo Documento">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    name="TipoDocumento"
-                                                    value={
-                                                        dataHuesped?.TipoDocumento ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Tipo Documento">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="TipoDocumento"
+                                                value={
+                                                    dataHuesped?.TipoDocumento ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Fecha Expedición">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="date"
-                                                    name="FechaExpedicion"
-                                                    value={
-                                                        dataHuesped?.FechaExpedicion ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Fecha Expedición">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="date"
+                                                name="FechaExpedicion"
+                                                value={
+                                                    dataHuesped?.FechaExpedicion ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Fecha Caducidad">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="date"
-                                                    name="FechaCaducidad"
-                                                    value={
-                                                        dataHuesped?.FechaCaducidad ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Fecha Caducidad">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="date"
+                                                name="FechaCaducidad"
+                                                value={
+                                                    dataHuesped?.FechaCaducidad ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="Edad">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="number"
-                                                    name="Edad"
-                                                    min="0"
-                                                    max="120"
-                                                    value={
-                                                        dataHuesped?.Edad ?? ''
-                                                    }
-                                                />
-                                            </CampoForm>
+                                        <CampoForm label="Edad">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="number"
+                                                name="Edad"
+                                                min="0"
+                                                max="120"
+                                                value={dataHuesped?.Edad ?? ''}
+                                            />
+                                        </CampoForm>
 
-                                            <CampoForm label="ID Documento">
-                                                <input
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    type="text"
-                                                    pattern="\d+"
-                                                    name="IDDocumento"
-                                                    value={
-                                                        dataHuesped?.IDDocumento ??
-                                                        ''
-                                                    }
-                                                />
-                                            </CampoForm>
-                                        </>
+                                        <CampoForm label="ID Documento">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                pattern="\d+"
+                                                name="IDDocumento"
+                                                value={
+                                                    dataHuesped?.IDDocumento ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
                                     </SeccionForm>
 
                                     {/* Información adicional */}
                                     <SeccionForm titulo="Información Adicional">
-                                        <>
-                                            <CampoForm label="Tipo Cliente">
+                                        <CampoForm label="Tipo Cliente">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="TipoCliente"
+                                                value={
+                                                    dataHuesped?.TipoCliente ??
+                                                    ''
+                                                }
+                                            />
+                                        </CampoForm>
+
+                                        <CampoForm label="Sexo">
+                                            <select
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                name="Sexo"
+                                                value={dataHuesped?.Sexo ?? ''}
+                                            >
+                                                <option value="">
+                                                    Seleccione Sexo
+                                                </option>
+                                                <option value="1">
+                                                    Masculino
+                                                </option>
+                                                <option value="2">
+                                                    Femenino
+                                                </option>
+                                            </select>
+                                        </CampoForm>
+
+                                        <CampoForm label="Acepta Info">
+                                            <div className="flex items-center">
                                                 <input
                                                     onChange={
                                                         handleHuespedInputChange
                                                     }
-                                                    type="text"
-                                                    name="TipoCliente"
-                                                    value={
-                                                        dataHuesped?.TipoCliente ??
-                                                        ''
+                                                    type="checkbox"
+                                                    name="AceptaInfo"
+                                                    value="X"
+                                                    checked={
+                                                        dataHuesped?.AceptaInfo ===
+                                                        'X'
+                                                            ? true
+                                                            : false
                                                     }
+                                                    className="text-secondary focus:ring-secondary-focus h-4 w-4 rounded"
                                                 />
-                                            </CampoForm>
+                                                <span className="ml-2 text-gray-600">
+                                                    Sí
+                                                </span>
+                                            </div>
+                                        </CampoForm>
 
-                                            <CampoForm label="Sexo">
-                                                <select
-                                                    onChange={
-                                                        handleHuespedInputChange
-                                                    }
-                                                    name="Sexo"
-                                                    value={
-                                                        dataHuesped?.Sexo ?? ''
-                                                    }
-                                                >
-                                                    <option value="">
-                                                        Seleccione Sexo
-                                                    </option>
-                                                    <option value="1">
-                                                        Masculino
-                                                    </option>
-                                                    <option value="2">
-                                                        Femenino
-                                                    </option>
-                                                </select>
-                                            </CampoForm>
-
-                                            <CampoForm label="Acepta Info">
-                                                <div className="flex items-center">
-                                                    <input
-                                                        onChange={
-                                                            handleHuespedInputChange
-                                                        }
-                                                        type="checkbox"
-                                                        name="AceptaInfo"
-                                                        value="X"
-                                                        checked={
-                                                            dataHuesped?.AceptaInfo ===
-                                                            'X'
-                                                                ? true
-                                                                : false
-                                                        }
-                                                        className="text-secondary focus:ring-secondary-focus h-4 w-4 rounded"
-                                                    />
-                                                    <span className="ml-2 text-gray-600">
-                                                        Sí
-                                                    </span>
-                                                </div>
-                                            </CampoForm>
-
-                                            <CampoForm label="Repetidor">
-                                                <div className="flex items-center">
-                                                    <input
-                                                        onChange={
-                                                            handleHuespedInputChange
-                                                        }
-                                                        type="checkbox"
-                                                        name="Repetidor"
-                                                        value="X"
-                                                        checked={
-                                                            dataHuesped?.Repetidor ===
-                                                            'X'
-                                                                ? true
-                                                                : false
-                                                        }
-                                                        className="text-secondary focus:ring-secondary-focus h-4 w-4 rounded"
-                                                    />
-                                                    <span className="ml-2 text-gray-600">
-                                                        Sí
-                                                    </span>
-                                                </div>
-                                            </CampoForm>
-
-                                            <CampoForm label="VIP">
+                                        <CampoForm label="Repetidor">
+                                            <div className="flex items-center">
                                                 <input
                                                     onChange={
                                                         handleHuespedInputChange
                                                     }
-                                                    type="text"
-                                                    name="Vip"
-                                                    value={
-                                                        dataHuesped?.Vip ?? ''
+                                                    type="checkbox"
+                                                    name="Repetidor"
+                                                    value="X"
+                                                    checked={
+                                                        dataHuesped?.Repetidor ===
+                                                        'X'
+                                                            ? true
+                                                            : false
                                                     }
+                                                    className="text-secondary focus:ring-secondary-focus h-4 w-4 rounded"
                                                 />
-                                            </CampoForm>
-                                        </>
+                                                <span className="ml-2 text-gray-600">
+                                                    Sí
+                                                </span>
+                                            </div>
+                                        </CampoForm>
+
+                                        <CampoForm label="VIP">
+                                            <input
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                type="text"
+                                                name="Vip"
+                                                value={dataHuesped?.Vip ?? ''}
+                                            />
+                                        </CampoForm>
                                     </SeccionForm>
                                 </div>
                                 <div className="mt-8 flex w-full justify-between">
@@ -731,9 +718,7 @@ export default function HuespedForm() {
                                             }
                                             className={`bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus ${!forEdit ? 'w-full' : ''} rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none`}
                                         >
-                                            {forEdit
-                                                ? 'Editar Registros'
-                                                : 'Crear Registros'}
+                                            Editar Registros
                                         </button>
                                     )}
                                 </div>
@@ -750,9 +735,7 @@ export default function HuespedForm() {
                                             onClick={handleBigSubmit}
                                             className={`bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus ${!forEdit ? 'w-full' : ''} rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none`}
                                         >
-                                            {forEdit
-                                                ? 'Editar Registros'
-                                                : 'Crear Registros'}
+                                            Crear Registros
                                         </button>
                                     </div>
                                 )}

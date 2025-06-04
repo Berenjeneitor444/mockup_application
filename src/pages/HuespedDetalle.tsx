@@ -9,34 +9,51 @@ import ReservaCardList from '../components/display/cards/ReservaCardList';
 import { getReservaResumen, ReservaResumen } from '../types/ReservaResumen';
 
 export default function HuespedDetalle() {
-    const { id, IDHuesped } = useParams();
+    const { id, idHuesped } = useParams();
     const [huesped, setHuesped] = useState<Huesped | null>(null);
     const [reserva, setReserva] = useState<Reserva | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string[] | null>(null);
 
     useEffect(() => {
-        if (!IDHuesped) return;
+        if (!idHuesped) return;
         if (!id) return;
 
         void Promise.allSettled([
-            getHuespedById(IDHuesped),
+            getHuespedById(idHuesped),
             getReservaById(id),
         ]).then((results) => {
             const [huespedRes, reservaRes] = results;
             if (huespedRes.status === 'fulfilled') {
                 setHuesped(huespedRes.value);
             } else {
-                setError(`${huespedRes.reason}`);
+                const errorMessage = `No se pudo obtener el huesped con ID ${idHuesped}`;
+                setError((prev) => [
+                    ...(prev?.filter((subPrev) => subPrev !== errorMessage) ??
+                        []),
+                    errorMessage,
+                ]);
             }
             if (reservaRes.status === 'fulfilled') {
                 setReserva(reservaRes.value);
             } else {
-                setError(`${reservaRes.reason}`);
+                const errorMessage = `No se pudo obtener la reserva con ID ${id}`;
+                setError((prev) => [
+                    ...(prev?.filter((subPrev) => subPrev !== errorMessage) ??
+                        []),
+                    errorMessage,
+                ]);
             }
         });
-    }, [IDHuesped, id]);
+    }, [idHuesped, id]);
 
-    if (error) return <div>{error}</div>;
+    if (error)
+        return (
+            <div className="mb-4 rounded-md bg-red-50 p-4 text-red-800">
+                {error.map((err) => (
+                    <p key={err}>{err}</p>
+                ))}
+            </div>
+        );
     if (!huesped) return <div>Cargando...</div>;
 
     return (

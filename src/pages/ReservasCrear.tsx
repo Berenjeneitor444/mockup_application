@@ -111,6 +111,12 @@ const ReservasCrear = () => {
                 autoClose={3000}
                 hideProgressBar={false}
             />
+            <h2 className="font-termina mb-4 text-center text-4xl font-semibold text-gray-800">
+                Crear Reserva
+            </h2>
+            <p className="font-termina mb-4 text-center text-gray-600">
+                Completa los siguientes pasos para crear una nueva reserva.
+            </p>
 
             <Outlet
                 context={{

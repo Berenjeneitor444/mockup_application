@@ -19,14 +19,23 @@ export default function ReservaDetalle() {
 
         getReservaById(id)
             .then((res) => setReserva(res))
-            .catch((err: Error) => setError(err.message));
+            .catch((err: Error) =>
+                setError(
+                    `No se pudo obtener la reserva con ID ${id}: ${err.message}`
+                )
+            );
 
         getHuespedesByReservaId(id)
             .then((res) => setHuespedes(res))
             .catch((err: Error) => console.log(err));
     }, [id]);
 
-    if (error) return <div>Error: {error}</div>;
+    if (error)
+        return (
+            <div className="mb-4 rounded-md bg-red-50 p-4 text-red-800">
+                <p>{error}</p>
+            </div>
+        );
     if (!reserva) return <div>Cargando...</div>;
 
     return (

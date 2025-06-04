@@ -10,7 +10,7 @@ import {
 } from '../utils/EntityUtils';
 import Reserva, { reservaVacia } from '../types/Reserva';
 import { editRegistros, reservaExiste } from '../services/HTTPOperations';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import toastMaker from '../utils/ToastUtils';
 import { getHuespedesByReservaId } from '../services/huesped/HuespedApi';
 import { getReservaById } from '../services/reserva/ReservaApi';
@@ -31,19 +31,8 @@ const ReservasEditar = () => {
     const huespedesInitialState = useRef<Record<string, string>[]>([]);
     const navigate = useNavigate();
 
-    const validaciones = () => {
-        // no creo que haya ninguna lmao
-    };
+    const [error, setError] = useState<string[] | null>(null);
     const handleBigSubmit = () => {
-        try {
-            validaciones();
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                const notify = () => toast.error(err.message);
-                notify();
-            }
-            return;
-        }
         const reserva: Reserva = parseToReserva(dataReserva);
         const huespedes: Huesped[] = dataHuespedes.map(
             (huesped: Record<string, string>) => parseToHuesped(huesped)
@@ -102,6 +91,12 @@ const ReservasEditar = () => {
                 );
             } else {
                 console.error('Error en getReservaById:', reservaRes.reason);
+                const errorMessage = `La reserva no existe o ha sido eliminada.`;
+                setError((prev) => [
+                    ...(prev?.filter((subPrev) => subPrev !== errorMessage) ??
+                        []),
+                    errorMessage,
+                ]);
             }
 
             if (huespedesRes.status === 'fulfilled') {
@@ -120,6 +115,12 @@ const ReservasEditar = () => {
                     'Error en getHuespedesByReservaId:',
                     huespedesRes.reason
                 );
+                const errorMessage = `La reserva no tiene huespedes asociados.`;
+                setError((prev) => [
+                    ...(prev?.filter((subPrev) => subPrev !== errorMessage) ??
+                        []),
+                    errorMessage,
+                ]);
             }
         });
     }, [id]);
@@ -149,26 +150,41 @@ const ReservasEditar = () => {
                 autoClose={3000}
                 hideProgressBar={false}
             />
-
-            <Outlet
-                context={{
-                    datosReserva: {
-                        dataReserva,
-                        setDataReserva,
-                        handleReservaSubmit,
-                    },
-                    datosHuespedes: {
-                        dataHuespedes,
-                        setDataHuespedes,
-                        dataHuesped,
-                        setDataHuesped,
-                        huespedEditedIndex,
-                        setHuespedEditedIndex,
-                    },
-                    handleBigSubmit,
-                    forEdit,
-                }}
-            />
+            <h2 className="font-termina mb-4 text-center text-4xl font-semibold text-gray-800 underline">
+                Editar Reserva
+            </h2>
+            <p className="font-termina mb-4 text-center text-gray-600">
+                Completa los siguientes pasos para editar la reserva.
+            </p>
+            {error ? (
+                <div className="mb-4 rounded-md bg-red-50 p-4 text-red-800">
+                    {error.map((err) => (
+                        <p key={err} className="mb-2">
+                            {err}
+                        </p>
+                    ))}
+                </div>
+            ) : (
+                <Outlet
+                    context={{
+                        datosReserva: {
+                            dataReserva,
+                            setDataReserva,
+                            handleReservaSubmit,
+                        },
+                        datosHuespedes: {
+                            dataHuespedes,
+                            setDataHuespedes,
+                            dataHuesped,
+                            setDataHuesped,
+                            huespedEditedIndex,
+                            setHuespedEditedIndex,
+                        },
+                        handleBigSubmit,
+                        forEdit,
+                    }}
+                />
+            )}
         </div>
     );
 };

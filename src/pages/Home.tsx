@@ -1,7 +1,7 @@
 const Home = () => {
     return (
         <div>
-            <h1 className="mb-4 text-3xl font-bold text-gray-800">
+            <h1 className="font-termina mb-4 text-3xl font-semibold text-gray-800">
                 Gestor de Reservas
             </h1>
             <p className="mb-4 text-lg text-gray-600">
