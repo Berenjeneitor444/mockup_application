@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
@@ -68,9 +69,16 @@ public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
     protected List<String> validarPersistencia(Huesped huesped, boolean isCreate) {
         List<String> errores = new ArrayList<>();
         // comprobar que no exista un huesped con el mismo id
-        if (repository.basicCRUD().findById(huesped.getIdHuesped()).isPresent()) {
+        Optional<Huesped> huespedExistente = repository.basicCRUD().findById(huesped.getIdHuesped());
+        if (huespedExistente.isPresent()) {
             if (isCreate) {
                 errores.add("Ya existe un huesped con el mismo id");
+            }
+            // si la modificacion cambia algo metemos la firma
+            else {
+                if(!huespedExistente.get().equals(huesped)){
+                    huesped.setFirma("X");
+                }
             }
         } else if (!isCreate) {
             errores.add("El Huesped que quieres reemplazar no existe");

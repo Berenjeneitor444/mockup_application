@@ -1,5 +1,6 @@
 package com.tyche.apimockup.entities.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -114,4 +115,8 @@ public class Huesped {
     @JsonProperty("FechaSalida")
     @Field(value = "FechaSalida")
     private String fechaSalida = "";
+
+    @JsonIgnore // solo estara en la base de datos
+    @Field(value = "Firma")
+    private String firma = "";
 }
