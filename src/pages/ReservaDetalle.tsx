@@ -42,10 +42,15 @@ export default function ReservaDetalle() {
         <div className="container mx-auto px-4 py-8">
             <div className="flex flex-row space-x-4">
                 <div className="w-2/3">
-                    <ReservaView reserva={reserva} />
+                    <div className="sticky top-4">
+                        <h2 className="font-termina mb-4 text-center text-2xl font-semibold text-gray-800">
+                            Detalles de la Reserva
+                        </h2>
+                        <ReservaView reserva={reserva} />
+                    </div>
                 </div>
                 <div className="w-full lg:w-2/5">
-                    <div className="sticky top-4">
+                    <div className="mb-4 rounded-md p-6 shadow-md">
                         <h3 className="mb-2 text-center text-lg font-semibold text-gray-700">
                             Huéspedes asociados
                         </h3>

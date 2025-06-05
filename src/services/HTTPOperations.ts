@@ -14,15 +14,14 @@ export async function crearRegistros(reserva: Reserva, huespedes: Huesped[]) {
 }
 
 export async function editRegistros(reserva: Reserva, huespedes: Huesped[]) {
-    console.log('reserva vieja: ', reserva);
-    const reservaModified = await editReserva(reserva);
-    console.log('reserva nueva', reservaModified);
+    await editReserva(reserva);
+    if (huespedes) {
+        console.log('huespedes a editar: ', huespedes);
+        for (const huesped of huespedes) {
+            await editHuesped(huesped);
+        }
+    } else console.log('no hay huespedes a editar');
 
-    for (const huesped of huespedes) {
-        console.log('huesped viejo: ', huesped);
-        await editHuesped(huesped);
-        console.log('huesped nuevo: ', huesped);
-    }
     return 'Registros editados con éxito';
 }
 

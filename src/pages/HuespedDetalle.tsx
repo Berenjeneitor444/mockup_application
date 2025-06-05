@@ -60,6 +60,9 @@ export default function HuespedDetalle() {
         <div className="container mx-auto px-4 py-8">
             <div className="flex flex-row space-x-4">
                 <div className="w-2/3">
+                    <h2 className="font-termina mb-4 text-center text-2xl font-semibold text-gray-800">
+                        Detalles del Huésped
+                    </h2>
                     <HuespedView huesped={huesped} />
                 </div>
                 <div className="w-full lg:w-2/5">

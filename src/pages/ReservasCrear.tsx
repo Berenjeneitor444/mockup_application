@@ -4,7 +4,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
     parseToHuesped,
     parseToReserva,
-    recordsAreEqual,
+    objectsAreEqual,
     ReferentialIntegrityBuilder,
 } from '../utils/EntityUtils';
 import Reserva, { reservaVacia } from '../types/Reserva';
@@ -66,7 +66,7 @@ const ReservasCrear = () => {
         const handleFormIntegrity = () => {
             if (
                 location.pathname !== '/crear/reserva' &&
-                recordsAreEqual(dataReserva, reservaVacia)
+                objectsAreEqual(dataReserva, reservaVacia)
             ) {
                 void navigate('reserva', { replace: true });
             }
@@ -74,7 +74,7 @@ const ReservasCrear = () => {
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             const hayCambios =
                 dataHuespedes.length > 0 ||
-                recordsAreEqual(dataReserva, reservaVacia);
+                objectsAreEqual(dataReserva, reservaVacia);
             if (hayCambios) {
                 e.preventDefault();
                 e.returnValue = '';

@@ -5,10 +5,11 @@ import {
     parseToHuesped,
     parseToReserva,
     parseToStringRecord,
-    recordsAreEqual,
+    objectsAreEqual,
     ReferentialIntegrityBuilder,
+    cleanObject,
 } from '../utils/EntityUtils';
-import Reserva, { reservaVacia } from '../types/Reserva';
+import Reserva from '../types/Reserva';
 import { editRegistros, reservaExiste } from '../services/HTTPOperations';
 import { ToastContainer } from 'react-toastify';
 import toastMaker from '../utils/ToastUtils';
@@ -27,8 +28,8 @@ const ReservasEditar = () => {
     // para guardar los datos introducidos en el formulario
     const [dataReserva, setDataReserva] = useState<Record<string, string>>({});
 
-    const reservaInitialState = useRef<Record<string, string>>({});
-    const huespedesInitialState = useRef<Record<string, string>[]>([]);
+    const reservaInitialState = useRef<Reserva>(null);
+    const huespedesInitialState = useRef<Huesped[]>([]);
     const navigate = useNavigate();
 
     const [error, setError] = useState<string[] | null>(null);
@@ -42,7 +43,22 @@ const ReservasEditar = () => {
         // ajusta los campos en huesped que dependen de reserva
         ReferentialIntegrityBuilder(reserva, huespedes);
 
-        editRegistros(reserva, huespedes)
+        // filtrar los huespedes que no han cambiado para no firmarlos en el backend
+        const huespedesCambiados: Huesped[] = huespedes.filter(
+            (huesped, index) => {
+                console.log(
+                    `huespedesInitialState.current[${index}]`,
+                    huespedesInitialState.current[index]
+                );
+                console.log('huesped', huesped);
+                return !objectsAreEqual(
+                    huesped,
+                    huespedesInitialState.current[index]
+                );
+            }
+        );
+
+        editRegistros(reserva, huespedesCambiados || null)
             .then((res) => {
                 toastMaker(false, res);
                 // te redirige a verlo
@@ -59,19 +75,43 @@ const ReservasEditar = () => {
 
     useEffect(() => {
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-            const hayCambios =
-                dataHuespedes.length > 0 ||
-                recordsAreEqual(dataReserva, reservaVacia);
-            if (hayCambios) {
+            if (
+                !huespedesInitialState?.current ||
+                !reservaInitialState?.current
+            ) {
+                return;
+            }
+
+            const hayCambiosHuespedes = !dataHuespedes.every(
+                (huesped, index) => {
+                    const originalHuesped =
+                        huespedesInitialState.current[index];
+                    if (!originalHuesped) return false; // si no hay original, asumimos sin cambios
+
+                    // Aquí aseguramos que pasamos objetos
+                    return objectsAreEqual(
+                        huesped,
+                        parseToStringRecord(Object.entries(originalHuesped))
+                    );
+                }
+            );
+
+            const hayCambiosReserva = !objectsAreEqual(
+                dataReserva,
+                parseToStringRecord(Object.entries(reservaInitialState.current))
+            );
+
+            if (hayCambiosHuespedes || hayCambiosReserva) {
                 e.preventDefault();
                 e.returnValue = '';
             }
         };
+
         window.addEventListener('beforeunload', handleBeforeUnload);
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, [dataReserva, dataHuespedes.length]);
+    }, [dataReserva, dataHuespedes]);
 
     // carga la reserva y sus huespedes
     useEffect(() => {
@@ -86,9 +126,7 @@ const ReservasEditar = () => {
                     parseToStringRecord(Object.entries(reservaRes.value))
                 );
                 // guarda el estado inicial de la reserva
-                reservaInitialState.current = parseToStringRecord(
-                    Object.entries(reservaRes.value)
-                );
+                reservaInitialState.current = cleanObject(reservaRes.value);
             } else {
                 console.error('Error en getReservaById:', reservaRes.reason);
                 const errorMessage = `La reserva no existe o ha sido eliminada.`;
@@ -107,8 +145,7 @@ const ReservasEditar = () => {
                 );
                 // guarda el estado inicial de los huespedes
                 huespedesInitialState.current = huespedesRes.value.map(
-                    (huesped: Huesped) =>
-                        parseToStringRecord(Object.entries(huesped))
+                    (huesped) => cleanObject(huesped)
                 );
             } else {
                 console.error(

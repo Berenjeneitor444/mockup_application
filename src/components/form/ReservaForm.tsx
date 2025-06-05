@@ -36,6 +36,10 @@ export default function ReservaForm() {
                 pattern: /^\d+$/,
                 message: 'El número de reserva debe ser un número',
             },
+            Estado: {
+                pattern: /^\d+$|^$/,
+                message: 'El estado debe ser un número o estar vacío',
+            },
             // seguir expandiendo a necesidad
         };
 
@@ -167,17 +171,12 @@ export default function ReservaForm() {
                         {/* Estado de la Reserva */}
                         <SeccionForm titulo="Estado de la Reserva">
                             <CampoForm label="Estado de la Reserva">
-                                <select
+                                <input
+                                    type="text"
                                     onChange={handleReservaInputChange}
                                     name="Estado"
                                     value={dataReserva?.Estado ?? ''}
-                                >
-                                    <option value="">Seleccione Estado</option>
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
+                                />
                             </CampoForm>
                             <CampoForm label="¿Check-out Hecho?">
                                 <div className="flex items-center">
@@ -243,27 +242,12 @@ export default function ReservaForm() {
                         {/* Detalles de habitación */}
                         <SeccionForm titulo="Detalles de Habitación">
                             <CampoForm label="Habitacion">
-                                <select
+                                <input
+                                    type="text"
                                     onChange={handleReservaInputChange}
                                     name="Habitacion"
                                     value={dataReserva?.Habitacion ?? ''}
-                                >
-                                    <option value="">
-                                        Seleccione Habitación
-                                    </option>
-                                    <option value="Habitacion1">
-                                        Habitacion1
-                                    </option>
-                                    <option value="Habitacion2">
-                                        Habitacion2
-                                    </option>
-                                    <option value="Habitacion3">
-                                        Habitacion3
-                                    </option>
-                                    <option value="Habitacion4">
-                                        Habitacion4
-                                    </option>
-                                </select>
+                                />
                             </CampoForm>
 
                             <CampoForm label="THDescripcion">

@@ -1,18 +1,9 @@
+import _ from 'lodash';
 import Huesped from '../types/Huesped';
 import Reserva from '../types/Reserva';
 import ReservaFilter from '../types/ReservaFilter';
 import { dateFormatter, dateParser, timeFormatter } from './DateUtils';
 
-// Helper: añade sólo si value no es null ni undefined
-function addIf<T, K extends keyof T>(
-    obj: T,
-    key: K,
-    value: T[K] | null | undefined
-) {
-    if (value) {
-        obj[key] = value;
-    }
-}
 export function ReferentialIntegrityBuilder(
     reserva: Reserva,
     huespedes: Huesped[]
@@ -30,123 +21,127 @@ export function ReferentialIntegrityBuilder(
 export function parseToHuesped(
     huespedData: Record<string, string | undefined>
 ): Huesped {
-    // Construimos un Partial<Huesped> para ir añadiendo sólo lo necesario
-    const result: Partial<Huesped> = {};
+    // Construimos directamente el objeto result usando spread condicional
+    const datosCom: Huesped['DatosComunicacion'] = {
+        ...(huespedData['DatosComunicacion.Descripcion'] && {
+            Descripcion: huespedData['DatosComunicacion.Descripcion'],
+        }),
+        ...(huespedData['DatosComunicacion.Direccion'] && {
+            Direccion: huespedData['DatosComunicacion.Direccion'],
+        }),
+        ...(huespedData['DatosComunicacion.CodigoPostal'] && {
+            CodigoPostal: huespedData['DatosComunicacion.CodigoPostal'],
+        }),
+        ...(huespedData['DatosComunicacion.Poblacion'] && {
+            Poblacion: huespedData['DatosComunicacion.Poblacion'],
+        }),
+        ...(huespedData['DatosComunicacion.Provincia'] && {
+            Provincia: huespedData['DatosComunicacion.Provincia'],
+        }),
+        ...(huespedData['DatosComunicacion.ComunidadAutonoma'] && {
+            ComunidadAutonoma:
+                huespedData['DatosComunicacion.ComunidadAutonoma'],
+        }),
+        ...(huespedData['DatosComunicacion.Pais'] && {
+            Pais: huespedData['DatosComunicacion.Pais'],
+        }),
+        ...(huespedData['DatosComunicacion.ApartadoCorreos'] && {
+            ApartadoCorreos: huespedData['DatosComunicacion.ApartadoCorreos'],
+        }),
+        ...(huespedData['DatosComunicacion.Telefono'] && {
+            Telefono: huespedData['DatosComunicacion.Telefono'],
+        }),
+        ...(huespedData['DatosComunicacion.TelefonoMovil'] && {
+            TelefonoMovil: huespedData['DatosComunicacion.TelefonoMovil'],
+        }),
+        ...(huespedData['DatosComunicacion.FaxNumber'] && {
+            FaxNumber: huespedData['DatosComunicacion.FaxNumber'],
+        }),
+        ...(huespedData['DatosComunicacion.EMail'] && {
+            EMail: huespedData['DatosComunicacion.EMail'],
+        }),
+    };
 
-    addIf(result, 'hotel', huespedData['hotel']);
-    addIf(result, 'HotelFactura', huespedData['hotel']);
-    addIf(result, 'reservationNumber', huespedData['reservationNumber']);
-    addIf(result, 'NumReserva', huespedData['reservationNumber']);
-    addIf(result, 'NumeroCliente', huespedData['NumeroCliente']);
-    addIf(result, 'IDHuesped', huespedData['IDHuesped']);
-    addIf(result, 'TipoPersona', huespedData['TipoPersona']);
-    addIf(result, 'Nombre_Pila', huespedData['Nombre_Pila']);
-    addIf(result, 'Nombre', huespedData['Nombre']);
-    addIf(result, 'Email', huespedData['DatosComunicacion.EMail']);
-    if (huespedData['FechaNacimiento']) {
-        addIf(
-            result,
-            'FechaNacimiento',
-            dateFormatter(
+    return {
+        ...(huespedData['hotel'] && { hotel: huespedData['hotel'] }),
+        ...(huespedData['hotel'] && { HotelFactura: huespedData['hotel'] }),
+        ...(huespedData['reservationNumber'] && {
+            reservationNumber: huespedData['reservationNumber'],
+        }),
+        ...(huespedData['reservationNumber'] && {
+            NumReserva: huespedData['reservationNumber'],
+        }),
+        ...(huespedData['NumeroCliente'] && {
+            NumeroCliente: huespedData['NumeroCliente'],
+        }),
+        ...(huespedData['IDHuesped'] && {
+            IDHuesped: huespedData['IDHuesped'],
+        }),
+        ...(huespedData['TipoPersona'] && {
+            TipoPersona: huespedData['TipoPersona'],
+        }),
+        ...(huespedData['Nombre_Pila'] && {
+            Nombre_Pila: huespedData['Nombre_Pila'],
+        }),
+        ...(huespedData['Nombre'] && { Nombre: huespedData['Nombre'] }),
+        ...(huespedData['Email'] && { Email: huespedData['Email'] }),
+        ...(huespedData['FechaNacimiento'] && {
+            FechaNacimiento: dateFormatter(
                 new Date(huespedData['FechaNacimiento']),
                 'yyyyMMddhhmmss'
-            )
-        );
-    }
-    addIf(result, 'PaisNacimiento', huespedData['PaisNacimiento']);
-    addIf(result, 'TipoDocumento', huespedData['TipoDocumento']);
-    if (huespedData['FechaExpedicion']) {
-        addIf(
-            result,
-            'FechaExpedicion',
-            dateFormatter(
+            ),
+        }),
+        ...(huespedData['PaisNacimiento'] && {
+            PaisNacimiento: huespedData['PaisNacimiento'],
+        }),
+        ...(huespedData['TipoDocumento'] && {
+            TipoDocumento: huespedData['TipoDocumento'],
+        }),
+        ...(huespedData['FechaExpedicion'] && {
+            FechaExpedicion: dateFormatter(
                 new Date(huespedData['FechaExpedicion']),
                 'yyyyMMddhhmmss'
-            )
-        );
-    }
-    if (huespedData['FechaCaducidad']) {
-        addIf(
-            result,
-            'FechaCaducidad',
-            dateFormatter(
+            ),
+        }),
+        ...(huespedData['FechaCaducidad'] && {
+            FechaCaducidad: dateFormatter(
                 new Date(huespedData['FechaCaducidad']),
                 'yyyyMMddhhmmss'
-            )
-        );
-    }
-    if (huespedData['Edad']) {
-        addIf(result, 'Edad', huespedData['Edad'].padStart(3, '0'));
-    }
-    addIf(result, 'IDDocumento', huespedData['IDDocumento']);
-    addIf(result, 'TipoCliente', huespedData['TipoCliente']);
-    if (huespedData['Sexo']) {
-        addIf(result, 'Sexo', huespedData['Sexo']);
-    }
-    addIf(result, 'AceptaInfo', huespedData['AceptaInfo']);
-    addIf(result, 'Repetidor', huespedData['Repetidor']);
-    addIf(result, 'Vip', huespedData['Vip']);
-    if (huespedData['FechaEntrada']) {
-        addIf(
-            result,
-            'FechaEntrada',
-            dateFormatter(
+            ),
+        }),
+        ...(huespedData['Edad'] && {
+            Edad: huespedData['Edad'].padStart(3, '0'),
+        }),
+        ...(huespedData['IDDocumento'] && {
+            IDDocumento: huespedData['IDDocumento'],
+        }),
+        ...(huespedData['TipoCliente'] && {
+            TipoCliente: huespedData['TipoCliente'],
+        }),
+        ...(huespedData['Sexo'] && { Sexo: huespedData['Sexo'] }),
+        ...(huespedData['AceptaInfo'] && {
+            AceptaInfo: huespedData['AceptaInfo'],
+        }),
+        ...(huespedData['Repetidor'] && {
+            Repetidor: huespedData['Repetidor'],
+        }),
+        ...(huespedData['Vip'] && { Vip: huespedData['Vip'] }),
+        ...(huespedData['FechaEntrada'] && {
+            FechaEntrada: dateFormatter(
                 new Date(huespedData['FechaEntrada']),
                 'yyyyMMddhhmmss'
-            )
-        );
-    }
-    if (huespedData['FechaSalida']) {
-        addIf(
-            result,
-            'FechaSalida',
-            dateFormatter(
+            ),
+        }),
+        ...(huespedData['FechaSalida'] && {
+            FechaSalida: dateFormatter(
                 new Date(huespedData['FechaSalida']),
                 'yyyyMMddhhmmss'
-            )
-        );
-    }
-
-    // DatosComunicacion por separado
-    const datosCom: Partial<Huesped['DatosComunicacion']> = {};
-    addIf(
-        datosCom,
-        'Descripcion',
-        huespedData['DatosComunicacion.Descripcion']
-    );
-    addIf(datosCom, 'Direccion', huespedData['DatosComunicacion.Direccion']);
-    addIf(
-        datosCom,
-        'CodigoPostal',
-        huespedData['DatosComunicacion.CodigoPostal']
-    );
-    addIf(datosCom, 'Poblacion', huespedData['DatosComunicacion.Poblacion']);
-    addIf(datosCom, 'Provincia', huespedData['DatosComunicacion.Provincia']);
-    addIf(
-        datosCom,
-        'ComunidadAutonoma',
-        huespedData['DatosComunicacion.ComunidadAutonoma']
-    );
-    addIf(datosCom, 'Pais', huespedData['DatosComunicacion.Pais']);
-    addIf(
-        datosCom,
-        'ApartadoCorreos',
-        huespedData['DatosComunicacion.ApartadoCorreos']
-    );
-    addIf(datosCom, 'Telefono', huespedData['DatosComunicacion.Telefono']);
-    addIf(
-        datosCom,
-        'TelefonoMovil',
-        huespedData['DatosComunicacion.TelefonoMovil']
-    );
-    addIf(datosCom, 'FaxNumber', huespedData['DatosComunicacion.FaxNumber']);
-    addIf(datosCom, 'EMail', huespedData['DatosComunicacion.EMail']);
-
-    if (Object.keys(datosCom).length > 0) {
-        result.DatosComunicacion = datosCom as Huesped['DatosComunicacion'];
-    }
-
-    return result as Huesped;
+            ),
+        }),
+        ...(Object.keys(datosCom).length > 0 && {
+            DatosComunicacion: datosCom,
+        }),
+    } as Huesped;
 }
 
 // -------------------------------------------------------
@@ -154,124 +149,102 @@ export function parseToHuesped(
 export function parseToReserva(
     reservaData: Record<string, string | undefined>
 ): Reserva {
-    const result: Partial<Reserva> = {};
-
-    addIf(result, 'hotel', reservaData['hotel']);
-    addIf(result, 'ReservationNumber', reservaData['ReservationNumber']);
-    if (reservaData['checkoutRealized'] != null) {
-        if (reservaData['checkoutRealized'] === 'true') {
-            addIf(result, 'checkoutRealized', true);
-        } else {
-            addIf(result, 'checkoutRealized', false);
-        }
-    }
-    addIf(result, 'CheckIn', reservaData['CheckIn']);
-    addIf(result, 'Localizador', reservaData['Localizador']);
-    addIf(result, 'HotelFactura', reservaData['hotel']);
-    addIf(result, 'NumReserva', reservaData['ReservationNumber']);
-    addIf(result, 'Bono', reservaData['Bono']);
-    if (typeof reservaData['Estado'] === 'string') {
-        addIf(result, 'Estado', parseInt(reservaData['Estado'], 10));
-    }
-    addIf(result, 'Habitacion', reservaData['Habitacion']);
-    addIf(result, 'THDescripcion', reservaData['THDescripcion']);
-    addIf(result, 'THUso', reservaData['THUso']);
-    addIf(result, 'Seccion', reservaData['Seccion']);
-    addIf(result, 'Tarifa', reservaData['Tarifa']);
-    if (reservaData['AD']) {
-        addIf(result, 'AD', parseInt(reservaData['AD'], 10));
-    }
-
-    if (reservaData['NI']) {
-        addIf(result, 'NI', parseInt(reservaData['NI'], 10));
-    }
-    if (reservaData['JR']) {
-        addIf(result, 'JR', parseInt(reservaData['JR'], 10));
-    }
-    if (reservaData['CU']) {
-        addIf(result, 'CU', parseInt(reservaData['CU'], 10));
-    }
-    addIf(result, 'PreCheckIn', reservaData['PreCheckIn']);
-    if (reservaData['FechaEntrada']) {
-        addIf(
-            result,
-            'FechaEntrada',
-            dateFormatter(
+    return {
+        ...(reservaData['hotel'] && { hotel: reservaData['hotel'] }),
+        ...(reservaData['ReservationNumber'] && {
+            ReservationNumber: reservaData['ReservationNumber'],
+        }),
+        ...(reservaData['checkoutRealized'] != null && {
+            checkoutRealized: reservaData['checkoutRealized'] === 'true',
+        }),
+        ...(reservaData['CheckIn'] && { CheckIn: reservaData['CheckIn'] }),
+        ...(reservaData['Localizador'] && {
+            Localizador: reservaData['Localizador'],
+        }),
+        ...(reservaData['hotel'] && { HotelFactura: reservaData['hotel'] }),
+        ...(reservaData['ReservationNumber'] && {
+            NumReserva: reservaData['ReservationNumber'],
+        }),
+        ...(reservaData['Bono'] && { Bono: reservaData['Bono'] }),
+        ...(typeof reservaData['Estado'] === 'string' && {
+            Estado: Math.abs(parseInt(reservaData['Estado'], 10)),
+        }),
+        ...(reservaData['Habitacion'] && {
+            Habitacion: reservaData['Habitacion'],
+        }),
+        ...(reservaData['THDescripcion'] && {
+            THDescripcion: reservaData['THDescripcion'],
+        }),
+        ...(reservaData['THUso'] && { THUso: reservaData['THUso'] }),
+        ...(reservaData['Seccion'] && { Seccion: reservaData['Seccion'] }),
+        ...(reservaData['Tarifa'] && { Tarifa: reservaData['Tarifa'] }),
+        ...(reservaData['AD'] && { AD: parseInt(reservaData['AD'], 10) }),
+        ...(reservaData['NI'] && { NI: parseInt(reservaData['NI'], 10) }),
+        ...(reservaData['JR'] && { JR: parseInt(reservaData['JR'], 10) }),
+        ...(reservaData['CU'] && { CU: parseInt(reservaData['CU'], 10) }),
+        ...(reservaData['PreCheckIn'] && {
+            PreCheckIn: reservaData['PreCheckIn'],
+        }),
+        ...(reservaData['FechaEntrada'] && {
+            FechaEntrada: dateFormatter(
                 new Date(reservaData['FechaEntrada']),
                 'yyyyMMddhhmmss'
-            )
-        );
-    }
-    if (reservaData['FechaSalida']) {
-        addIf(
-            result,
-            'FechaSalida',
-            dateFormatter(
+            ),
+        }),
+        ...(reservaData['FechaSalida'] && {
+            FechaSalida: dateFormatter(
                 new Date(reservaData['FechaSalida']),
                 'yyyyMMddhhmmss'
-            )
-        );
-    }
-    addIf(result, 'MotivoViaje', reservaData['MotivoViaje']);
-    if (reservaData['LlegadaHora']) {
-        addIf(result, 'LlegadaHora', timeFormatter(reservaData['LlegadaHora']));
-    }
-    addIf(result, 'THFactura', reservaData['THFactura']);
-    addIf(result, 'Bienvenida', reservaData['Bienvenida']);
-    if (reservaData['FechaBienv']) {
-        addIf(
-            result,
-            'FechaBienv',
-            dateFormatter(new Date(reservaData['FechaBienv']), 'yyyyMMdd')
-        );
-    }
-    if (reservaData['HoraBienv']) {
-        addIf(result, 'HoraBienv', timeFormatter(reservaData['HoraBienv']));
-    }
-
-    return result as Reserva;
+            ),
+        }),
+        ...(reservaData['MotivoViaje'] && {
+            MotivoViaje: reservaData['MotivoViaje'],
+        }),
+        ...(reservaData['LlegadaHora'] && {
+            LlegadaHora: timeFormatter(reservaData['LlegadaHora']),
+        }),
+        ...(reservaData['THFactura'] && {
+            THFactura: reservaData['THFactura'],
+        }),
+        ...(reservaData['Bienvenida'] && {
+            Bienvenida: reservaData['Bienvenida'],
+        }),
+        ...(reservaData['FechaBienv'] && {
+            FechaBienv: dateFormatter(
+                new Date(reservaData['FechaBienv']),
+                'yyyyMMdd'
+            ),
+        }),
+        ...(reservaData['HoraBienv'] && {
+            HoraBienv: timeFormatter(reservaData['HoraBienv']),
+        }),
+    } as Reserva;
 }
 
 export function parseToReservaFilter(
     reservaFilterData: Record<string, string>
 ): ReservaFilter {
-    const reservaFilter: Partial<ReservaFilter> = {};
-
-    addIf(reservaFilter, 'hotel', reservaFilterData['hotel']);
-
-    addIf(
-        reservaFilter,
-        'ReservationNumber',
-        reservaFilterData['ReservationNumber']
-    );
-
-    if (reservaFilterData['FechaEntrada']) {
-        reservaFilter.FechaEntrada = dateFormatter(
-            new Date(reservaFilterData['FechaEntrada']),
-            'yyyyMMddhhmmss'
-        );
-    }
-
-    if (reservaFilterData['Estado']) {
-        reservaFilter.Estado = parseInt(reservaFilterData['Estado'], 10);
-    }
-
-    return reservaFilter as ReservaFilter;
+    return {
+        ...(reservaFilterData['hotel'] && {
+            hotel: reservaFilterData['hotel'],
+        }),
+        ...(reservaFilterData['ReservationNumber'] && {
+            ReservationNumber: reservaFilterData['ReservationNumber'],
+        }),
+        ...(reservaFilterData['FechaEntrada'] && {
+            FechaEntrada: dateFormatter(
+                new Date(reservaFilterData['FechaEntrada']),
+                'yyyyMMddhhmmss'
+            ),
+        }),
+        ...(reservaFilterData['Estado'] && {
+            Estado: parseInt(reservaFilterData['Estado'], 10),
+        }),
+    } as ReservaFilter;
 }
-export function recordsAreEqual(
-    a: Record<string, string>,
-    b: Record<string, string>
-): boolean {
-    const keysA = Object.keys(a);
-    const keysB = Object.keys(b);
 
-    if (keysA.length !== keysB.length) return false;
-
-    for (const key of keysA) {
-        if (a[key] !== b[key]) return false;
-    }
-
-    return true;
+export function objectsAreEqual(a: object, b: object): boolean {
+    return _.isEqual(a, b);
 }
 
 export function parseToStringRecord(
@@ -324,4 +297,21 @@ export function parseToStringRecord(
         }
     }
     return record;
+}
+export function cleanObject<T extends object>(obj: T): T {
+    const result = {} as T;
+
+    for (const [key, value] of Object.entries(obj)) {
+        if (value && typeof value === 'object' && !Array.isArray(value)) {
+            const cleanedNested = cleanObject(value as object);
+            if (Object.keys(cleanedNested).length > 0) {
+                result[key as keyof T] = cleanedNested as T[keyof T];
+            }
+        } else if (value !== null && value !== undefined && value !== '') {
+            // Solo valores no vacíos y no nulos
+            result[key as keyof T] = value as T[keyof T];
+        }
+    }
+
+    return result;
 }
