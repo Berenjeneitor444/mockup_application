@@ -22,12 +22,7 @@ export default function ReservaCard({
             subtitle={reservaResumen.hotel}
             primaryInfo={`Check-in: ${reservaResumen.FechaEntrada || 'N/A'}`}
             secondaryInfo={`Check-out: ${reservaResumen.FechaSalida || 'N/A'}`}
-            badge={
-                <StatusBadge
-                    status={reservaResumen.Estado || 'N/A'}
-                    type="reservation"
-                />
-            }
+            badge={<StatusBadge status={reservaResumen.Estado ?? 'N/A'} />}
             variant="secondary"
             onDelete={onDelete}
             idReserva={reservaResumen.ReservationNumber}

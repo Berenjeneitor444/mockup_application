@@ -32,6 +32,6 @@ export function getReservaResumen(
         CU: reserva?.CU ?? 0,
         MotivoViaje: reserva?.MotivoViaje || 'N/A',
         Habitacion: reserva?.Habitacion || 'N/A',
-        Estado: reserva?.Estado || 'N/A',
+        Estado: reserva?.Estado ?? 'N/A',
     };
 }
