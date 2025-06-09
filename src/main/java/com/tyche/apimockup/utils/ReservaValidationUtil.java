@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ReservaValidationUtil extends BaseValidationUtil<Reserva> {
@@ -61,9 +62,16 @@ public class ReservaValidationUtil extends BaseValidationUtil<Reserva> {
     protected List<String> validarPersistencia(Reserva reserva, boolean isCreate) {
         List<String> errores = new ArrayList<>();
         // comprobar que no exista una reserva con el mismo ReservationNumber
-        if (repository.basicCRUD().findById(reserva.getNumReserva()).isPresent()) {
+        Optional<Reserva> existingReserva = repository.basicCRUD().findById(reserva.getReservationNumber());
+        if (existingReserva.isPresent()) {
             if (isCreate) {
                 errores.add("Ya existe una reserva con el mismo id");
+            } else {
+                // si es para actualizar, no dejamos que cambien los campos que no se pueden modificar
+                reserva.setAd(existingReserva.get().getAd());
+                reserva.setCu(existingReserva.get().getCu());
+                reserva.setJr(existingReserva.get().getJr());
+                reserva.setNi(existingReserva.get().getNi());
             }
         } else if (!isCreate) {
             errores.add("No existe una reserva con el id proporcionado");

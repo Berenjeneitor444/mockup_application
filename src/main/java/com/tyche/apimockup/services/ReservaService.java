@@ -42,7 +42,6 @@ public class ReservaService {
             return new ReservaResponse("KO", errores, null);
         }
     }
-    // TODO: no aceptar cambios en reservationNumber ni en AD JR NI CU, esto se podria hacer aceptando otro dto como hice en filtros
     public ReservaResponse modificarReserva(Reserva reserva) {
         if (reserva == null) {
             return new ReservaResponse("KO", new String[]{"Es obligatorio proporcionar la reserva"}, null);
