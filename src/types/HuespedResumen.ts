@@ -14,6 +14,7 @@ interface HuespedResumen {
     Pais?: string;
     Repetidor?: string;
     TipoCliente?: string;
+    Firma?: string;
 }
 
 export default HuespedResumen;
@@ -32,21 +33,22 @@ export function getHuespedResumen(huesped: Huesped): HuespedResumen | null {
             sexo = 'Femenino';
             break;
         default:
-            sexo = 'No especificado';
+            sexo = 'N/A';
     }
     return {
         IDHuesped: huesped.IDHuesped,
         Nombre_Pila: huesped.Nombre_Pila || 'N/A',
         Nombre: huesped.Nombre || 'N/A',
-        Email: huesped.Email || 'N/A',
+        Email: huesped?.DatosComunicacion?.EMail || 'N/A',
         TipoDocumento: huesped.TipoDocumento || 'N/A',
         IDDocumento: huesped.IDDocumento || 'N/A',
         Edad: huesped.Edad || 'N/A',
-        Sexo: sexo || 'N/A',
+        Sexo: sexo,
         reservationNumber: huesped.reservationNumber || 'N/A',
         Telefono: huesped?.DatosComunicacion?.Telefono || 'N/A',
         Pais: huesped?.DatosComunicacion?.Pais || 'N/A',
-        Repetidor: huesped?.Repetidor === 'X' ? 'Si' : 'No',
+        Repetidor: huesped?.Repetidor === 'X' ? 'Sí' : 'No',
         TipoCliente: huesped.TipoCliente || 'N/A',
+        Firma: huesped.Firma ? 'Sí' : 'No',
     };
 }

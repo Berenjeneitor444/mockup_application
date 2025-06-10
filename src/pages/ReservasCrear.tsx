@@ -53,10 +53,12 @@ const ReservasCrear = () => {
         crearRegistros(reserva, huespedes)
             .then((res) => {
                 toastMaker(false, res);
-                // reset
-                setDataHuespedes([]);
-                setDataHuesped(huespedVacio);
-                setDataReserva(reservaVacia);
+                // mostrar la reserva creada
+                setTimeout(() => {
+                    void navigate(
+                        `/listar/reserva/${dataReserva.ReservationNumber}`
+                    );
+                }, 1000);
             })
             .catch((err: Error) => toastMaker(true, err.message));
     };
@@ -111,9 +113,9 @@ const ReservasCrear = () => {
                 autoClose={3000}
                 hideProgressBar={false}
             />
-            <h2 className="font-termina mb-4 text-center text-4xl font-semibold text-gray-800">
+            <h1 className="font-termina mb-4 text-center text-4xl font-semibold text-gray-800">
                 Crear Reserva
-            </h2>
+            </h1>
             <p className="font-termina mb-4 text-center text-gray-600">
                 Completa los siguientes pasos para crear una nueva reserva.
             </p>

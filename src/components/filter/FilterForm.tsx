@@ -19,7 +19,7 @@ export default function FilterForm({
             <div className="mb-4 flex items-center justify-between">
                 <h1 className="text-xl font-bold text-gray-800">{titulo}</h1>
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-row flex-wrap items-center justify-between gap-4 lg:flex-nowrap">
                 {children}
             </div>
 

@@ -69,6 +69,12 @@ const ReservasListar = () => {
     return (
         <>
             <div className="container mx-auto px-4 py-8">
+                <h1 className="font-termina mb-4 text-center text-4xl font-semibold text-gray-800">
+                    Listar Reservas
+                </h1>
+                <p className="font-termina mb-4 text-center text-gray-600">
+                    Utiliza los filtros siguientes para listar reservas
+                </p>
                 <FilterForm titulo="Filtrar Reservas" onReset={handleReset}>
                     <>
                         <CampoForm label="Numero de Reserva">

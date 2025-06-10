@@ -44,6 +44,7 @@ export default function HuespedCard({
             highlight: huespedResumen.Repetidor === 'Sí',
         },
         { label: 'Tipo de Cliente', value: huespedResumen.TipoCliente },
+        { label: 'Firma', value: huespedResumen.Firma },
     ];
 
     const contactItems: InfoItemProps[] = [
@@ -61,7 +62,7 @@ export default function HuespedCard({
         />,
         <InfoSection
             key="contact"
-            title="Información de Contacto"
+            title="Datos Comunicación"
             items={contactItems}
         />,
     ];

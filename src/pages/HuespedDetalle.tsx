@@ -58,15 +58,15 @@ export default function HuespedDetalle() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="flex flex-row space-x-4">
-                <div className="w-2/3">
+            <div className="flex flex-col lg:flex-row lg:space-x-4">
+                <div className="w-full lg:w-2/3">
                     <h2 className="font-termina mb-4 text-center text-2xl font-semibold text-gray-800">
                         Detalles del Huésped
                     </h2>
                     <HuespedView huesped={huesped} />
                 </div>
-                <div className="w-full lg:w-2/5">
-                    <div className="sticky top-4">
+                <div className="mt-8 w-full lg:mt-0 lg:w-2/5">
+                    <div className="lg:sticky lg:top-4">
                         <h3 className="mb-2 text-center text-lg font-semibold text-gray-700">
                             Reserva asociada
                         </h3>

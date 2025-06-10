@@ -87,7 +87,7 @@ const Root = () => {
             </nav>
 
             {/* Contenido principal */}
-            <main className="h-screen flex-1 overflow-scroll bg-white p-6 xl:ml-0">
+            <main className="h-screen flex-1 bg-white p-6 xl:ml-0 xl:overflow-scroll">
                 {/* Espaciado adicional en móviles para el botón hamburguesa */}
                 <div className="h-16 xl:hidden"></div>
 

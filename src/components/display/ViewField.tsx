@@ -15,8 +15,8 @@ export default function ViewField({ label, value }: ViewFieldProps) {
         formattedValue = value;
     }
     return (
-        <div className="mb-4">
-            <span className="font-semibold text-gray-700">{label}: </span>
+        <div className="mb-4 flex flex-col">
+            <span className="font-semibold text-gray-700">{label}:</span>
             <span className="text-gray-600">{formattedValue}</span>
         </div>
     );

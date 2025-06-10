@@ -64,7 +64,11 @@ export default function HuespedForm() {
     const [huespedErrors, setHuespedErrors] = useState<string[]>([]);
     const [formValid, setFormValid] = useState<boolean>(false);
     const handleHuespedInputChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        (
+            e: React.ChangeEvent<
+                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+            >
+        ) => {
             const validateMap = {
                 IDHuesped: {
                     pattern: /^\d+$/,
@@ -85,7 +89,10 @@ export default function HuespedForm() {
                 // seguir expandiendo a necesidad
             };
             const validateInput = (
-                inputField: HTMLInputElement | HTMLSelectElement
+                inputField:
+                    | HTMLInputElement
+                    | HTMLSelectElement
+                    | HTMLTextAreaElement
             ) => {
                 // validaciones personalizadas
                 if (inputField.name in validateMap) {
@@ -113,7 +120,11 @@ export default function HuespedForm() {
             validateInput(e.currentTarget);
             const { name, value } = e.target;
             // si es checkbox y se desmarca se elimina de la lista
-            if (e.target.type === 'checkbox' && !e.target.checked) {
+            if (
+                e.target instanceof HTMLInputElement &&
+                e.target.type === 'checkbox' &&
+                !e.target.checked
+            ) {
                 setDataHuesped((prev) => {
                     const newState = { ...prev };
                     delete newState[name];
@@ -204,6 +215,57 @@ export default function HuespedForm() {
         }, 0);
         return () => clearTimeout(timeout);
     }, [dataHuesped, huespedErrors]);
+
+    function Botones() {
+        return (
+            <div>
+                <div className="mt-8 flex w-full justify-between">
+                    <button
+                        type="button"
+                        onClick={() => void navigator('../reserva')}
+                        className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                    >
+                        Atrás
+                    </button>
+                    {!forEdit ? (
+                        <button
+                            type="submit"
+                            disabled={huespedErrors.length > 0 || !formValid}
+                            className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                            Añadir Huésped
+                        </button>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={handleBigSubmit}
+                            hidden={!!huespedEditedIndex && !formValid}
+                            className={`bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus ${!forEdit ? 'w-full' : ''} rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none`}
+                        >
+                            Editar Registros
+                        </button>
+                    )}
+                </div>
+                {!forEdit && (
+                    <div
+                        className={`mt-8 flex ${!forEdit ? 'w-full' : ''} justify-end`}
+                        hidden={
+                            dataHuespedes.length === 0 ||
+                            (forEdit && !formValid)
+                        }
+                    >
+                        <button
+                            type="button"
+                            onClick={handleBigSubmit}
+                            className={`bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus ${!forEdit ? 'w-full' : ''} rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none`}
+                        >
+                            Crear Registros
+                        </button>
+                    </div>
+                )}
+            </div>
+        );
+    }
     return (
         <div className="mx-auto max-w-full px-4">
             {/* Contenedor flexbox principal */}
@@ -218,9 +280,12 @@ export default function HuespedForm() {
                         </div>
                         {forEdit && huespedEditedIndex === null ? (
                             // Si estamos editando y no hay un huesped seleccionado, no mostramos nada
-                            <p className="flex h-screen items-center justify-center text-center text-gray-500">
-                                Selecciona algún huesped para editarlo
-                            </p>
+                            <div className="p-8">
+                                <p className="flex h-screen items-center justify-center text-center text-gray-500">
+                                    Selecciona algún huesped para editarlo
+                                </p>
+                                <Botones />
+                            </div>
                         ) : (
                             <form
                                 onSubmit={(e) => {
@@ -237,21 +302,6 @@ export default function HuespedForm() {
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     {/* Datos de comunicación */}
                                     <SeccionForm titulo="Datos de Comunicación">
-                                        <CampoForm label="Descripción">
-                                            <input
-                                                onChange={
-                                                    handleHuespedInputChange
-                                                }
-                                                type="text"
-                                                name="DatosComunicacion.Descripcion"
-                                                value={
-                                                    dataHuesped[
-                                                        'DatosComunicacion.Descripcion'
-                                                    ] ?? ''
-                                                }
-                                            />
-                                        </CampoForm>
-
                                         <CampoForm label="Dirección">
                                             <input
                                                 onChange={
@@ -412,6 +462,19 @@ export default function HuespedForm() {
                                                 value={
                                                     dataHuesped?.[
                                                         'DatosComunicacion.EMail'
+                                                    ] ?? ''
+                                                }
+                                            />
+                                        </CampoForm>
+                                        <CampoForm label="Descripción">
+                                            <textarea
+                                                onChange={
+                                                    handleHuespedInputChange
+                                                }
+                                                name="DatosComunicacion.Descripcion"
+                                                value={
+                                                    dataHuesped[
+                                                        'DatosComunicacion.Descripcion'
                                                     ] ?? ''
                                                 }
                                             />
@@ -687,58 +750,7 @@ export default function HuespedForm() {
                                         </CampoForm>
                                     </SeccionForm>
                                 </div>
-                                <div className="mt-8 flex w-full justify-between">
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            void navigator('../reserva')
-                                        }
-                                        className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none"
-                                    >
-                                        Atrás
-                                    </button>
-                                    {!forEdit ? (
-                                        <button
-                                            type="submit"
-                                            disabled={
-                                                huespedErrors.length > 0 ||
-                                                !formValid
-                                            }
-                                            className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
-                                        >
-                                            Añadir Huésped
-                                        </button>
-                                    ) : (
-                                        <button
-                                            type="button"
-                                            onClick={handleBigSubmit}
-                                            hidden={
-                                                dataHuespedes.length === 0 ||
-                                                (forEdit && !formValid)
-                                            }
-                                            className={`bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus ${!forEdit ? 'w-full' : ''} rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none`}
-                                        >
-                                            Editar Registros
-                                        </button>
-                                    )}
-                                </div>
-                                {!forEdit && (
-                                    <div
-                                        className={`mt-8 flex ${!forEdit ? 'w-full' : ''} justify-end`}
-                                        hidden={
-                                            dataHuespedes.length === 0 ||
-                                            (forEdit && !formValid)
-                                        }
-                                    >
-                                        <button
-                                            type="button"
-                                            onClick={handleBigSubmit}
-                                            className={`bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus ${!forEdit ? 'w-full' : ''} rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none`}
-                                        >
-                                            Crear Registros
-                                        </button>
-                                    </div>
-                                )}
+                                <Botones />
                             </form>
                         )}
                     </div>

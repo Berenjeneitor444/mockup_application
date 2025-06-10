@@ -21,7 +21,7 @@ export function BaseCard({
 
                 {/* Content Section */}
                 <div className="p-4 sm:p-6">
-                    <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
+                    <div className="grid gap-6 sm:gap-8 2xl:grid-cols-2">
                         {sections.map((section, index) => (
                             <div key={index} className="w-full">
                                 {section}

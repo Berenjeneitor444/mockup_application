@@ -37,6 +37,7 @@ export default interface Huesped {
     Vip?: string;
     FechaEntrada?: string;
     FechaSalida?: string;
+    Firma?: string;
 }
 
 export const huespedVacio: Record<string, string> = {
