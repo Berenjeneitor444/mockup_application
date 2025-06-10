@@ -219,6 +219,7 @@ const ReservasEditar = () => {
                         },
                         handleBigSubmit,
                         forEdit,
+                        fullCreationMode: true,
                     }}
                 />
             )}

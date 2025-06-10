@@ -9,8 +9,9 @@ import {
 } from '../utils/EntityUtils';
 import Reserva, { reservaVacia } from '../types/Reserva';
 import { crearRegistros, reservaExiste } from '../services/HTTPOperations';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import toastMaker from '../utils/ToastUtils';
+import { postReserva } from '../services/reserva/ReservaApi';
 const ReservasCrear = () => {
     // para guardar los huespedes ya parseados
     const [dataHuespedes, setDataHuespedes] = useState<
@@ -26,57 +27,76 @@ const ReservasCrear = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const validaciones = () => {
-        if (dataHuespedes.length == 0) {
-            throw new Error('Debe añadir al menos un huesped');
-        }
-    };
+    const [fullCreationMode, setFullCreationMode] = useState<boolean | null>(
+        null
+    );
     const handleBigSubmit = () => {
+        const validaciones = () => {
+            if (fullCreationMode && dataHuespedes.length == 0) {
+                throw new Error('Debe añadir al menos un huesped');
+            }
+        };
+
         try {
             validaciones();
         } catch (err: unknown) {
             if (err instanceof Error) {
-                const notify = () => toast.error(err.message);
+                const notify = () => toastMaker(true, err.message);
                 notify();
             }
             return;
         }
         const reserva: Reserva = parseToReserva(dataReserva);
-        const huespedes: Huesped[] = dataHuespedes.map((huesped) =>
-            parseToHuesped(huesped)
-        );
-        console.log(reserva);
-        console.log(huespedes);
-        // ajusta los campos en huesped que dependen de reserva
-        ReferentialIntegrityBuilder(reserva, huespedes);
+        if (fullCreationMode) {
+            const huespedes: Huesped[] = dataHuespedes.map((huesped) =>
+                parseToHuesped(huesped)
+            );
+            // ajusta los campos en huesped que dependen de reserva
+            ReferentialIntegrityBuilder(reserva, huespedes);
 
-        crearRegistros(reserva, huespedes)
-            .then((res) => {
-                toastMaker(false, res);
-                // mostrar la reserva creada
-                setTimeout(() => {
-                    void navigate(
-                        `/listar/reserva/${dataReserva.ReservationNumber}`
-                    );
-                }, 1000);
-            })
-            .catch((err: Error) => toastMaker(true, err.message));
+            crearRegistros(reserva, huespedes)
+                .then((res) => {
+                    toastMaker(false, res);
+                    // mostrar la reserva creada
+                    setTimeout(() => {
+                        void navigate(
+                            `/listar/reserva/${dataReserva.ReservationNumber}`
+                        );
+                    }, 1000);
+                })
+                .catch((err: Error) => toastMaker(true, err.message));
+        } else {
+            postReserva(reserva)
+                .then((res) => {
+                    toastMaker(false, res);
+                    setTimeout(() => {
+                        void navigate(
+                            `/listar/reserva/${dataReserva.ReservationNumber}`
+                        );
+                    }, 1000);
+                })
+                .catch((err: Error) => toastMaker(true, err.message));
+        }
     };
 
     // redirige al principio del formulario si no tienes los datos de reserva
     useEffect(() => {
         const handleFormIntegrity = () => {
             if (
-                location.pathname !== '/crear/reserva' &&
+                fullCreationMode &&
+                location.pathname === '/crear/huespedes' &&
                 objectsAreEqual(dataReserva, reservaVacia)
             ) {
                 void navigate('reserva', { replace: true });
+            }
+            if (fullCreationMode === null && location.pathname !== '/crear') {
+                void navigate('/crear', { replace: true });
             }
         };
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             const hayCambios =
                 dataHuespedes.length > 0 ||
-                objectsAreEqual(dataReserva, reservaVacia);
+                !objectsAreEqual(dataReserva, reservaVacia);
             if (hayCambios) {
                 e.preventDefault();
                 e.returnValue = '';
@@ -87,7 +107,13 @@ const ReservasCrear = () => {
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, [dataReserva, dataHuespedes.length, location, navigate]);
+    }, [
+        dataReserva,
+        dataHuespedes.length,
+        location,
+        navigate,
+        fullCreationMode,
+    ]);
     // funciones para manejar los formularios hijos:
 
     // reservas
@@ -135,6 +161,8 @@ const ReservasCrear = () => {
                     },
                     handleBigSubmit,
                     forEdit,
+                    fullCreationMode,
+                    setFullCreationMode,
                 }}
             />
         </div>

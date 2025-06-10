@@ -71,7 +71,10 @@ const ReservaView = ({ reserva }: ReservaViewProps) => {
                     }
                 />
                 <ViewField label="TH Factura" value={reserva.THFactura} />
-                <ViewField label="Bienvenida" value={reserva.Bienvenida} />
+                <ViewField
+                    label="Bienvenida"
+                    value={reserva.Bienvenida === 'X'}
+                />
                 <ViewField
                     label="Fecha Bienvenida"
                     value={

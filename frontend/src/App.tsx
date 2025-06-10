@@ -9,14 +9,7 @@ import Listar from './pages/ReservasListar';
 import Editar from './pages/ReservasEditar';
 import ReservaDetalle from './pages/ReservaDetalle';
 import HuespedDetalle from './pages/HuespedDetalle';
-
-const subRutasFormulario = (
-    <>
-        <Route index element={<Navigate to="reserva" replace />} />
-        <Route path="reserva" element={<ReservaForm />} />
-        <Route path="huespedes" element={<HuespedForm />} />
-    </>
-);
+import CreationModeSelection from './components/form/CreationModeSelection';
 
 function App() {
     return (
@@ -25,10 +18,18 @@ function App() {
                 <Route path="/" element={<Root />}>
                     <Route index element={<Home />} />
                     <Route path="crear" element={<Crear />}>
-                        {subRutasFormulario}
+                        <Route index element={<CreationModeSelection />} />
+                        <Route path="" element={<NoMatch />} />
+                        <Route path="reserva" element={<ReservaForm />} />
+                        <Route path="huespedes" element={<HuespedForm />} />
                     </Route>
                     <Route path="editar/:id" element={<Editar />}>
-                        {subRutasFormulario}
+                        <Route
+                            index
+                            element={<Navigate to="reserva" replace />}
+                        />
+                        <Route path="reserva" element={<ReservaForm />} />
+                        <Route path="huespedes" element={<HuespedForm />} />
                     </Route>
                     <Route path="listar" element={<Listar />} />
                     <Route

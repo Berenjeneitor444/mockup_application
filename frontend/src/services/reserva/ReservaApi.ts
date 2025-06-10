@@ -39,7 +39,7 @@ export async function postReserva(reserva: Reserva) {
         reserva
     );
     if (response.status === 200 && response.data.result === 'OK') {
-        return response.data.result;
+        return 'Reserva creada con éxito';
     } else {
         throw new Error(`Errors: ${response.data.errors.join(', ')}`);
     }

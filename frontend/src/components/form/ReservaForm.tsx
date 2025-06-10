@@ -1,7 +1,7 @@
 import CampoForm from './CampoForm';
 import SeccionForm from './SeccionForm';
 
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import toastMaker from '../../utils/ToastUtils';
 
@@ -18,12 +18,16 @@ export default function ReservaForm() {
             ) => Promise<void>;
         };
         forEdit: boolean;
+        fullCreationMode: boolean;
+        handleBigSubmit: () => void;
     }
 
     const context = useOutletContext<OutletContext>();
     const {
         datosReserva: { dataReserva, setDataReserva, handleReservaSubmit },
         forEdit,
+        fullCreationMode,
+        handleBigSubmit,
     } = context;
 
     const [reservaErrors, setReservaErrors] = useState<string[]>([]);
@@ -113,11 +117,16 @@ export default function ReservaForm() {
                 <form
                     className="p-6"
                     ref={formRef}
-                    onSubmit={(e) =>
-                        void handleReservaSubmit(e).catch((e: Error) =>
-                            toastMaker(true, e.message)
-                        )
-                    }
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        if (fullCreationMode) {
+                            void handleReservaSubmit(e).catch((e: Error) =>
+                                toastMaker(true, e.message)
+                            );
+                        } else {
+                            handleBigSubmit();
+                        }
+                    }}
                 >
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {/* Datos básicos */}
@@ -460,13 +469,26 @@ export default function ReservaForm() {
                             </CampoForm>
                         </SeccionForm>
                     </div>
-                    <div className="mt-8 flex justify-end">
+                    <div
+                        className={`mt-8 flex ${forEdit ? 'justify-end' : 'justify-between'}`}
+                    >
+                        <Link
+                            className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+                            to="/crear/"
+                            hidden={forEdit}
+                        >
+                            Cambiar modo
+                        </Link>
                         <button
                             type="submit"
                             disabled={reservaErrors?.length > 0 || !formValid}
                             className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            Siguiente
+                            {fullCreationMode
+                                ? 'Siguiente'
+                                : forEdit
+                                  ? 'Editar Reserva'
+                                  : 'Crear Reserva'}
                         </button>
                     </div>
                 </form>

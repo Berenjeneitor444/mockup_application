@@ -9,7 +9,7 @@ import toastMaker from '../../utils/ToastUtils';
 import { huespedExiste } from '../../services/HTTPOperations';
 
 export default function HuespedForm() {
-    const handleHuespedOnClick = (IDHuesped: string) => {
+    const handleHuespedOnClick: (IDHuesped: string) => void = (IDHuesped) => {
         if (!forEdit) return;
 
         if (!formValid && huespedEditedIndex !== null) {
