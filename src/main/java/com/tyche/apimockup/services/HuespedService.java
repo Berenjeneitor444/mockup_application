@@ -41,7 +41,7 @@ public class HuespedService {
 
         if (errores.length == 0) {
             huespedRepository.basicCRUD().save(huesped);
-            return new HuespedResponse("OK", errores, huesped);
+            return new HuespedResponse("OK", errores, List.of(huesped));
         } else {
             return new HuespedResponse("KO", errores, null);
         }
@@ -57,7 +57,7 @@ public class HuespedService {
             // agregamos firma al huesped
             huesped.setFirma("X");
             huespedRepository.basicCRUD().save(huesped);
-            return new HuespedResponse("OK", errores, huesped);
+            return new HuespedResponse("OK", errores, List.of(huesped));
         } else {
             return new HuespedResponse("KO", errores, null);
         }

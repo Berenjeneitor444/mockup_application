@@ -1,5 +1,6 @@
 package com.tyche.apimockup.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.entities.filter.HuespedFilter;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
@@ -20,15 +21,26 @@ public class HuespedController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<HuespedResponse> huespedCrear(@RequestBody(required = false) Huesped huesped) {
+    public ResponseEntity<HuespedResponse> huespedCrear(
+            @RequestBody(required = false)
+            @JsonView(Huesped.Vista.Crear.class)
+            Huesped huesped) {
         return ResponseEntity.ok(huespedService.crearHuesped(huesped));
     }
+
     @PostMapping("/listar")
-    public ResponseEntity<HuespedResponse> huespedListar(@RequestBody(required = false) HuespedFilter huesped) {
+    public ResponseEntity<HuespedResponse> huespedListar(
+            @RequestBody(required = false)
+            HuespedFilter huesped) {
         return ResponseEntity.ok(huespedService.listarHuesped(huesped));
     }
+
     @PostMapping("/modificar")
-    public ResponseEntity<HuespedResponse> huespedModificar(@RequestBody(required = false) Huesped huesped) {
+
+    public ResponseEntity<HuespedResponse> huespedModificar(
+            @RequestBody(required = false)
+            @JsonView(Huesped.Vista.Crear.class)
+            Huesped huesped) {
         return ResponseEntity.ok(huespedService.modificarHuesped(huesped));
     }
 }
