@@ -1,6 +1,7 @@
 import Huesped from '../../types/Huesped';
 import ViewField from './ViewField';
 import { dateParser } from '../../utils/DateUtils';
+import { Link } from 'react-router-dom';
 
 interface HuespedViewProps {
     huesped: Huesped;
@@ -146,6 +147,14 @@ const HuespedView = ({ huesped }: HuespedViewProps) => {
                         label="Descripción"
                         value={huesped.DatosComunicacion?.Descripcion}
                     />
+                </div>
+                <div className="col-span-full flex w-full">
+                    <Link
+                        to={`/editar/${huesped.reservationNumber}`}
+                        className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus w-full rounded-md px-6 py-3 text-center text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                    >
+                        Editar Registros
+                    </Link>
                 </div>
             </div>
         </div>

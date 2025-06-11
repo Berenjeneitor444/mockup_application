@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Huesped from '../types/Huesped';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
     parseToHuesped,
     parseToReserva,
@@ -14,7 +14,7 @@ import { editRegistros, reservaExiste } from '../services/HTTPOperations';
 import { ToastContainer } from 'react-toastify';
 import toastMaker from '../utils/ToastUtils';
 import { getHuespedesByReservaId } from '../services/huesped/HuespedApi';
-import { getReservaById } from '../services/reserva/ReservaApi';
+import { editReserva, getReservaById } from '../services/reserva/ReservaApi';
 
 const ReservasEditar = () => {
     const { id } = useParams();
@@ -33,47 +33,70 @@ const ReservasEditar = () => {
     const navigate = useNavigate();
 
     const [error, setError] = useState<string[] | null>(null);
+    const [fullCreationMode, setFullCreationMode] = useState<boolean | null>(
+        null
+    );
+    const location = useLocation();
     const handleBigSubmit = () => {
         const reserva: Reserva = parseToReserva(dataReserva);
-        const huespedes: Huesped[] = dataHuespedes.map(
-            (huesped: Record<string, string>) => parseToHuesped(huesped)
-        );
-        console.log(reserva);
-        console.log(huespedes);
-        // ajusta los campos en huesped que dependen de reserva
-        ReferentialIntegrityBuilder(reserva, huespedes);
+        if (fullCreationMode) {
+            const huespedes: Huesped[] = dataHuespedes.map(
+                (huesped: Record<string, string>) => parseToHuesped(huesped)
+            );
+            // ajusta los campos en huesped que dependen de reserva
+            ReferentialIntegrityBuilder(reserva, huespedes);
 
-        // filtrar los huespedes que no han cambiado para no firmarlos en el backend
-        const huespedesCambiados: Huesped[] = huespedes.filter(
-            (huesped, index) => {
-                console.log(
-                    `huespedesInitialState.current[${index}]`,
-                    huespedesInitialState.current[index]
-                );
-                console.log('huesped', huesped);
-                return !objectsAreEqual(
-                    huesped,
-                    huespedesInitialState.current[index]
-                );
-            }
-        );
+            // filtrar los huespedes que no han cambiado para no firmarlos en el backend
+            const huespedesCambiados: Huesped[] = huespedes.filter(
+                (huesped, index) => {
+                    console.log(
+                        `huespedesInitialState.current[${index}]`,
+                        huespedesInitialState.current[index]
+                    );
+                    console.log('huesped', huesped);
+                    return !objectsAreEqual(
+                        huesped,
+                        huespedesInitialState.current[index]
+                    );
+                }
+            );
 
-        editRegistros(reserva, huespedesCambiados || null)
-            .then((res) => {
-                toastMaker(false, res);
-                // te redirige a verlo
-                setTimeout(
-                    () =>
-                        void navigate(
-                            `/listar/reserva/${reserva.ReservationNumber}`
-                        ),
-                    1000
-                );
-            })
-            .catch((err: Error) => toastMaker(true, err.message));
+            editRegistros(reserva, huespedesCambiados || null)
+                .then((res) => {
+                    toastMaker(false, res);
+                    // te redirige a verlo
+                    setTimeout(
+                        () =>
+                            void navigate(
+                                `/listar/reserva/${reserva.ReservationNumber}`
+                            ),
+                        1000
+                    );
+                })
+                .catch((err: Error) => toastMaker(true, err.message));
+        } else {
+            editReserva(reserva)
+                .then((res) => {
+                    toastMaker(false, res);
+                    // te redirige a verlo
+                    setTimeout(
+                        () =>
+                            void navigate(
+                                `/listar/reserva/${reserva.ReservationNumber}`
+                            ),
+                        1000
+                    );
+                })
+                .catch((err: Error) => toastMaker(true, err.message));
+        }
     };
 
     useEffect(() => {
+        const handleFormIntegrity = () => {
+            if (fullCreationMode === null && location.pathname !== '/editar') {
+                void navigate(`/editar/${id}`, { replace: true });
+            }
+        };
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             if (
                 !huespedesInitialState?.current ||
@@ -106,12 +129,20 @@ const ReservasEditar = () => {
                 e.returnValue = '';
             }
         };
+        handleFormIntegrity();
 
         window.addEventListener('beforeunload', handleBeforeUnload);
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, [dataReserva, dataHuespedes]);
+    }, [
+        dataHuespedes,
+        dataReserva,
+        fullCreationMode,
+        id,
+        location.pathname,
+        navigate,
+    ]);
 
     // carga la reserva y sus huespedes
     useEffect(() => {
@@ -125,6 +156,7 @@ const ReservasEditar = () => {
                 setDataReserva(
                     parseToStringRecord(Object.entries(reservaRes.value))
                 );
+                console.log('hola');
                 // guarda el estado inicial de la reserva
                 reservaInitialState.current = cleanObject(reservaRes.value);
             } else {
@@ -152,12 +184,6 @@ const ReservasEditar = () => {
                     'Error en getHuespedesByReservaId:',
                     huespedesRes.reason
                 );
-                const errorMessage = `La reserva no tiene huespedes asociados.`;
-                setError((prev) => [
-                    ...(prev?.filter((subPrev) => subPrev !== errorMessage) ??
-                        []),
-                    errorMessage,
-                ]);
             }
         });
     }, [id]);
@@ -219,7 +245,9 @@ const ReservasEditar = () => {
                         },
                         handleBigSubmit,
                         forEdit,
-                        fullCreationMode: true,
+                        fullCreationMode,
+                        setFullCreationMode,
+                        id,
                     }}
                 />
             )}

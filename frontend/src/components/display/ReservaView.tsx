@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Reserva from '../../types/Reserva';
 import { dateParser, timeFormatter } from '../../utils/DateUtils';
 import ViewField from './ViewField';
@@ -91,6 +92,14 @@ const ReservaView = ({ reserva }: ReservaViewProps) => {
                             : 'N/A'
                     }
                 />
+                <div className="col-span-full flex w-full">
+                    <Link
+                        to={`/editar/${reserva.ReservationNumber}`}
+                        className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus w-full rounded-md px-6 py-3 text-center text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                    >
+                        Editar Registros
+                    </Link>
+                </div>
             </div>
         </div>
     );

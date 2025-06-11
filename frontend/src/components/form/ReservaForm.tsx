@@ -469,13 +469,10 @@ export default function ReservaForm() {
                             </CampoForm>
                         </SeccionForm>
                     </div>
-                    <div
-                        className={`mt-8 flex ${forEdit ? 'justify-end' : 'justify-between'}`}
-                    >
+                    <div className="mt-8 flex justify-between">
                         <Link
                             className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus rounded-md px-6 py-3 text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
-                            to="/crear/"
-                            hidden={forEdit}
+                            to="../"
                         >
                             Cambiar modo
                         </Link>
