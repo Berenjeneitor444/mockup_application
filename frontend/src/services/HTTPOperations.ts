@@ -15,7 +15,7 @@ export async function crearRegistros(reserva: Reserva, huespedes: Huesped[]) {
 
 export async function editRegistros(reserva: Reserva, huespedes: Huesped[]) {
     await editReserva(reserva);
-    if (huespedes) {
+    if (huespedes.length > 0) {
         console.log('huespedes a editar: ', huespedes);
         for (const huesped of huespedes) {
             await editHuesped(huesped);

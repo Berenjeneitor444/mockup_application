@@ -14,7 +14,7 @@ import { editRegistros, reservaExiste } from '../services/HTTPOperations';
 import { ToastContainer } from 'react-toastify';
 import toastMaker from '../utils/ToastUtils';
 import { getHuespedesByReservaId } from '../services/huesped/HuespedApi';
-import { editReserva, getReservaById } from '../services/reserva/ReservaApi';
+import { getReservaById } from '../services/reserva/ReservaApi';
 
 const ReservasEditar = () => {
     const { id } = useParams();
@@ -39,7 +39,8 @@ const ReservasEditar = () => {
     const location = useLocation();
     const handleBigSubmit = () => {
         const reserva: Reserva = parseToReserva(dataReserva);
-        if (fullCreationMode) {
+        let huespedesCambiados: Huesped[] = [];
+        if (dataHuespedes.length > 0) {
             const huespedes: Huesped[] = dataHuespedes.map(
                 (huesped: Record<string, string>) => parseToHuesped(huesped)
             );
@@ -47,48 +48,32 @@ const ReservasEditar = () => {
             ReferentialIntegrityBuilder(reserva, huespedes);
 
             // filtrar los huespedes que no han cambiado para no firmarlos en el backend
-            const huespedesCambiados: Huesped[] = huespedes.filter(
-                (huesped, index) => {
-                    console.log(
-                        `huespedesInitialState.current[${index}]`,
-                        huespedesInitialState.current[index]
-                    );
-                    console.log('huesped', huesped);
-                    return !objectsAreEqual(
-                        huesped,
-                        huespedesInitialState.current[index]
-                    );
-                }
-            );
-
-            editRegistros(reserva, huespedesCambiados || null)
-                .then((res) => {
-                    toastMaker(false, res);
-                    // te redirige a verlo
-                    setTimeout(
-                        () =>
-                            void navigate(
-                                `/listar/reserva/${reserva.ReservationNumber}`
-                            ),
-                        1000
-                    );
-                })
-                .catch((err: Error) => toastMaker(true, err.message));
-        } else {
-            editReserva(reserva)
-                .then((res) => {
-                    toastMaker(false, res);
-                    // te redirige a verlo
-                    setTimeout(
-                        () =>
-                            void navigate(
-                                `/listar/reserva/${reserva.ReservationNumber}`
-                            ),
-                        1000
-                    );
-                })
-                .catch((err: Error) => toastMaker(true, err.message));
+            huespedesCambiados = huespedes.filter((huesped, index) => {
+                console.log(
+                    `huespedesInitialState.current[${index}]`,
+                    huespedesInitialState.current[index]
+                );
+                console.log('huesped', huesped);
+                return !objectsAreEqual(
+                    huesped,
+                    huespedesInitialState.current[index]
+                );
+            });
         }
+
+        editRegistros(reserva, huespedesCambiados)
+            .then((res) => {
+                toastMaker(false, res);
+                // te redirige a verlo
+                setTimeout(
+                    () =>
+                        void navigate(
+                            `/listar/reserva/${reserva.ReservationNumber}`
+                        ),
+                    1000
+                );
+            })
+            .catch((err: Error) => toastMaker(true, err.message));
     };
 
     useEffect(() => {
