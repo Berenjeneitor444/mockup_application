@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-abstract class BaseRepository<T> {
+abstract class BaseEntityRepository<T> {
     private final MongoTemplate mongoTemplate;
 
-    protected BaseRepository(MongoTemplate mongoTemplate) {
+    protected BaseEntityRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 

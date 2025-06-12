@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class HuespedRepository extends BaseRepository<Huesped> {
+public class HuespedRepository extends BaseEntityRepository<Huesped> {
     private final HuespedBasicCRUD huespedBasicCRUD;
     private final ReservaBasicCRUD reservaBasicCRUD;
 
@@ -25,7 +25,11 @@ public class HuespedRepository extends BaseRepository<Huesped> {
         return huespedBasicCRUD;
     }
 
-    public boolean reservaExists(String id) {
-        return reservaBasicCRUD.findById(id).isPresent();
+    public boolean reservaExists(String reservationNumber) {
+        return reservaBasicCRUD.findById(reservationNumber).isPresent();
+    }
+    public boolean hotelIsCorrect(String reservationNumber, String hotel) {
+        var existingReserva = reservaBasicCRUD.findById(reservationNumber);
+        return existingReserva.map(reserva -> reserva.getHotel().equals(hotel)).orElse(false);
     }
 }

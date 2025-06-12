@@ -16,9 +16,9 @@ public class ReservaValidationUtil extends BaseValidationUtil<Reserva> {
     public ReservaValidationUtil(ReservaRepository repository) {
         this.repository = repository;
     }
-
+    // ahora mismo no se usa este isCreate
     @Override
-    protected List<String> validarFormato(Reserva reserva) {
+    protected List<String> validarFormato(Reserva reserva, boolean isCreate) {
         List<String> errores = new ArrayList<>();
         String hotel = reserva.getHotel();
         String reservationNumber = reserva.getReservationNumber();

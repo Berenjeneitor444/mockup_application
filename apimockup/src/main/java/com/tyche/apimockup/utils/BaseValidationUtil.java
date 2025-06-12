@@ -15,7 +15,7 @@ public abstract class BaseValidationUtil<T> {
     public String[] validarTotalidad(T entity, boolean isCreate) {
 
         List<String> errores = new ArrayList<>();
-        List<String> erroresFormato = validarFormato(entity);
+        List<String> erroresFormato = validarFormato(entity, isCreate);
         List<String> erroresPersistencia = validarPersistencia(entity, isCreate);
 
         if (erroresFormato != null && !erroresFormato.isEmpty()) {
@@ -40,7 +40,7 @@ public abstract class BaseValidationUtil<T> {
         }
     }
 
-    protected abstract List<String> validarFormato(T entity);
+    protected abstract List<String> validarFormato(T entity, boolean isCreate);
 
     protected abstract List<String> validarPersistencia(T entity, boolean isCreate);
 }

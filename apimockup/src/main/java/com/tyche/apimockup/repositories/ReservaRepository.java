@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ReservaRepository extends BaseRepository<Reserva>{
+public class ReservaRepository extends BaseEntityRepository<Reserva> {
     private final ReservaBasicCRUD reservaBasicCRUD;
 
     protected ReservaRepository(MongoTemplate mongoTemplate, ReservaBasicCRUD reservaBasicCRUD) {

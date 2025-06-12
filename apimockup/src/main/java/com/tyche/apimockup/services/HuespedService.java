@@ -43,6 +43,7 @@ public class HuespedService {
             huespedRepository.basicCRUD().save(huesped);
             return new HuespedResponse("OK", errores, List.of(huesped));
         } else {
+
             return new HuespedResponse("KO", errores, null);
         }
     }
@@ -54,8 +55,6 @@ public class HuespedService {
         // validar que el huesped sea valido en persistencia y en formato
         String[] errores = validationUtil.validarTotalidad(huesped, false);
         if (errores.length == 0) {
-            // agregamos firma al huesped
-            huesped.setFirma("X");
             huespedRepository.basicCRUD().save(huesped);
             return new HuespedResponse("OK", errores, List.of(huesped));
         } else {
