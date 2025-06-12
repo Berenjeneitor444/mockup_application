@@ -63,7 +63,7 @@ export const huespedVacio: Record<string, string> = {
     TipoDocumento: '',
     FechaExpedicion: '',
     FechaCaducidad: '',
-    Edad: '',
+    Edad: '0',
     IDDocumento: '',
     TipoCliente: '',
     Sexo: '',
