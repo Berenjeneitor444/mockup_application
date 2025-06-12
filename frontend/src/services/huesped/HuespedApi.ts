@@ -6,6 +6,7 @@ import _ from 'lodash';
 export async function postHuesped(huesped: Huesped) {
     // no me interesa enviar la firma
     delete huesped.Firma;
+    delete huesped.IDHuesped;
     const response = await apiClient.post<HuespedResponse>(
         '/huesped/crear',
         huesped
@@ -49,7 +50,9 @@ export async function getHuespedById(IDHuesped: string): Promise<Huesped> {
 export async function editHuesped(huespedNuevo: Huesped) {
     // obtengo el huesped existente
     delete huespedNuevo.Firma;
-    const huespedExistente = await getHuespedById(huespedNuevo.IDHuesped);
+    const huespedExistente = await getHuespedById(
+        huespedNuevo.IDHuesped as string
+    );
     // si son iguales no lo actualizo (para no aplicarle la firma)
     if (_.isEqual(huespedExistente, huespedNuevo)) return;
     const response = await apiClient.post<HuespedResponse>(

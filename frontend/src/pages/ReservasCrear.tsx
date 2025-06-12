@@ -18,8 +18,10 @@ const ReservasCrear = () => {
         Record<string, string>[]
     >([]);
     // para guardar los datos introducidos en el formulario
-    const [dataHuesped, setDataHuesped] =
-        useState<Record<string, string>>(huespedVacio);
+    const [dataHuesped, setDataHuesped] = useState<Record<string, string>>({
+        ...huespedVacio,
+        IDHuesped: dataHuespedes?.length?.toString() ?? '0',
+    });
     // para guardar los datos introducidos en el formulario
     const [dataReserva, setDataReserva] =
         useState<Record<string, string>>(reservaVacia);

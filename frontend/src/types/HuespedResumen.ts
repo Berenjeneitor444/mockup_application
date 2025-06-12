@@ -36,7 +36,7 @@ export function getHuespedResumen(huesped: Huesped): HuespedResumen | null {
             sexo = 'N/A';
     }
     return {
-        IDHuesped: huesped.IDHuesped,
+        IDHuesped: huesped.IDHuesped as string,
         Nombre_Pila: huesped.Nombre_Pila || 'N/A',
         Nombre: huesped.Nombre || 'N/A',
         Email: huesped?.DatosComunicacion?.EMail || 'N/A',

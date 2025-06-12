@@ -75,7 +75,7 @@ export function parseToHuesped(
             NumeroCliente: huespedData['NumeroCliente'],
         }),
         ...(huespedData['IDHuesped'] && {
-            IDHuesped: huespedData['IDHuesped'],
+            IDHuesped: huespedData['IDHuesped'] ?? '',
         }),
         ...(huespedData['TipoPersona'] && {
             TipoPersona: huespedData['TipoPersona'],

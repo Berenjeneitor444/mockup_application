@@ -109,7 +109,9 @@ export default function BaseHeader({
             </div>
 
             {/* Badge at bottom */}
-            {badge && <div className="mt-4 flex justify-end">{badge}</div>}
+            {badge && !onDelete && (
+                <div className="mt-4 flex justify-end">{badge}</div>
+            )}
         </div>
     );
 }

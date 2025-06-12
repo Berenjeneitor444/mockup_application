@@ -18,7 +18,7 @@ export default interface Huesped {
     HotelFactura?: string;
     NumReserva?: string;
     NumeroCliente?: string;
-    IDHuesped: string; // Obligatorio
+    IDHuesped?: string;
     TipoPersona?: string;
     Nombre_Pila?: string;
     Nombre?: string;

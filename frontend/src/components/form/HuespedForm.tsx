@@ -4,9 +4,8 @@ import HuespedResumen, { getHuespedResumen } from '../../types/HuespedResumen';
 import SeccionForm from './SeccionForm';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { parseToHuesped, parseToStringRecord } from '../../utils/EntityUtils';
-import toastMaker from '../../utils/ToastUtils';
-import { huespedExiste } from '../../services/HTTPOperations';
+import { parseToHuesped } from '../../utils/EntityUtils';
+import { huespedVacio } from '../../types/Huesped';
 
 export default function HuespedForm() {
     const handleHuespedOnClick: (IDHuesped: string) => void = (IDHuesped) => {
@@ -70,10 +69,6 @@ export default function HuespedForm() {
             >
         ) => {
             const validateMap = {
-                IDHuesped: {
-                    pattern: /^\d+$/,
-                    message: 'El ID debe ser un número',
-                },
                 'DatosComunicacion.FaxNumber': {
                     pattern: /^\+?\d+$|^$/,
                     message: 'El Fax debe ser un número',
@@ -166,31 +161,13 @@ export default function HuespedForm() {
     );
 
     // agrega un huesped a la lista
-    const handleHuespedSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        const validateIntegrity = async () => {
-            const exists = await huespedExiste(dataHuesped.IDHuesped);
-            if (exists) {
-                throw new Error('El huesped ya existe');
-            } else {
-                return;
-            }
-        };
+    const handleHuespedSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const nuevoHuesped = parseToStringRecord(formData);
-
-        // comprueba que no exista un huesped con ese id antes
-        await validateIntegrity();
-        setDataHuespedes((prevHuespedes) => [
-            ...prevHuespedes.filter(
-                // para sustituir si uno con el mismo ID ya existe
-                (huesped) => huesped.IDHuesped !== nuevoHuesped.IDHuesped
-            ),
-            nuevoHuesped,
-        ]);
-        console.log(dataHuespedes);
-        setDataHuesped({});
-        formRef.current?.reset();
+        setDataHuespedes((prevHuespedes) => [...prevHuespedes, dataHuesped]);
+        setDataHuesped({
+            ...huespedVacio,
+            IDHuesped: (dataHuespedes.length + 1).toString(),
+        });
     };
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -289,12 +266,7 @@ export default function HuespedForm() {
                         ) : (
                             <form
                                 onSubmit={(e) => {
-                                    void handleHuespedSubmit(e).catch(
-                                        (err: Error) => {
-                                            console.log(err);
-                                            toastMaker(true, err.message);
-                                        }
-                                    );
+                                    handleHuespedSubmit(e);
                                 }}
                                 className="p-8"
                                 ref={formRef}
@@ -493,23 +465,6 @@ export default function HuespedForm() {
                                                     dataHuesped?.NumeroCliente ??
                                                     ''
                                                 }
-                                            />
-                                        </CampoForm>
-
-                                        <CampoForm label="ID Huesped">
-                                            <input
-                                                onChange={
-                                                    handleHuespedInputChange
-                                                }
-                                                type="text"
-                                                name="IDHuesped"
-                                                maxLength={10}
-                                                minLength={10}
-                                                readOnly={forEdit}
-                                                value={
-                                                    dataHuesped?.IDHuesped ?? ''
-                                                }
-                                                required
                                             />
                                         </CampoForm>
 
