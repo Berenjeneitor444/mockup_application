@@ -8,7 +8,7 @@ export async function postHuesped(huesped: Huesped) {
     delete huesped.Firma;
     delete huesped.IDHuesped;
     const response = await apiClient.post<HuespedResponse>(
-        '/huesped/crear',
+        '/huespedes/crear',
         huesped
     );
     if (response.status === 200 && response.data.result === 'OK') {
@@ -21,9 +21,12 @@ export async function postHuesped(huesped: Huesped) {
 export async function getHuespedesByReservaId(
     reservationNumber: string
 ): Promise<Huesped[]> {
-    const response = await apiClient.post<HuespedResponse>('/huesped/listar', {
-        reservationNumber: reservationNumber,
-    });
+    const response = await apiClient.post<HuespedResponse>(
+        '/huespedes/listar',
+        {
+            reservationNumber: reservationNumber,
+        }
+    );
     if (response.status === 200 && response.data.result === 'OK') {
         return response.data.results;
     } else {
@@ -32,9 +35,12 @@ export async function getHuespedesByReservaId(
 }
 
 export async function getHuespedById(IDHuesped: string): Promise<Huesped> {
-    const response = await apiClient.post<HuespedResponse>(`/huesped/listar`, {
-        IDHuesped: IDHuesped,
-    });
+    const response = await apiClient.post<HuespedResponse>(
+        `/huespedes/listar`,
+        {
+            IDHuesped: IDHuesped,
+        }
+    );
     if (response.status === 200 && response.data.result === 'OK') {
         if (response.data.results.length > 1) {
             throw new Error(
@@ -56,7 +62,7 @@ export async function editHuesped(huespedNuevo: Huesped) {
     // si son iguales no lo actualizo (para no aplicarle la firma)
     if (_.isEqual(huespedExistente, huespedNuevo)) return;
     const response = await apiClient.post<HuespedResponse>(
-        '/huesped/modificar',
+        '/huespedes/modificar',
         huespedNuevo
     );
     if (response.status === 200 && response.data.result === 'OK') {

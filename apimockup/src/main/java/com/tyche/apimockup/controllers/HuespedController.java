@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/huesped")
+@RequestMapping("/huespedes")
 public class HuespedController {
     private final HuespedService huespedService;
 
@@ -42,5 +42,12 @@ public class HuespedController {
             @JsonView(Huesped.Vista.Crear.class)
             Huesped huesped) {
         return ResponseEntity.ok(huespedService.modificarHuesped(huesped));
+    }
+
+    @PostMapping("/listarByDate")
+    public ResponseEntity<HuespedResponse> huespedListarPorFecha(
+            @RequestBody(required = false)
+            HuespedFilter huesped) {
+        return ResponseEntity.ok(huespedService.listarHuesped(huesped));
     }
 }

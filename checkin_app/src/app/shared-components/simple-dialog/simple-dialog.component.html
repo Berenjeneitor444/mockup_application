@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<mat-dialog-content class="mat-typography">
+  {{ data.message }}
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button
+    mat-flat-button
+    color="primary"
+    class="mb-10"
+    cdkFocusInitial
+    (click)="close()">
+    {{ data.button ? data.button : 'OK' }}
+  </button>
+</mat-dialog-actions>

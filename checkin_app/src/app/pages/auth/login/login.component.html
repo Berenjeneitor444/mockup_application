@@ -1,0 +1,18 @@
+<div
+  class="w-full min-h-screen flex flex-col items-center justify-center bg-primary-600 p-4">
+  <img src="/assets/images/logo_login.png" alt="logo" class="h-[200px]" />
+  <div class="text-white uppercase font-light">Check-in</div>
+  <div class="flex items-center space-x-2 mt-8">
+    <mat-form-field>
+      <input
+        matInput
+        type="password"
+        labelText="Contraseña"
+        [(ngModel)]="password"
+        placeholder="contraseña"
+        (keyup.enter)="login()" />
+
+      <mat-icon (click)="login()" matIconSuffix>arrow_forward</mat-icon>
+    </mat-form-field>
+  </div>
+</div>

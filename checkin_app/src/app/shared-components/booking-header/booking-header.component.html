@@ -1,0 +1,24 @@
+<ion-header class="shadow-none">
+  <div
+    class="max-w-[800px] flex mx-auto space-x-2 bg-primary-50 rounded-sm p-4">
+    <div class="flex flex-col text-end flex-grow text-gray-600">
+      <span>{{ 'bookingDetail.header.bookingId' | translate }}</span>
+      <span>{{ 'bookingDetail.header.holderName' | translate }}</span>
+      <span>{{ 'bookingDetail.header.dates' | translate }}</span>
+      <span>{{ 'bookingDetail.header.nights' | translate }}</span>
+      <span>{{ 'bookingDetail.header.guestsNumber' | translate }}</span>
+      <span>{{ 'bookingDetail.header.room' | translate }}</span>
+    </div>
+    <div class="flex flex-col flex-grow">
+      <div class="font-medium">{{ booking?.NumReserva }}</div>
+      <div class="font-medium">{{ booking?.holder?.Nombre ?? '-' }}</div>
+      <div class="font-medium">
+        {{ booking?.FechaEntrada?.toLocaleDateString() }} -
+        {{ booking?.FechaSalida?.toLocaleDateString() }}
+      </div>
+      <div class="font-medium">{{ booking?.daysCount || '' }}</div>
+      <div class="font-medium">{{ booking?.guests?.length || '' }}</div>
+      <div class="font-medium">{{ booking?.THDescripcion || '-' }}</div>
+    </div>
+  </div>
+</ion-header>

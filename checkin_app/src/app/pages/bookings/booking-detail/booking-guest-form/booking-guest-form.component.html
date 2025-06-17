@@ -1,0 +1,308 @@
+<ion-content>
+  <app-header (back)="back()"></app-header>
+  <div class="max-w-[800px] mx-auto">
+    <div class="mx-[40px] relative">
+      <!-- booking header -->
+      <app-booking-header [booking]="booking"></app-booking-header>
+      <!-- /booking header -->
+
+      <!-- guest header -->
+      <div class="flex mt-2">
+        <!-- guest information -->
+        <div
+          class="w-full flex-grow bg-primary-50 rounded-sm p-4"
+          id="guestInfo">
+          <h3 class="text-lg text-center font-medium">
+            {{ 'guestForm.guest.title' | translate }}
+          </h3>
+          <div class="flex space-x-2">
+            <div
+              class="flex flex-col text-end flex-grow text-gray-600 min-w-[100px]">
+              <span>{{ 'guestForm.guest.firstname' | translate }}</span>
+              <span>{{ 'guestForm.guest.lastname' | translate }}</span>
+              <span>{{ 'guestForm.guest.birthDate' | translate }}</span>
+              <span>{{ 'guestForm.guest.gender.label' | translate }}</span>
+            </div>
+            <div class="flex flex-col flex-grow">
+              <div class="font-medium">{{ guest?.Nombre_Pila }}</div>
+              <div class="font-medium">{{ guest?.Nombre }}</div>
+              <div class="font-medium">
+                {{
+                  guest?.FechaNacimiento ? (guest?.FechaNacimiento | date) : '-'
+                }}
+              </div>
+              <div class="font-medium">
+                <span *ngIf="guest?.Sexo === '1'">
+                  {{ 'guestForm.guest.gender.values.1' | translate }}
+                </span>
+                <span *ngIf="guest?.Sexo === '2'">
+                  {{ 'guestForm.guest.gender.values.2' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /guest information -->
+        <!-- guest documentation -->
+        <div class="w-full flex-grow bg-primary-50 rounded-sm p-4">
+          <h3 class="text-lg text-center font-medium">
+            {{ 'guestForm.documentation.title' | translate }}
+          </h3>
+          <div class="flex space-x-2">
+            <div
+              class="flex flex-col text-end flex-grow text-gray-600 min-w-[100px]">
+              <span>{{
+                'guestForm.documentation.type.label' | translate
+              }}</span>
+              <span>{{ 'guestForm.documentation.number' | translate }}</span>
+              <span>{{ 'guestForm.documentation.country' | translate }}</span>
+              <span>{{ 'guestForm.documentation.issueDate' | translate }}</span>
+              <span>{{
+                'guestForm.documentation.expirationDate' | translate
+              }}</span>
+            </div>
+            <div class="flex flex-col flex-grow">
+              <div class="font-medium">
+                <span *ngIf="guest?.TipoDocumento === '2'">
+                  {{ 'guestForm.documentation.type.values.2' | translate }}
+                </span>
+                <span *ngIf="guest?.TipoDocumento !== '2'">
+                  {{ 'guestForm.documentation.type.values.other' | translate }}
+                </span>
+              </div>
+              <div class="font-medium">{{ guest?.IDDocumento }}</div>
+              <div class="font-medium">
+                {{ getTranslatedCountryName(guest?.PaisNacimiento) }}
+              </div>
+              <div class="font-medium">
+                {{
+                  guest?.FechaExpedicion ? (guest?.FechaExpedicion | date) : '-'
+                }}
+              </div>
+              <div class="font-medium">{{ guest?.FechaCaducidad | date }}</div>
+            </div>
+          </div>
+        </div>
+        <!-- guest documentation -->
+      </div>
+      <!-- /guest header -->
+    </div>
+
+    <!-- Alert edit mode -->
+    <div
+      class="mx-[40px] p-4 mt-8 border border-primary-400 text-primary-400 rounded-sm flex items-center justify-between"
+      *ngIf="survey.mode === 'display'">
+      <span class="font-semibold">
+        {{ 'guestForm.editModeAlert' | translate }}
+      </span>
+      <button
+        mat-flat-button
+        data-ripple-light="true"
+        color="primary"
+        class="rounded-sm"
+        (mousedown)="editGuestForm()"
+        aria-label="edit">
+        <mat-icon>edit</mat-icon>
+        <span>{{ 'bookingDetail.buttons.edit' | translate | uppercase }}</span>
+      </button>
+    </div>
+    <!-- /Alert edit mode -->
+
+    <!-- surveyjs form -->
+    <main class="relative min-h-[500px]">
+      <app-loading
+        [message]="'guestForm.loadingMessage' | translate"
+        *ngIf="loading"></app-loading>
+      <app-loading
+        [message]="'guestForm.savingMessage' | translate"
+        *ngIf="saving"></app-loading>
+      <survey [model]="survey" *ngIf="survey"></survey>
+    </main>
+    <!-- /surveyjs form -->
+  </div>
+  <div class="w-1 h-1 overflow-hidden">
+    <div id="cardex">
+      <div class="w-full flex flex-col items-center justify-center">
+        <img src="/assets/images/logo.png" alt="logo" class="w-20 h-20" />
+        <h1 class="text-xl text-gray-600">{{ confService.hotel?.name }}</h1>
+      </div>
+      <h1 class="text-xl font-semibold mt-4">CARDEX</h1>
+
+      <h2 class="text-lg font-semibold mt-4 mb-2">
+        {{ 'guestForm.property.title' | translate }}
+      </h2>
+      <table class="mb-4 text-sm w-full">
+        <tr>
+          <td class="font-semibold pe-6 w-48">
+            {{ 'guestForm.property.vat' | translate }}
+          </td>
+          <td>{{ confService.hotel?.vat }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.property.businessName' | translate }}
+          </td>
+          <td>{{ confService.hotel?.name }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.property.address' | translate }}
+          </td>
+          <td>{{ confService.hotel?.address }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.property.postalCode' | translate }}
+          </td>
+          <td>{{ confService.hotel?.postalCode }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.property.city' | translate }}
+          </td>
+          <td>{{ confService.hotel?.city }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.property.province' | translate }}
+          </td>
+          <td>{{ confService.hotel?.state }}</td>
+        </tr>
+      </table>
+      <h2 class="text-lg font-semibold mt-4 mb-2">
+        {{ 'guestForm.booking.title' | translate }}
+      </h2>
+      <table class="mb-4 text-sm">
+        <tr>
+          <td class="font-semibold pe-6 w-48">
+            {{ 'guestForm.booking.bookingId' | translate }}
+          </td>
+          <td>{{ booking?.NumReserva }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.booking.email' | translate }}l
+          </td>
+          <td>{{ guest?.DatosComunicacion?.EMail }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.booking.arrivalDate' | translate }}
+          </td>
+          <td>{{ booking?.FechaEntrada | date }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.booking.departureDate' | translate }}
+          </td>
+          <td>{{ booking?.FechaSalida | date }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.booking.adults' | translate }}
+          </td>
+          <td>{{ booking?.guests?.length || '' }}</td>
+        </tr>
+      </table>
+      <h2 class="text-lg font-semibold mt-4 mb-2">
+        {{ 'guestForm.guest.cardexTitle' | translate }}
+      </h2>
+      <table class="mb-4 text-sm w-3/5">
+        <tr>
+          <td class="font-semibold pe-6 w-48">
+            {{ 'guestForm.guest.firstname' | translate }}
+          </td>
+          <td>{{ guest?.Nombre_Pila }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.guest.lastname' | translate }}
+          </td>
+          <td>{{ guest?.Nombre }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.documentation.type.label' | translate }}
+          </td>
+          <td>
+            <span *ngIf="guest?.TipoDocumento === '2'">
+              {{ 'guestForm.documentation.type.values.2' | translate }}
+            </span>
+            <span *ngIf="guest?.TipoDocumento !== '2'">
+              {{ 'guestForm.documentation.type.values.other' | translate }}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.documentation.number' | translate }}
+          </td>
+          <td>{{ guest?.IDDocumento }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.documentation.country' | translate }}
+          </td>
+          <td>{{ getTranslatedCountryName(guest?.PaisNacimiento) }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.documentation.issueDate' | translate }}
+          </td>
+          <td>{{ guest?.FechaExpedicion | date }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.documentation.expirationDate' | translate }}
+          </td>
+          <td>{{ guest?.FechaCaducidad | date }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.guest.birthDate' | translate }}
+          </td>
+          <td>{{ guest?.FechaNacimiento | date }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.guest.gender.label' | translate }}
+          </td>
+          <td>
+            <span *ngIf="guest?.Sexo === '1'">
+              {{ 'guestForm.guest.gender.values.1' | translate }}
+            </span>
+            <span *ngIf="guest?.Sexo === '2'">
+              {{ 'guestForm.guest.gender.values.2' | translate }}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.guest.phone' | translate }}
+          </td>
+          <td>{{ guest?.DatosComunicacion?.Telefono }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.guest.countryOfResidence' | translate }}
+          </td>
+          <td>
+            {{ getTranslatedCountryName(guest?.DatosComunicacion?.Pais) }}
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.guest.state' | translate }}
+          </td>
+          <td>{{ guest?.DatosComunicacion?.Provincia }}</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">
+            {{ 'guestForm.guest.purposeOfStay.label' | translate }}
+          </td>
+          <td>{{ translatePurposeOfStay(booking?.MotivoViaje) }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,188 @@
+{
+  "app": {
+    "loading": "Starting application..."
+  },
+  "auth": {
+    "login": {
+      "password": "password",
+      "submit": "Login"
+    }
+  },
+  "bookingDetail": {
+    "header": {
+      "bookingId": "Booking Number",
+      "holderName": "Holder",
+      "dates": "Dates",
+      "nights": "Nº of nights",
+      "guestsNumber": "Nº of guests",
+      "room": "Room type"
+    },
+    "groupNames": {
+      "AD": "Adults",
+      "JU": "Juniors",
+      "NI": "Children",
+      "CU": "Babies"
+    },
+    "badges": {
+      "checkedIn": "Checked-in"
+    },
+    "buttons": {
+      "checkIn": "Check-in",
+      "edit": "Edit",
+      "view": "View",
+      "wifi": "WI-FI",
+      "finish": "Finish"
+    },
+    "noGuests": "No guests were found for this reservation.",
+    "loadingMessage": "Loading booking...",
+    "dialogs": {
+      "frontDesk": {
+        "message": "Please proceed to the frontdesk to get your documentation scanned.",
+        "button": "OK"
+      },
+      "back": {
+        "message": "There are still guests that havent been checked-in. Are you sure you want to leave?",
+        "buttons": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      }
+    }
+  },
+  "guestForm": {
+    "guest": {
+      "title": "Guest",
+      "cardexTitle": "Guest details",
+      "firstname": "Firstname",
+      "lastname": "Lastname",
+      "birthDate": "Birthdate",
+      "gender": {
+        "label": "Gender",
+        "values": {
+          "1": "Male",
+          "2": "Female"
+        }
+      },
+      "phone": "Phone",
+      "countryOfResidence": "Country of residence",
+      "state": "State/Region",
+      "purposeOfStay": {
+        "label": "Purpose of stay",
+        "values": {
+          "ANIVERSARI": "Anniversary",
+          "CUMPLEAÑOS": "Birthday",
+          "LUNADEMIEL": "Honeymoon",
+          "VACACIONES": "Vacation",
+          "OTROS": "Other"
+        }
+      },
+      "signature": "Guest's signature"
+    },
+    "documentation": {
+      "title": "Documentation",
+      "type": {
+        "label": "Type of document",
+        "values": {
+          "2": "Passport",
+          "other": "National ID"
+        }
+      },
+      "number": "Number",
+      "country": "Issuing country",
+      "expirationDate": "Expiration date",
+      "issueDate": "Issue date"
+    },
+    "property": {
+      "title": "Property details",
+      "vat": "VAT",
+      "businessName": "Business name",
+      "address": "Address",
+      "postalCode": "Postal code",
+      "city": "City",
+      "province": "Province"
+    },
+    "booking": {
+      "title": "Booking details",
+      "bookingId": "Booking Number",
+      "holderName": "Holder",
+      "dates": "Dates",
+      "nights": "Nº of nights",
+      "guestsNumber": "Nº of guests",
+      "room": "Room type",
+      "email": "Email",
+      "arrivalDate": "Arrival date",
+      "departureDate": "Departure date",
+      "adults": "Adults"
+    },
+    "editModeAlert": "This form has already been submitted.",
+    "loadingMessage": "Loading form...",
+    "savingMessage": "Saving guest information...",
+    "error": {
+      "title": "Error",
+      "message": "An error occurred while saving the guest information. Please, try again later."
+    },
+    "privacy": {
+      "modal": {
+        "title": "Privacy Policy"
+      }
+    },
+    "contract": {
+      "modal": {
+        "title": "Guest Agreement"
+      }
+    },
+    "drugs": {
+      "modal": {
+        "title": "Legal consequences of buying illegal substances in Mexico"
+      }
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "accept": "Accept",
+      "edit": "Edit"
+    },
+    "dialogs": {
+      "cancel": {
+        "message": "Are you sure you want to abandon the check-in process?",
+        "buttons": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      }
+    }
+  },
+  "email": {
+    "attachments": {
+      "privacy": "Privacy_Policy",
+      "turismo": "Ministry_of_Tourism",
+      "cardex": "Guest_Agreement"
+    }
+  },
+  "wifi": {
+    "title": "Connect to WI-FI",
+    "scan": "Scan me to access WI-FI",
+    "instructions": "Your credentials:",
+    "validateEmail": "Please enter a valid email address",
+    "loading": "Generating QR code...",
+    "error": "Please ask at the front desk.",
+    "network": "Network",
+    "user": "User",
+    "password": "Password"
+  },
+  "wave": {
+    "title": "Download & Setup WAVE",
+    "download": "Scan me to download WAVE",
+    "setup": "Scan me to setup WAVE",
+    "error": "Please ask at the front desk."
+  },
+  "finishBooking": {
+    "title": "Check-in completed!",
+    "subtitle": "We wish you a pleasant stay"
+  },
+  "errors": {
+    "connection": {
+      "title": "Connection error",
+      "message": "Could not establish connection with the server. Please, try again later."
+    }
+  }
+}

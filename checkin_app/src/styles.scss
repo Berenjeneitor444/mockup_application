@@ -1,0 +1,46 @@
+// Custom Theming for Angular Material
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'node_modules/survey-core/defaultV2.min.css';
+
+@import 'theme/majestic-material-theme';
+
+/* Ionic Styles*/
+@import 'node_modules/@ionic/angular/css/core.css';
+@import 'node_modules/@ionic/angular/css/normalize.css';
+@import 'node_modules/@ionic/angular/css/structure.css';
+@import 'node_modules/@ionic/angular/css/typography.css';
+@import 'node_modules/@ionic/angular/css/padding.css';
+@import 'node_modules/@ionic/angular/css/float-elements.css';
+@import 'node_modules/@ionic/angular/css/text-alignment.css';
+@import 'node_modules/@ionic/angular/css/text-transformation.css';
+@import 'node_modules/@ionic/angular/css/flex-utils.css';
+
+@import 'theme/variables';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+  }
+  button:not(.mdc-icon-button) {
+    border-radius: 0px !important;
+  }
+}

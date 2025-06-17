@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/reserva")
+@RequestMapping("/reservas")
 public class ReservaController {
     private final ReservaService reservaService;
 
@@ -22,7 +22,7 @@ public class ReservaController {
     public ResponseEntity<ReservaResponse> crearReserva(@RequestBody(required = false) Reserva reserva) {
         return ResponseEntity.ok(reservaService.crearReserva(reserva));
     }
-    @PostMapping("/listar")
+    @PostMapping("/lista")
     public ResponseEntity<ReservaResponse> listarReserva(@RequestBody(required = false) ReservaFilter reserva) {
         return ResponseEntity.ok(reservaService.listarReserva(reserva));
     }

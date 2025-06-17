@@ -1,0 +1,140 @@
+<ion-content>
+  <app-header (back)="back()"></app-header>
+  <div class="w-full max-w-[800px] mx-auto justify-center px-4">
+    <div class="relative min-h-[144px]">
+      <mat-progress-bar
+        class="absolute z-10 top-0"
+        *ngIf="loading"
+        mode="indeterminate"></mat-progress-bar>
+      <div
+        class="flex w-full border space-x-2 bg-primary-50 rounded-none p-4 border-gray-100">
+        <div class="flex flex-col text-end flex-grow text-gray-600">
+          <span>{{ 'bookingDetail.header.bookingId' | translate }}</span>
+          <span>{{ 'bookingDetail.header.holderName' | translate }}</span>
+          <span>{{ 'bookingDetail.header.dates' | translate }}</span>
+          <span>{{ 'bookingDetail.header.nights' | translate }}</span>
+          <span>{{ 'bookingDetail.header.guestsNumber' | translate }}</span>
+          <span>{{ 'bookingDetail.header.room' | translate }}</span>
+        </div>
+        <div class="flex flex-col flex-grow">
+          <div class="font-medium">{{ booking?.NumReserva }}</div>
+          <div class="font-medium">{{ booking?.holder?.Nombre ?? '-' }}</div>
+          <div class="font-medium">
+            {{ booking?.FechaEntrada?.toLocaleDateString() }} -
+            {{ booking?.FechaSalida?.toLocaleDateString() }}
+          </div>
+          <div class="font-medium">{{ booking?.daysCount || '' }}</div>
+          <div class="font-medium">{{ booking?.guests?.length || '' }}</div>
+          <div class="font-medium">{{ booking?.THDescripcion || '-' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center space-y-4 w-full mt-20">
+      <ng-container>
+        <ng-container
+          *ngFor="let guestGroup of guestsByTipoPersona(booking?.guests || [])">
+          <div class="mb-6 w-full">
+            <h2 class="w-full">
+              <div class="text-xl text-center font-medium">
+                {{ guestGroup.name }}
+              </div>
+            </h2>
+            <ng-container *ngFor="let guest of guestGroup.guests">
+              <!-- guest -->
+              <article
+                class="flex justify-between border border-gray-300 p-4 mt-4 w-full mx-auto"
+                [ngClass]="{ 'border-green-200': guest.completed }">
+                <!-- left -->
+                <div class="flex flex-col justify-center">
+                  <div class="flex items-center">
+                    <span class="font-medium text-lg flex items-center">
+                      {{ guest.NumeroCliente }} - {{ guest.displayName }}
+                      <div
+                        class="text-green-700 flex items-center ms-2"
+                        *ngIf="guest.completed || booking?.PreCheckIn">
+                        <mat-icon>check_circle</mat-icon>
+                      </div>
+                    </span>
+                  </div>
+                  <div *ngIf="guest.DatosComunicacion.EMail">
+                    <span>{{ guest.DatosComunicacion.EMail }}</span>
+                  </div>
+                </div>
+                <!-- /left -->
+                <!-- right -->
+                <div
+                  class="flex items-center space-x-2 justify-end"
+                  *ngIf="guestGroup.key === '1'">
+                  <button
+                    class="w-auto"
+                    *ngIf="!guest.completed && !booking?.PreCheckIn"
+                    mat-flat-button
+                    [disabled]="refreshingGuests"
+                    (mousedown)="handleClickCheckIn(guest)"
+                    data-ripple-light="true"
+                    color="primary">
+                    <span>{{
+                      'bookingDetail.buttons.checkIn' | translate | uppercase
+                    }}</span>
+                  </button>
+                  <button
+                    class="w-auto"
+                    mat-stroked-button
+                    (mousedown)="goTocheckInForm(guest)"
+                    [disabled]="refreshingGuests"
+                    *ngIf="guest.completed || booking?.PreCheckIn"
+                    color="secondary"
+                    aria-label="edit">
+                    <mat-icon>edit</mat-icon>
+                    <span>{{
+                      'bookingDetail.buttons.edit' | translate | uppercase
+                    }}</span>
+                  </button>
+                </div>
+                <!-- /right -->
+              </article>
+              <!-- /guest -->
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <!-- no guests -->
+        <div
+          class="text-gray-600 h-32 text-lg"
+          *ngIf="
+            !loading &&
+            booking &&
+            booking?.guests &&
+            booking?.guests?.length === 0
+          ">
+          {{ 'bookingDetail.noGuests' | translate }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <ion-footer
+    class="shadow-none max-w-[800px] mx-auto mt-8 flex justify-between px-4">
+    <button
+      class="w-auto"
+      mat-stroked-button
+      [routerLink]="['./wifi']"
+      *ngIf="canSeeWifi()"
+      class="!text-xl !py-6 !px-8"
+      color="secondary"
+      aria-label="wifi">
+      <mat-icon>wifi</mat-icon>
+      <span>{{ 'bookingDetail.buttons.wifi' | translate | uppercase }}</span>
+    </button>
+    <button
+      mat-flat-button
+      data-ripple-light="true"
+      *ngIf="allCheckedIn()"
+      class="!text-xl !py-6 !px-8 rounded-none"
+      color="primary"
+      [routerLink]="['./finish']"
+      aria-label="continuar">
+      {{ 'bookingDetail.buttons.finish' | translate | uppercase }}
+    </button>
+  </ion-footer>
+</ion-content>

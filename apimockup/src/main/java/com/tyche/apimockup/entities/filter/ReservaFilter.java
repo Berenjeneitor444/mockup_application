@@ -8,16 +8,15 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ReservaFilter implements Filter {
 
-    @JsonProperty("ReservationNumber")
-    private String reservationNumber;
+  @JsonProperty("ReservationNumber")
+  private String reservationNumber;
 
-    @JsonProperty("hotel")
-    private String hotel;
+  @JsonProperty("hotel")
+  private String hotel;
 
-    @JsonProperty("FechaEntrada")
-    private String fechaEntrada;
+  @JsonProperty("FechaEntrada")
+  private String fechaEntrada;
 
-    @JsonProperty("Estado")
-    private Integer estado;
-
+  @JsonProperty("Estado")
+  private Integer estado;
 }

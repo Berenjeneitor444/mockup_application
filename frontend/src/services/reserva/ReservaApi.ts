@@ -4,7 +4,7 @@ import Reserva from '../../types/Reserva';
 import ReservaFilter from '../../types/ReservaFilter';
 
 export async function getReservaByHotel(hotel: string): Promise<Reserva[]> {
-    const response = await apiClient.post<ReservaResponse>('/reserva/listar', {
+    const response = await apiClient.post<ReservaResponse>('/reservas/lista', {
         hotel: hotel,
     });
 
@@ -19,7 +19,7 @@ export async function getReservasByFilters(
     reservaFilter: ReservaFilter
 ): Promise<Reserva[]> {
     const response = await apiClient.post<ReservaResponse>(
-        '/reserva/listar',
+        '/reservas/lista',
         reservaFilter
     );
 
@@ -35,7 +35,7 @@ export async function getReservasByFilters(
 
 export async function postReserva(reserva: Reserva) {
     const response = await apiClient.post<ReservaResponse>(
-        '/reserva/crear',
+        '/reservas/crear',
         reserva
     );
     if (response.status === 200 && response.data.result === 'OK') {
@@ -48,7 +48,7 @@ export async function postReserva(reserva: Reserva) {
 export async function getReservaById(
     reservationNumber: string
 ): Promise<Reserva> {
-    const response = await apiClient.post<ReservaResponse>('/reserva/listar', {
+    const response = await apiClient.post<ReservaResponse>('/reservas/lista', {
         ReservationNumber: reservationNumber,
     });
     if (response.status === 200 && response.data.result === 'OK') {
@@ -59,7 +59,7 @@ export async function getReservaById(
 }
 export async function editReserva(reserva: Reserva) {
     const response = await apiClient.post<ReservaResponse>(
-        '/reserva/modificar',
+        '/reservas/modificar',
         reserva
     );
     if (response.status === 200 && response.data.result === 'OK') {

@@ -1,0 +1,187 @@
+{
+  "app": {
+    "loading": "Iniciando aplicación..."
+  },
+  "auth": {
+    "login": {
+      "password": "password",
+      "submit": "Login"
+    }
+  },
+  "bookingDetail": {
+    "header": {
+      "bookingId": "Nº de reserva",
+      "holderName": "Nombre del titular",
+      "dates": "Estancia",
+      "nights": "Nº de noches",
+      "guestsNumber": "Nº de huéspedes",
+      "room": "Categoría habitación"
+    },
+    "groupNames": {
+      "AD": "Adultos",
+      "JU": "Juniors",
+      "NI": "Niños",
+      "CU": "Bebés"
+    },
+    "badges": {
+      "checkedIn": "Checked-in"
+    },
+    "buttons": {
+      "checkIn": "Check-in",
+      "edit": "Editar",
+      "view": "Ver",
+      "wifi": "WI-FI",
+      "finish": "Finalizar"
+    },
+    "noGuests": "No se encontraron huéspedes para esta reserva.",
+    "loadingMessage": "Cargando reserva...",
+    "dialogs": {
+      "frontDesk": {
+        "message": "Por favor, diríjase a recepción para escanear su documentación.",
+        "button": "OK"
+      },
+      "back": {
+        "message": "Todavía hay huéspedes que no han hecho check-in. ¿Seguro que quieres salir?",
+        "buttons": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      }
+    }
+  },
+  "guestForm": {
+    "guest": {
+      "title": "Huésped",
+      "cardexTitle": "Detalles del huésped",
+      "firstname": "Nombre",
+      "lastname": "Apellidos",
+      "birthDate": "Fecha de nacimiento",
+      "gender": {
+        "label": "Gender",
+        "values": {
+          "1": "Hombre",
+          "2": "Mujer"
+        }
+      },
+      "phone": "Teléfono",
+      "countryOfResidence": "País de residencia",
+      "state": "Estado/Región",
+      "purposeOfStay": {
+        "label": "Motivo de la estancia",
+        "values": {
+          "ANIVERSARI": "Aniversario",
+          "CUMPLEAÑOS": "Cumpleaños",
+          "LUNADEMIEL": "Luna de miel",
+          "VACACIONES": "Vacaciones",
+          "OTROS": "Otro"
+        }
+      },
+      "signature": "Firma del huésped"
+    },
+    "documentation": {
+      "title": "Documentación",
+      "type": {
+        "label": "Tipo de documento",
+        "values": {
+          "2": "Pasaporte",
+          "other": "Documento de identidad"
+        }
+      },
+      "number": "Número del documento",
+      "country": "País de expedición",
+      "expirationDate": "Fecha de caducidad",
+      "issueDate": "Fecha de expedición"
+    },
+    "property": {
+      "title": "Datos de la propiedad",
+      "vat": "VAT",
+      "businessName": "Nombre comercial",
+      "address": "Dirección",
+      "postalCode": "Código postal",
+      "city": "Ciudad",
+      "province": "Provincia"
+    },
+    "booking": {
+      "title": "Detalles de la reserva",
+      "bookingId": "Nº de reserva",
+      "holderName": "Titular de la reserva",
+      "dates": "Fechas",
+      "nights": "Nº de noches",
+      "guestsNumber": "Nº de huéspedes",
+      "room": "Tipo de habitación",
+      "email": "Email",
+      "arrivalDate": "Fecha de llegada",
+      "departureDate": "Fecha de salida",
+      "adults": "Adultos"
+    },
+    "editModeAlert": "Este formulario ya ha sido completado.",
+    "loadingMessage": "Cargando formulario...",
+    "savingMessage": "Guardando información del huésped...",
+    "error": {
+      "title": "Error",
+      "message": "No se ha podido guardar la información el huésped. Por favor, inténtelo de nuevo más tarde."
+    },
+    "privacy": {
+      "modal": {
+        "title": "Política de privacidad"
+      }
+    },
+    "contract": {
+      "modal": {
+        "title": "Acuerdo del huésped"
+      }
+    },
+    "drugs": {
+      "modal": {
+        "title": "Consecuencias legales de comprar sustancias ilegales en México"
+      }
+    },
+    "buttons": {
+      "cancel": "Cancelar",
+      "accept": "Acceptar",
+      "edit": "Editar"
+    },
+    "dialogs": {
+      "cancel": {
+        "message": "¿Estás seguro de que quieres cancelar el check-in?",
+        "buttons": {
+          "yes": "Sí",
+          "no": "No"
+        }
+      }
+    }
+  },
+  "email": {
+    "attachments": {
+      "privacy": "Política_de_privacidad",
+      "turismo": "Secretaria_de_Turismo",
+      "cardex": "Acuerdo_del_huésped"
+    }
+  },
+  "wifi": {
+    "title": "Conectarme al WIFI",
+    "scan": "Conectarme al WIFI",
+    "instructions": "Tus credenciales:",
+    "loading": "Generando QR...",
+    "error": "Pide tus credenciales en recepción.",
+    "network": "Red",
+    "user": "Usuario",
+    "password": "Password"
+  },
+  "wave": {
+    "title": "Descargar y configurar WAVE",
+    "download": "Descargar WAVE",
+    "setup": "Configurar WAVE",
+    "error": "Pregunta en recepción."
+  },
+  "finishBooking": {
+    "title": "¡Check-in completado!",
+    "subtitle": "Le deseamos una feliz estancia"
+  },
+  "errors": {
+    "connection": {
+      "title": "Error de conexión",
+      "message": "No se ha podido establecer conexión con el servidor. Por favor, inténtelo de nuevo más tarde."
+    }
+  }
+}

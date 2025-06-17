@@ -1,0 +1,138 @@
+<ion-item-sliding class="mt-2" #slidingItem>
+  <ion-item>
+    <div class="relative w-full h-[130px]">
+      <mat-progress-bar
+        class="absolute z-10 top-0"
+        *ngIf="togglingArrival || !booking.holder"
+        mode="indeterminate"></mat-progress-bar>
+      <div
+        class="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-end space-x-8 border border-gray-300 hover:border-primary-400 px-5 py-4 shadow-sm rounded-sm"
+        [ngClass]="{
+          'bg-green-50 border-green-200':
+            booking.completed || booking?.PreCheckIn,
+          'bg-primary-100': !booking.CheckIn && booking?.Bienvenida === 'X',
+          'bg-red-50 border-red-200':
+            !booking.CheckIn &&
+            booking?.Bienvenida !== 'X' &&
+            booking.Estado === '05',
+        }">
+        <!-- 1st column: booking number and guest info -->
+        <div class="flex flex-grow flex-col justify-start">
+          <!-- Booking number -->
+          <div class="flex items-center space-x-2">
+            <span class="text-primary-500 text-lg"
+              >Nº {{ booking?.NumReserva }}</span
+            >
+            <span class="vip-label" *ngIf="booking?.holder?.Vip">{{
+              booking?.holder?.Vip
+            }}</span>
+          </div>
+          <!-- /Booking number -->
+
+          <!-- Holder -->
+          <div class="text-lg font-medium">
+            {{ booking.holder?.displayName }}
+          </div>
+          <ion-skeleton-text
+            *ngIf="!booking.holder"
+            [animated]="true"
+            style="width: 100px"></ion-skeleton-text>
+          <!-- /Holder -->
+          <!-- Other guests -->
+          <div class="text-sm text-gray-700">
+            {{ getOtherGuestsCsv() }}
+          </div>
+          <ion-skeleton-text
+            *ngIf="booking.guests.length === 0"
+            [animated]="true"
+            style="width: 120px"></ion-skeleton-text>
+          <!-- /Other guests -->
+        </div>
+        <!-- /1st column: booking number and guest info -->
+
+        <!-- 2nd column: nights, section and motivo viaje -->
+        <div class="flex flex-col items-center min-w-[100px] space-y-2">
+          <div class="flex items-center">
+            <mat-icon class="text-gray-700">bedtime</mat-icon>
+            <span class="text-sm text-gray-700">x {{ booking.daysCount }}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-sm text-gray-700">{{ booking.THFactura }}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-sm text-gray-700">{{
+              booking.purposeOfStay
+            }}</span>
+          </div>
+        </div>
+        <!-- /2nd column: nights, section and motivo viaje -->
+        <!-- 3rd column: guest ages -->
+        <div class="flex flex-grow-0 flex-col items-center min-w-[90px]">
+          <div class="text-sm text-gray-700" *ngIf="booking.AD">
+            Adultos: {{ booking.AD }}
+          </div>
+          <div class="text-sm text-gray-700" *ngIf="booking.JR">
+            Juniors: {{ booking.JR }}
+          </div>
+          <div class="text-sm text-gray-700" *ngIf="booking.NI">
+            Niños: {{ booking.NI }}
+          </div>
+          <div class="text-sm text-gray-700" *ngIf="booking.CU">
+            Bebés: {{ booking.CU }}
+          </div>
+        </div>
+        <!-- /3rd column: guest ages -->
+
+        <!-- Action buttons and waiting timer -->
+        <div class="flex-grow-0 flex flex-col min-w-[125px] items-center">
+          <button
+            mat-flat-button
+            data-ripple-light="true"
+            color="primary"
+            class="rounded-sm"
+            [disabled]="!booking.checkInReady"
+            (click)="checkIn()">
+            <span *ngIf="!booking.completed"> CHECK-IN </span>
+            <span *ngIf="booking.completed"> VIEW </span>
+          </button>
+          <span class="text-gray-800">
+            {{ waitingTime }}
+          </span>
+        </div>
+        <!-- /Action buttons and waiting timer -->
+      </div>
+    </div>
+  </ion-item>
+
+  <ion-item-options side="end">
+    <ion-item-option
+      [color]="booking?.Bienvenida ? 'danger' : 'primary'"
+      (click)="toggleArrival()"
+      expandable>
+      <div class="flex flex-col space-y-2 items-center">
+        <ng-container *ngIf="!togglingArrival && !booking?.Bienvenida">
+          <mat-icon
+            style="
+              transform: scale(1.5);
+              display: inline-block;
+              vertical-align: middle;
+            "
+            >timer</mat-icon
+          >
+          <span>Marcar llegada</span>
+        </ng-container>
+        <ng-container *ngIf="!togglingArrival && booking?.Bienvenida">
+          <mat-icon
+            style="
+              transform: scale(1.5);
+              display: inline-block;
+              vertical-align: middle;
+            "
+            >timer_off</mat-icon
+          >
+          <span>Desmarcar llegada</span>
+        </ng-container>
+      </div>
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>

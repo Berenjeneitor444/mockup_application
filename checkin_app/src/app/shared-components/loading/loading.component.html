@@ -1,0 +1,9 @@
+<div class="absolute w-full h-full z-50 inset-0">
+  <div class="absolute top-0 w-full h-full opacity-60 bg-white"></div>
+  <div
+    class="absolute w-full h-full max-h-[1000px] flex flex-col gap-y-4 items-center"
+    [ngClass]="{ 'justify-center top-0': center, 'top-[150px]': !center }">
+    <mat-spinner [diameter]="50"></mat-spinner>
+    <span class="text-gray-800">{{ message }}</span>
+  </div>
+</div>

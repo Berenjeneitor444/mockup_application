@@ -1,0 +1,24 @@
+<header
+  class="absolute top-0 z-50 w-full min-h-[100px] py-3 flex flex-col items-center my-4">
+  <div id="logo" class="w-full flex justify-center">
+    <img
+      (mousedown)="goHome()"
+      (keydown)="goHome()"
+      src="/assets/images/logo.png"
+      alt="logo"
+      role="button"
+      tabindex="0"
+      class="w-20 h-20" />
+  </div>
+  <h1 class="text-xl text-gray-600">{{ confService.hotel?.name }}</h1>
+</header>
+
+<main
+  class="absolute left-0 right-0 top-0 bottom-0 flex flex-col justify-center items-center">
+  <h1 class="text-3xl">
+    {{ 'finishBooking.title' | translate }}
+  </h1>
+  <h2 class="text-xl mt-4 text-gray-600">
+    {{ 'finishBooking.subtitle' | translate }}
+  </h2>
+</main>

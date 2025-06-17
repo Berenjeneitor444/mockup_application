@@ -1,0 +1,22 @@
+<mat-dialog-content class="mat-typography">
+  <div class="pt-4 px-10 flex flex-col items-center">
+    <img
+      src="assets/images/frontdesk.svg"
+      class="mx-auto"
+      alt="frontdesk"
+      class="w-[200px]" />
+    <p class="text-lg mt-4">
+      {{ 'bookingDetail.dialogs.frontDesk.message' | translate }}
+    </p>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button
+    mat-flat-button
+    color="primary"
+    class="mb-10"
+    cdkFocusInitial
+    (click)="close()">
+    {{ 'bookingDetail.dialogs.frontDesk.button' | translate }}
+  </button>
+</mat-dialog-actions>

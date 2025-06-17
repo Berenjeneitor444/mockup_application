@@ -1,0 +1,15 @@
+<header
+  class="sticky top-0 z-40 bg-white w-full min-h-[100px] py-3 flex flex-col justify-center items-center my-4">
+  <div class="absolute top-6 left-6">
+    <button mat-icon-button (click)="goBack()" aria-label="volver">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  <div id="logo" class="w-full flex justify-center">
+    <img src="/assets/images/logo.png" alt="logo" class="w-20 h-20" />
+  </div>
+  <h1 class="text-xl text-gray-600">{{ confService.hotel?.name }}</h1>
+  <div class="absolute top-6 right-6">
+    <app-language-switcher></app-language-switcher>
+  </div>
+</header>

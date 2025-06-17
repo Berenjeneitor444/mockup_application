@@ -1,0 +1,144 @@
+<ion-content>
+  <ion-header class="shadow-none">
+    <div
+      class="bg-white w-full py-2 flex flex-col justify-center items-center my-4">
+      <div class="absolute top-6 left-6">
+        <button
+          mat-icon-button
+          (click)="back()"
+          [disabled]="!booking?.NumReserva"
+          aria-label="volver">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+      <div id="logo" class="w-full flex justify-center">
+        <img src="/assets/images/logo.png" alt="logo" class="w-20 h-20" />
+      </div>
+      <h1 class="text-xl text-gray-600">{{ confService.hotel?.name }}</h1>
+    </div>
+  </ion-header>
+  <main class="w-full flex flex-col items-center px-10 pt-10 space-y-4">
+    <!-- STEP 1: WIFI -->
+    <div
+      class="w-full border border-gray-200 p-4 pt-[50px] mx-4 relative rounded-lg">
+      <h1
+        class="text-lg font-bold py-2 px-4 text-gray-500 bg-gray-200 uppercase mt-0 absolute top-0 left-0 right-0">
+        {{ 'wifi.title' | translate }}
+      </h1>
+      <div class="w-full flex justify-center space-x-10">
+        <div class="flex flex-col w-[250px]">
+          <div
+            class="flex flex-col items-center border border-gray-900 mt-2 rounded-t-xl">
+            <div
+              class="w-[200px] flex flex-col items-center justify-center py-2">
+              <!-- https://www.npmjs.com/package/angularx-qrcode -->
+              <qrcode
+                [imageHeight]="300"
+                [imageWidth]="300"
+                elementType="url"
+                qrdata="WIFI:T:{{
+                  confService.hotel?.wifi?.password ? 'WPA' : 'nopass'
+                }};S:{{ confService.hotel?.wifi?.ssid }};P:{{
+                  confService.hotel?.wifi?.password
+                }};;">
+              </qrcode>
+              <p>
+                {{ 'wifi.network' | translate }}:
+                <span class="font-bold">{{
+                  confService.hotel?.wifi?.ssid
+                }}</span>
+              </p>
+              <p *ngIf="confService.hotel?.wifi?.password">
+                {{ 'wifi.password' | translate }}:
+                <span class="font-bold">{{
+                  confService.hotel?.wifi?.password
+                }}</span>
+              </p>
+            </div>
+          </div>
+          <div
+            class="text-center font-bold uppercase bg-gray-900 text-white py-2 w-full rounded-b-lg">
+            {{ 'wifi.scan' | translate }}
+          </div>
+        </div>
+        <div
+          class="flex flex-col w-[250px] items-start justify-center ps-4"
+          *ngIf="confService.hotel?.wifi?.captivePortal">
+          <div class="text-gray-800 font-semibold text-center text-md mb-6">
+            {{ 'wifi.instructions' | translate }}
+          </div>
+          <p>
+            {{ 'wifi.user' | translate }}:
+            <span class="font-bold">{{ wifiUser }}</span>
+          </p>
+          <p>
+            {{ 'wifi.password' | translate }}:
+            <span class="font-bold" *ngIf="wifiPassword">{{
+              wifiPassword
+            }}</span>
+            <span class="text-red-400 text-sm" *ngIf="wifiPassword === null">
+              {{ 'wifi.error' | translate }}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- /STEP 1: WIFI -->
+
+    <!-- STEP 2: WAVE -->
+    <div
+      class="w-full border border-gray-200 p-4 pt-[50px] mx-4 relative rounded-lg">
+      <h1
+        class="text-lg font-bold py-2 px-4 text-gray-500 bg-gray-200 uppercase mt-0 absolute top-0 left-0 right-0">
+        {{ 'wave.title' | translate }}
+      </h1>
+      <div class="w-full flex space-x-10 items-stretch justify-center">
+        <div class="flex flex-col items-center">
+          <div
+            class="flex flex-grow flex-col items-center justify-center border border-gray-900 mt-2 rounded-t-xl w-[270px]">
+            <div class="flex items-center justify-center py-2">
+              <qrcode
+                [imageHeight]="300"
+                [imageWidth]="300"
+                elementType="url"
+                qrdata="https://fw.gdms.cloud/wave/download/">
+              </qrcode>
+            </div>
+          </div>
+          <div
+            class="text-center font-bold uppercase bg-gray-900 text-white py-2 rounded-b-lg w-[270px]">
+            {{ 'wave.download' | translate }}
+          </div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div
+            class="flex flex-col items-center border border-gray-900 mt-2 rounded-t-xl w-[270px]">
+            <div
+              class="h-[200px] w-[200px] flex items-center justify-center py-2">
+              <img
+                src="data:image/png;base64,{{ qrCodeBase64 }}"
+                class="max-h-full max-w-full m-1"
+                *ngIf="qrCodeBase64"
+                alt="Scan me" />
+              <div
+                class="text-md mt-8 flex items-center text-blue-gray-800"
+                *ngIf="qrCodeBase64 === undefined">
+                <mat-spinner diameter="25"></mat-spinner>
+              </div>
+              <div
+                class="text-red-400 text-md mt-8"
+                *ngIf="qrCodeBase64 === null">
+                {{ 'wave.error' | translate }}
+              </div>
+            </div>
+          </div>
+          <div
+            class="text-center font-bold uppercase bg-gray-900 text-white py-2 rounded-b-lg w-[270px]">
+            {{ 'wave.setup' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /STEP2: WAVE -->
+  </main>
+</ion-content>

@@ -1,0 +1,148 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+//@use 'button-styles' as buttons;
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$primary-colors: (
+  50: #f6f2ec,
+  100: #e9dfd0,
+  200: #dacab0,
+  300: #cbb490,
+  400: #c0a479,
+  500: #b59461,
+  600: #ae8c59,
+  700: #a5814f,
+  800: #9d7745,
+  900: #8d6533,
+  A100: #ffedd8,
+  A200: #ffd5a5,
+  A400: #ffbd72,
+  A700: #ffb158,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$accent-colors: (
+  50: #f2f2f2,
+  100: #d9d9d9,
+  200: #bfbfbf,
+  300: #a6a6a6,
+  400: #8c8c8c,
+  500: #737373,
+  600: #595959,
+  700: #404040,
+  800: #262626,
+  900: #0d0d0d,
+  A100: #a6a6a6,
+  A200: #737373,
+  A400: #404040,
+  A700: #262626,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$primary-palette: mat.m2-define-palette($primary-colors, 500);
+$accent-palette: mat.m2-define-palette($accent-colors, 500);
+
+$checkin-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $primary-palette,
+      accent: $accent-palette,
+    ),
+    density: (
+      scale: 1,
+    ),
+  )
+);
+
+// Incluir estilos de Angular Material
+@include mat.all-component-themes($checkin-theme);
+
+// Definir un mixin para anular los estilos de bordes redondeados
+@mixin custom-material-overrides {
+  // Para los botones
+  .mat-mdc-button,
+  .mat-mdc-raised-button,
+  .mat-mdc-icon-button,
+  .mat-mdc-fab,
+  .mat-mdc-mini-fab,
+  .mat-mdc-stroked-button,
+  .mat-mdc-flat-button {
+    border-radius: 0 !important;
+  }
+
+  // Para los campos de texto
+  .mat-mdc-form-field {
+    .mat-mdc-form-field-outline-start,
+    .mat-mdc-form-field-outline-end,
+    .mat-mdc-form-field-outline-gap {
+      border-radius: 0 !important;
+    }
+  }
+
+  // Para las tarjetas
+  .mat-mdc-card {
+    border-radius: 0 !important;
+  }
+
+  // Para los menús
+  .mat-mdc-menu-panel {
+    border-radius: 0 !important;
+  }
+
+  .mat-mdc-menu-item {
+    border-radius: 0 !important;
+    border-bottom: none !important;
+  }
+
+  // Para los diálogos
+  .mat-mdc-dialog-container {
+    border-radius: 0 !important;
+  }
+
+  // Para los tooltips
+  .mat-mdc-tooltip {
+    border-radius: 0 !important;
+  }
+}
+
+// Incluir el mixin de anulación en el tema
+@include custom-material-overrides;

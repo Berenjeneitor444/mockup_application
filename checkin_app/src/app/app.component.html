@@ -1,0 +1,22 @@
+<ion-app id="body-wrapper" class="flex flex-col items-center bg-white">
+  <div id="inner-wrapper" class="w-full h-full max-w-[1024px] relative">
+    <app-loading
+      message="{{ 'app.loading' | translate }}"
+      *ngIf="loading"></app-loading>
+    <div
+      class="w-full h-full absolute flex justify-center items-center"
+      *ngIf="error">
+      <div class="flex flex-col align-center items-center space-y-4">
+        <img src="/assets/images/error.png" alt="error" class="w-6/12" />
+        <h1 class="text-3xl font-medium">
+          {{ 'errors.connection.title' | translate }}
+        </h1>
+        <p class="text-gray-800">
+          {{ 'errors.connection.message' | translate }}
+        </p>
+      </div>
+    </div>
+
+    <router-outlet *ngIf="!loading && !error"></router-outlet>
+  </div>
+</ion-app>

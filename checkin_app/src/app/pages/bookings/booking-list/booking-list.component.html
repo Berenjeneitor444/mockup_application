@@ -1,0 +1,153 @@
+<ion-content>
+  <ion-header class="shadow-none">
+    <div
+      class="bg-white w-full min-h-[100px] p-4 flex flex-col items-center my-4">
+      <div id="logo" class="w-full flex justify-center">
+        <img src="/assets/images/logo.png" alt="logo" class="w-20 h-20" />
+      </div>
+      <h1 class="text-xl text-gray-600">{{ confService.hotel?.name }}</h1>
+      <div class="absolute top-0 right-0">
+        <button
+          mat-icon-button
+          class="flex align-center gap-x-2"
+          [matMenuTriggerFor]="settingsMenu"
+          aria-label="Menú de administración">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #settingsMenu="matMenu">
+          <button mat-menu-item (click)="infoDialog()">
+            <mat-icon>info</mat-icon>
+            <span>Version info</span>
+          </button>
+          <button mat-menu-item (click)="authService.logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar sesión</span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <!-- Search bar -->
+      <div class="w-full flex space-x-2 px-4">
+        <!-- begin: search input -->
+        <mat-form-field class="flex-grow">
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            matInput
+            type="search"
+            [(ngModel)]="query"
+            placeholder="buscar reserva" />
+        </mat-form-field>
+        <!-- end: search input -->
+
+        <!-- begin: order by -->
+        <mat-form-field class="w-auto">
+          <mat-label>Ordenar por</mat-label>
+          <mat-select
+            [(value)]="confService.sorting"
+            (selectionChange)="groupBookingsByDate()">
+            <mat-option value="id">Nº reserva</mat-option>
+            <mat-option value="bienvenida">Tiempo de espera</mat-option>
+            <mat-option value="firstName">Nombre</mat-option>
+            <mat-option value="lastName">Apellidos</mat-option>
+            <mat-option value="guestCount">Nº de huéspedes</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- end: order by -->
+
+        <!-- begin: refresh button -->
+        <button
+          mat-icon-button
+          (click)="refresh()"
+          aria-label="Refrescar reservas">
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <!-- end: refresh button -->
+      </div>
+      <!-- /Search bar -->
+
+      <!-- Filters -->
+      <div class="w-full flex space-x-2 px-4">
+        <mat-form-field *ngFor="let filter of filters" class="w-auto">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-select
+            [multiple]="filter.multiple ?? true"
+            [(value)]="confService.filters[filter.key]"
+            (selectionChange)="applyFilters()">
+            <mat-option
+              *ngFor="let option of filter.options"
+              [value]="option.value ?? option.text"
+              >{{ option.text }} ({{
+                filterCounters[filter.key][option.value ?? option.text]
+              }})</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Filter: reset button -->
+        <button
+          mat-flat-button
+          (click)="resetFilters()"
+          *ngIf="confService.hasFilters()"
+          data-ripple-light="true"
+          class="reset-button"
+          aria-label="Limpiar filtros">
+          <mat-icon>clear</mat-icon>
+          Reset filtros
+        </button>
+        <!-- /Filter: reset button -->
+      </div>
+      <!-- /Filters -->
+    </div>
+  </ion-header>
+
+  <div class="relative min-h-[500px]">
+    <app-loading
+      message="Cargando reservas..."
+      [center]="false"
+      *ngIf="loading"></app-loading>
+    <mat-tab-group
+      *ngIf="!error"
+      [selectedIndex]="selectedTabIndex"
+      (selectedIndexChange)="changeDay($event)">
+      <mat-tab label="Ayer">
+        <ion-list lines="none">
+          <div
+            *ngFor="
+              let booking of yesterdayBookings | search: query : 3 : true
+            ">
+            <app-booking-list-item [booking]="booking"></app-booking-list-item>
+          </div>
+        </ion-list>
+        <div *ngIf="yesterdayBookings.length === 0">
+          <p class="text-center text-gray-600 py-10">No hay reservas</p>
+        </div>
+      </mat-tab>
+      <mat-tab label="Hoy">
+        <ion-list lines="none">
+          <div *ngFor="let booking of todayBookings | search: query : 3 : true">
+            <app-booking-list-item [booking]="booking"></app-booking-list-item>
+          </div>
+        </ion-list>
+        <div *ngIf="todayBookings.length === 0">
+          <p class="text-center text-gray-600 py-10">No hay reservas</p>
+        </div>
+      </mat-tab>
+      <mat-tab label="Mañana">
+        <ion-list lines="none">
+          <div
+            *ngFor="let booking of tomorrowBookings | search: query : 3 : true">
+            <app-booking-list-item [booking]="booking"></app-booking-list-item>
+          </div>
+        </ion-list>
+        <div *ngIf="tomorrowBookings.length === 0">
+          <p class="text-center text-gray-600 py-10">No hay reservas</p>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div
+      class="absolute flex justify-center items-center text-red w-full h-full"
+      *ngIf="error">
+      {{ error | json }}
+    </div>
+  </div>
+</ion-content>

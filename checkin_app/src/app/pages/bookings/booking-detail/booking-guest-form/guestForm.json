@@ -1,0 +1,258 @@
+{
+  "locale": "es",
+  "logoFit": "none",
+  "logoPosition": "right",
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "contact",
+          "elements": [
+            {
+              "type": "text",
+              "name": "email",
+              "title": {
+                "default": "Email",
+                "es": "Correo electrónico"
+              },
+              "inputType": "email",
+              "isRequired": true,
+              "requiredErrorText": {
+                "default": "Please enter your email address.",
+                "es": "Por favor, introduzca su dirección de correo electrónico."
+              },
+              "validators": [
+                {
+                  "type": "email",
+                  "text": {
+                    "default": "Please enter a valid email address.",
+                    "es": "Por favor, introduzca una dirección de correo electrónico válida."
+                  }
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "phone",
+              "title": {
+                "default": "Phone number",
+                "es": "Teléfono"
+              },
+              "inputType": "tel",
+              "isRequired": false
+            },
+            {
+              "type": "dropdown",
+              "name": "country",
+              "title": {
+                "default": "Country of residence",
+                "es": "País de residencia"
+              },
+              "isRequired": true
+            },
+            {
+              "type": "dropdown",
+              "name": "region",
+              "visible": false,
+              "startWithNewLine": false,
+              "title": {
+                "default": "State",
+                "es": "Estado"
+              },
+              "isRequired": true
+            },
+            {
+              "type": "text",
+              "name": "postalCode",
+              "visibleIf": "{country} notempty and {country} = {hotelCountry}",
+              "startWithNewLine": false,
+              "title": {
+                "default": "Postal code",
+                "es": "Código postal"
+              },
+              "isRequired": false
+            },
+            {
+              "type": "hidden",
+              "name": "hotelCountry"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "marketing",
+          "elements": [
+            {
+              "type": "dropdown",
+              "name": "purposeOfStay",
+              "title": {
+                "es": "Motivo de la estancia",
+                "default": "Purpose of stay"
+              },
+              "choices": [
+                {
+                  "value": "ANIVERSARI",
+                  "text": {
+                    "es": "Aniversario",
+                    "default": "Anniversary"
+                  }
+                },
+                {
+                  "value": "CUMPLEAÑOS",
+                  "text": {
+                    "es": "Cumpleaños",
+                    "default": "Birthday"
+                  }
+                },
+                {
+                  "value": "LUNADEMIEL",
+                  "text": {
+                    "es": "Luna de miel",
+                    "default": "Honeymoon"
+                  }
+                },
+                {
+                  "value": "VACACIONES",
+                  "text": {
+                    "es": "Vacaciones",
+                    "default": "Vacation"
+                  }
+                },
+                {
+                  "value": "OTROS",
+                  "text": {
+                    "es": "Otro",
+                    "default": "Other"
+                  }
+                }
+              ],
+              "isRequired": true,
+              "searchEnabled": false
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "legal",
+          "elements": [
+            {
+              "type": "html",
+              "name": "legalTitle",
+              "html": {
+                "es": "He leído y acepto:",
+                "default": "I have read and accept:"
+              }
+            },
+            {
+              "type": "boolean",
+              "name": "contract",
+              "title": {
+                "default": "The guest agreement.",
+                "es": "El acuerdo del huésped."
+              },
+              "titleLocation": "hidden",
+              "hideNumber": true,
+              "renderAs": "checkbox",
+              "validators": [
+                {
+                  "type": "expression",
+                  "text": {
+                    "default": "You must accept the guest agreement.",
+                    "es": "Debe aceptar el acuerdo del huésped."
+                  },
+                  "expression": "{contract} = true"
+                }
+              ]
+            },
+            {
+              "type": "boolean",
+              "name": "privacy",
+              "title": {
+                "default": "The privacy policy.",
+                "es": "La política de privacidad."
+              },
+              "titleLocation": "hidden",
+              "hideNumber": true,
+              "renderAs": "checkbox",
+              "validators": [
+                {
+                  "type": "expression",
+                  "text": {
+                    "default": "You must accept the privacy policy.",
+                    "es": "Debe aceptar la política de privacidad."
+                  },
+                  "expression": "{privacy} = true"
+                }
+              ]
+            },
+            {
+              "type": "boolean",
+              "name": "drugs",
+              "title": {
+                "default": "The legal consequences of buying illegal substances in Mexico.",
+                "es": "Las consecuencias legales de comprar sustancias ilegales en México."
+              },
+              "titleLocation": "hidden",
+              "hideNumber": true,
+              "renderAs": "checkbox",
+              "visibleIf": "{hotelCountry} notempty and {hotelCountry} = 'MX'",
+              "validators": [
+                {
+                  "type": "expression",
+                  "text": {
+                    "default": "You must accept the legal consequences of buying illegal substances in Mexico.",
+                    "es": "Debe aceptar las consecuencias legales de comprar sustancias ilegales en México."
+                  },
+                  "expression": "{drugs} = true"
+                }
+              ]
+            },
+            {
+              "type": "signaturepad",
+              "name": "signature",
+              "title": {
+                "default": "Guest signature",
+                "es": "Firma del huésped"
+              },
+              "isRequired": true,
+              "requiredErrorText": {
+                "default": "Please sign here.",
+                "es": "Por favor, firme aquí."
+              },
+              "signatureWidth": 800,
+              "signatureHeight": 300,
+              "signatureAutoScaleEnabled": true,
+              "penMaxWidth": 3.5,
+              "penColor": "rgb(0, 0, 0)",
+              "placeholder": {
+                "default": "Sign here",
+                "es": "Firme aquí"
+              },
+              "placeholderReadOnly": {
+                "default": "No signature",
+                "es": "No hay firma"
+              },
+              "dataFormat": "png"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "showPrevButton": false,
+  "showTitle": false,
+  "showPageTitles": false,
+  "showCompletedPage": false,
+  "showQuestionNumbers": "off",
+  "questionErrorLocation": "bottom",
+  "autoGrowComment": true,
+  "allowResizeComment": false,
+  "completeText": {
+    "es": "GUARDAR",
+    "default": "SAVE"
+  },
+  "widthMode": "responsive",
+  "checkErrorsMode": "onValueChanged"
+}
