@@ -87,7 +87,7 @@ export function parseToHuesped(
         ...(huespedData['Email'] && { Email: huespedData['Email'] }),
         ...(huespedData['FechaNacimiento'] && {
             FechaNacimiento: dateFormatter(
-                new Date(huespedData['FechaNacimiento']),
+                dateParser(huespedData['FechaNacimiento']),
                 'yyyyMMddhhmmss'
             ),
         }),
@@ -99,13 +99,13 @@ export function parseToHuesped(
         }),
         ...(huespedData['FechaExpedicion'] && {
             FechaExpedicion: dateFormatter(
-                new Date(huespedData['FechaExpedicion']),
+                dateParser(huespedData['FechaExpedicion']),
                 'yyyyMMddhhmmss'
             ),
         }),
         ...(huespedData['FechaCaducidad'] && {
             FechaCaducidad: dateFormatter(
-                new Date(huespedData['FechaCaducidad']),
+                dateParser(huespedData['FechaCaducidad']),
                 'yyyyMMddhhmmss'
             ),
         }),
@@ -128,13 +128,13 @@ export function parseToHuesped(
         ...(huespedData['Vip'] && { Vip: huespedData['Vip'] }),
         ...(huespedData['FechaEntrada'] && {
             FechaEntrada: dateFormatter(
-                new Date(huespedData['FechaEntrada']),
+                dateParser(huespedData['FechaEntrada']),
                 'yyyyMMddhhmmss'
             ),
         }),
         ...(huespedData['FechaSalida'] && {
             FechaSalida: dateFormatter(
-                new Date(huespedData['FechaSalida']),
+                dateParser(huespedData['FechaSalida']),
                 'yyyyMMddhhmmss'
             ),
         }),
@@ -187,13 +187,13 @@ export function parseToReserva(
         }),
         ...(reservaData['FechaEntrada'] && {
             FechaEntrada: dateFormatter(
-                new Date(reservaData['FechaEntrada']),
+                dateParser(reservaData['FechaEntrada']),
                 'yyyyMMddhhmmss'
             ),
         }),
         ...(reservaData['FechaSalida'] && {
             FechaSalida: dateFormatter(
-                new Date(reservaData['FechaSalida']),
+                dateParser(reservaData['FechaSalida']),
                 'yyyyMMddhhmmss'
             ),
         }),
@@ -211,7 +211,7 @@ export function parseToReserva(
         }),
         ...(reservaData['FechaBienv'] && {
             FechaBienv: dateFormatter(
-                new Date(reservaData['FechaBienv']),
+                dateParser(reservaData['FechaBienv']),
                 'yyyyMMdd'
             ),
         }),
@@ -233,7 +233,7 @@ export function parseToReservaFilter(
         }),
         ...(reservaFilterData['FechaEntrada'] && {
             FechaEntrada: dateFormatter(
-                new Date(reservaFilterData['FechaEntrada']),
+                dateParser(reservaFilterData['FechaEntrada']),
                 'yyyyMMddhhmmss'
             ),
         }),
