@@ -37,7 +37,7 @@ public class ReservaService {
         String[] errores = validationUtil.validarTotalidad(reserva, true);
         if (errores.length == 0) {
             reservaRepository.basicCRUD().save(reserva);
-            return new ReservaResponse("OK", errores, reserva);
+            return new ReservaResponse("OK", errores, List.of(reserva));
         } else {
             return new ReservaResponse("KO", errores, null);
         }
@@ -49,7 +49,7 @@ public class ReservaService {
         String[] errores = validationUtil.validarTotalidad(reserva, false);
         if (errores.length == 0) {
             reservaRepository.basicCRUD().save(reserva);
-            return new ReservaResponse("OK", errores, reserva);
+            return new ReservaResponse("OK", errores, List.of(reserva));
         } else {
             return new ReservaResponse("KO", errores, null);
         }

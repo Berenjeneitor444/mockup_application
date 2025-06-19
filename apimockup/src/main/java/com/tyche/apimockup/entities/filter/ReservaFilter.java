@@ -1,5 +1,6 @@
 package com.tyche.apimockup.entities.filter;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class ReservaFilter implements Filter {
   private String hotel;
 
   @JsonProperty("FechaEntrada")
+  @JsonAlias("fechaEntrada")
   private String fechaEntrada;
 
   @JsonProperty("Estado")

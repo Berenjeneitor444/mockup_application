@@ -1,4 +1,5 @@
 import Huesped from '../../types/Huesped';
+import HuespedModificar from '../../types/HuespedModificar';
 import HuespedResponse from '../../types/HuespedResponse';
 import apiClient from '../api/ApiClient';
 import _ from 'lodash';
@@ -61,9 +62,13 @@ export async function editHuesped(huespedNuevo: Huesped) {
     );
     // si son iguales no lo actualizo (para no aplicarle la firma)
     if (_.isEqual(huespedExistente, huespedNuevo)) return;
+    // clase wrapper necesaria para adaptarse al formato requerido
+    const huespedWrapper: HuespedModificar = {
+        d: huespedNuevo,
+    };
     const response = await apiClient.post<HuespedResponse>(
         '/huespedes/modificar',
-        huespedNuevo
+        huespedWrapper
     );
     if (response.status === 200 && response.data.result === 'OK') {
         return response.data.result;

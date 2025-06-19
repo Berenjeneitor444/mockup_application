@@ -3,6 +3,7 @@ package com.tyche.apimockup.controllers;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.entities.filter.HuespedFilter;
+import com.tyche.apimockup.entities.persistence.HuespedModificar;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
 import com.tyche.apimockup.services.HuespedService;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class HuespedController {
     @PostMapping("/listar")
     public ResponseEntity<HuespedResponse> huespedListar(
             @RequestBody(required = false)
+            @JsonView(HuespedFilter.Vista.Completo.class)
             HuespedFilter huesped) {
         return ResponseEntity.ok(huespedService.listarHuesped(huesped));
     }
@@ -47,7 +49,9 @@ public class HuespedController {
     @PostMapping("/listarByDate")
     public ResponseEntity<HuespedResponse> huespedListarPorFecha(
             @RequestBody(required = false)
-            HuespedFilter huesped) {
-        return ResponseEntity.ok(huespedService.listarHuesped(huesped));
+            @JsonView(HuespedFilter.Vista.ListarByDate.class)
+            HuespedFilter huesped)
+            {
+        return ResponseEntity.ok(huespedService.listarHuespedByDate(huesped));
     }
 }

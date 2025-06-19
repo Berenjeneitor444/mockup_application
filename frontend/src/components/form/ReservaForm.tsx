@@ -296,9 +296,8 @@ export default function ReservaForm() {
                                     value={dataReserva?.Seccion ?? ''}
                                 >
                                     <option value="">Seleccione Sección</option>
+                                    <option value="CLUB">Club</option>
                                     <option value="FAMILIAR">Familiar</option>
-                                    <option value="PAREJA">Pareja</option>
-                                    <option value="SOLO">Solo</option>
                                 </select>
                             </CampoForm>
 
@@ -418,11 +417,19 @@ export default function ReservaForm() {
                                     value={dataReserva?.MotivoViaje ?? ''}
                                 >
                                     <option value="">Seleccione Motivo</option>
+                                    <option value="LUNADEMIEL">
+                                        Luna de miel
+                                    </option>
+                                    <option value="ANIVERSARI">
+                                        Aniversario
+                                    </option>
                                     <option value="VACACIONES">
                                         Vacaciones
                                     </option>
-                                    <option value="NEGOCIOS">Negocios</option>
-                                    <option value="FAMILIA">Familia</option>
+                                    <option value="CUMPLEAÑOS">
+                                        Cumpleaños
+                                    </option>
+                                    <option value="OTROS">Otro</option>
                                 </select>
                             </CampoForm>
                         </SeccionForm>

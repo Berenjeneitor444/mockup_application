@@ -3,6 +3,7 @@ package com.tyche.apimockup.utils;
 import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.repositories.DatabaseSequenceRepository;
 import com.tyche.apimockup.repositories.HuespedRepository;
+import com.tyche.apimockup.services.DatabaseSequenceService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,21 +14,21 @@ import java.util.Optional;
 public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
 
     private final HuespedRepository repository;
-    private final DatabaseSequenceRepository databaseSequenceRepository;
+    private final DatabaseSequenceService databaseSequenceService;
 
-    public HuespedValidationUtil(HuespedRepository repository, DatabaseSequenceRepository databaseSequenceRepository) {
+    public HuespedValidationUtil(
+            HuespedRepository repository, DatabaseSequenceService databaseSequenceService) {
         this.repository = repository;
-        this.databaseSequenceRepository = databaseSequenceRepository;
+        this.databaseSequenceService = databaseSequenceService;
     }
 
     @Override
-    public String[] validarTotalidad(Huesped huesped, boolean isCreate){
+    public String[] validarTotalidad(Huesped huesped, boolean isCreate) {
         String[] errores = super.validarTotalidad(huesped, isCreate);
-        if (errores.length > 0){
+        if (errores.length > 0 && isCreate) {
             try {
-                databaseSequenceRepository.rollbackIncrement("huespedes");
-            }
-            catch(IllegalStateException e){
+                databaseSequenceService.rollbackSequence("huespedes");
+            } catch (IllegalStateException e) {
                 System.err.println(e.getMessage());
             }
         }
@@ -74,23 +75,22 @@ public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
             if (!esFechaValida(fechaEntrada)) {
                 errores.add("La fecha de entrada no es válida");
             }
-
         }
 
         if (fechaSalida != null && !fechaSalida.isEmpty()) {
             if (!esFechaValida(fechaSalida)) {
                 errores.add("La fecha de salida no es válida");
             }
-
         }
         return errores;
     }
 
-
     @Override
     protected List<String> validarPersistencia(Huesped huesped, boolean isCreate) {
         List<String> errores = new ArrayList<>();
-        if (isCreate) huesped.setIdHuesped(String.format("%010d", databaseSequenceRepository.generateSequence("huespedes")));
+        if (isCreate)
+            huesped.setIdHuesped(
+                    String.format("%010d", databaseSequenceService.generateSequence("huespedes")));
         // comprobar que no exista un huesped con el mismo id
         Optional<Huesped> huespedExistente = repository.basicCRUD().findById(huesped.getIdHuesped());
         if (huespedExistente.isPresent()) {
@@ -111,7 +111,6 @@ public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
             errores.add("El Huesped que quieres reemplazar no existe");
         }
 
-
         // comprobar que exista una reserva con el mismo NumeroReserva
         if (!(repository.reservaExists(huesped.getReservationNumber()))) {
             errores.add("No existe una reserva con el mismo id");
@@ -119,5 +118,4 @@ public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
             errores.add("El hotel no coincide con el de la reserva");
         return errores;
     }
-
 }

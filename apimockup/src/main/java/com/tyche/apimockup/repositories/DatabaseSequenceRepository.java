@@ -20,6 +20,7 @@ public class DatabaseSequenceRepository {
         FindAndModifyOptions options = new FindAndModifyOptions().returnNew(true).upsert(true);
         DatabaseSequence counter = mongoTemplate.findAndModify(query, update, options, DatabaseSequence.class);
         if (counter == null) throw new IllegalStateException("No se pudo generar la secuencia para '" + sequenceName + "'");
+        if (counter.getSeq() > 9999999999L) setSequence(sequenceName);
         return counter.getSeq();
     }
 
@@ -30,5 +31,12 @@ public class DatabaseSequenceRepository {
         DatabaseSequence counter = mongoTemplate.findAndModify(query, update, options, DatabaseSequence.class);
         if (counter == null)
             throw new IllegalStateException("No se pudo revertir el incremento de la secuencia '" + sequenceName + "'.");
+    }
+
+    private void setSequence(String sequenceName){
+        Query query = new Query(Criteria.where("_id").is(sequenceName));
+        Update update = new Update().set("seq", 1L);
+        mongoTemplate.updateFirst(query, update, DatabaseSequence.class);
+
     }
 }

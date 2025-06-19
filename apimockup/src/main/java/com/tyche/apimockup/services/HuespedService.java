@@ -2,6 +2,7 @@ package com.tyche.apimockup.services;
 
 import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.entities.filter.HuespedFilter;
+import com.tyche.apimockup.entities.persistence.HuespedModificar;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
 import com.tyche.apimockup.repositories.HuespedRepository;
 import com.tyche.apimockup.utils.HuespedValidationUtil;
@@ -32,6 +33,19 @@ public class HuespedService {
         }
     }
 
+    public HuespedResponse listarHuespedByDate(HuespedFilter filtros) {
+        if (filtros == null || (filtros.getHotel() == null && filtros.getFechaEntrada() == null)) {
+            return new HuespedResponse("KO", new String[]{"Es obligatorio indicar el hotel y la fecha de entrada"}, null);
+        }
+
+        List<Huesped> listaHuespedes = huespedRepository.findByFilters(filtros);
+        if (listaHuespedes.isEmpty()) {
+            return new HuespedResponse("KO", new String[]{"No se han encontrado huespedes con la fecha y hotel solicitados"}, null);
+        } else {
+            return new HuespedResponse("OK", new String[0], listaHuespedes);
+        }
+    }
+
     public HuespedResponse crearHuesped(Huesped huesped) {
         if (huesped == null) {
             return new HuespedResponse("KO", new String[]{"Es obligatorio proporcionar el huesped"}, null);
@@ -48,10 +62,11 @@ public class HuespedService {
         }
     }
 
-    public HuespedResponse modificarHuesped(Huesped huesped) {
-        if (huesped == null) {
+    public HuespedResponse modificarHuesped(HuespedModificar envoltorioHuesped) {
+        if (envoltorioHuesped.getD() == null) {
             return new HuespedResponse("KO", new String[]{"Es obligatorio proporcionar el huesped"}, null);
         }
+        Huesped huesped = envoltorioHuesped.getD();
         // validar que el huesped sea valido en persistencia y en formato
         String[] errores = validationUtil.validarTotalidad(huesped, false);
         if (errores.length == 0) {

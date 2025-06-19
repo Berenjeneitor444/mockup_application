@@ -469,17 +469,24 @@ export default function HuespedForm() {
                                         </CampoForm>
 
                                         <CampoForm label="Tipo Persona">
-                                            <input
+                                            <select
                                                 onChange={
                                                     handleHuespedInputChange
                                                 }
-                                                type="text"
                                                 name="TipoPersona"
                                                 value={
                                                     dataHuesped?.TipoPersona ??
                                                     ''
                                                 }
-                                            />
+                                            >
+                                                <option value="">
+                                                    Seleccione Tipo Persona
+                                                </option>
+                                                <option value="1">AD</option>
+                                                <option value="2">JU</option>
+                                                <option value="3">NI</option>
+                                                <option value="4">CU</option>
+                                            </select>
                                         </CampoForm>
 
                                         <CampoForm label="Nombre de Pila">
@@ -694,14 +701,41 @@ export default function HuespedForm() {
                                         </CampoForm>
 
                                         <CampoForm label="VIP">
-                                            <input
+                                            <select
                                                 onChange={
                                                     handleHuespedInputChange
                                                 }
-                                                type="text"
                                                 name="Vip"
                                                 value={dataHuesped?.Vip ?? ''}
-                                            />
+                                            >
+                                                <option value="">
+                                                    Seleccione VIP
+                                                </option>
+                                                <option value="1">
+                                                    Genius
+                                                </option>
+                                                <option value="2">
+                                                    Rep2-5
+                                                </option>
+                                                <option value="3">
+                                                    Rep6-9
+                                                </option>
+                                                <option value="4">
+                                                    Rep+10
+                                                </option>
+                                                <option value="7">VIP1</option>
+                                                <option value="8">VIP2</option>
+                                                <option value="9">VIP3</option>
+                                                <option value="E">
+                                                    Expedia VIP
+                                                </option>
+                                                <option value="P">
+                                                    ExpPremium Vip
+                                                </option>
+                                                <option value="S">
+                                                    VIP2B sin flores
+                                                </option>
+                                            </select>
                                         </CampoForm>
                                     </SeccionForm>
                                 </div>

@@ -17,6 +17,14 @@ export const baseEnvironment: Environment = {
       },
     },
   },
+  monitor: {
+    providers: {
+      sentry: {
+        dsn: 'https://02ee7081f13129e9d19aab362f944082@o1381156.ingest.us.sentry.io/4507302903283712', // kritical lab (test)
+        //dsn: 'https://0de512d5ca4b72cae82ca5be73c1919f@o4508879590195200.ingest.de.sentry.io/4508919203823696', // production
+      },
+    },
+  },
   defaults: {
     fillContraints: {
       AD: 'required',
