@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "sequences")
 @Data
 public class DatabaseSequence {
-    @Id
-    private String id;
-    @Field("seq")
-    private long seq = 1L;
+  @Id private String id;
+
+  @Field("seq")
+  private long seq = 1L;
 }

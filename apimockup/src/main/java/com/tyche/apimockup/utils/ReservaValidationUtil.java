@@ -2,11 +2,10 @@ package com.tyche.apimockup.utils;
 
 import com.tyche.apimockup.entities.persistence.Reserva;
 import com.tyche.apimockup.repositories.ReservaRepository;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ReservaValidationUtil extends BaseValidationUtil<Reserva> {

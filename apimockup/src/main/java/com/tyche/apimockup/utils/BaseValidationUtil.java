@@ -1,16 +1,26 @@
 package com.tyche.apimockup.utils;
 
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public abstract class BaseValidationUtil<T> {
+
+    protected static boolean esFechaValida(String fecha) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuuMMddHHmmss")
+                .withResolverStyle(ResolverStyle.STRICT);
+        try {
+            LocalDate.parse(fecha, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
 
     public String[] validarTotalidad(T entity, boolean isCreate) {
 
@@ -27,17 +37,6 @@ public abstract class BaseValidationUtil<T> {
 
         return errores.toArray(new String[0]);
 
-    }
-
-    protected static boolean esFechaValida(String fecha) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuuMMddHHmmss")
-                .withResolverStyle(ResolverStyle.STRICT);
-        try {
-            LocalDate.parse(fecha, formatter);
-            return true;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
     }
 
     protected abstract List<String> validarFormato(T entity, boolean isCreate);

@@ -1,10 +1,8 @@
 package com.tyche.apimockup.entities.responses;
 
 
-import lombok.Data;
-
-
 import java.io.Serializable;
+import lombok.Data;
 
 @Data
 public abstract class ApiResponse implements Serializable {

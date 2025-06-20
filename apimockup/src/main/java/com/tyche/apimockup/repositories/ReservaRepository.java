@@ -6,18 +6,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ReservaRepository extends BaseEntityRepository<Reserva> {
-    private final ReservaBasicCRUD reservaBasicCRUD;
+  private final ReservaBasicCRUD reservaBasicCRUD;
 
-    protected ReservaRepository(MongoTemplate mongoTemplate, ReservaBasicCRUD reservaBasicCRUD) {
-        super(mongoTemplate);
-        this.reservaBasicCRUD = reservaBasicCRUD;
-    }
+  protected ReservaRepository(MongoTemplate mongoTemplate, ReservaBasicCRUD reservaBasicCRUD) {
+    super(mongoTemplate);
+    this.reservaBasicCRUD = reservaBasicCRUD;
+  }
 
-    @Override
-    protected Class<Reserva> getEntityClass() {
-        return Reserva.class;
-    }
-    public ReservaBasicCRUD basicCRUD() {
-        return reservaBasicCRUD;
-    }
+  @Override
+  protected Class<Reserva> getEntityClass() {
+    return Reserva.class;
+  }
+
+  public ReservaBasicCRUD basicCRUD() {
+    return reservaBasicCRUD;
+  }
 }
