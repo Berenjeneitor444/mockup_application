@@ -1,5 +1,6 @@
 package com.tyche.apimockup.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.entities.requests.HuespedSaveWrapper;
 import com.tyche.apimockup.entities.requests.filter.HuespedFilter;
@@ -7,7 +8,7 @@ import com.tyche.apimockup.entities.requests.filter.HuespedListByDateFilter;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
 import com.tyche.apimockup.mappers.HuespedMapper;
 import com.tyche.apimockup.services.HuespedService;
-import com.tyche.apimockup.utils.EntityHelper;
+import com.tyche.apimockup.utils.EntityMapperHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +21,9 @@ public class HuespedController {
 
   private final HuespedService huespedService;
   private final HuespedMapper mapper;
-  private final EntityHelper helper;
+  private final EntityMapperHelper helper;
 
-  public HuespedController(HuespedService huespedService, HuespedMapper mapper, EntityHelper helper) {
+  public HuespedController(HuespedService huespedService, HuespedMapper mapper, EntityMapperHelper helper) {
     this.huespedService = huespedService;
     this.mapper = mapper;
     this.helper = helper;
@@ -30,7 +31,7 @@ public class HuespedController {
 
   @PostMapping("/crear")
   public ResponseEntity<HuespedResponse> huespedCrear(
-      @RequestBody(required = false) HuespedSaveWrapper huespedWrapper) {
+      @RequestBody(required = false) @JsonView(HuespedSaveWrapper.Vista.Crear.class) HuespedSaveWrapper huespedWrapper) {
     Huesped huesped = mapper.toEntity(huespedWrapper.getD(), helper);
     return ResponseEntity.ok(huespedService.crearHuesped(huesped));
   }
@@ -43,7 +44,7 @@ public class HuespedController {
 
   @PostMapping("/modificar")
   public ResponseEntity<HuespedResponse> huespedModificar(
-      @RequestBody(required = false) HuespedSaveWrapper huespedWrapper) {
+      @RequestBody(required = false) @JsonView(HuespedSaveWrapper.Vista.Editar.class) HuespedSaveWrapper huespedWrapper) {
     Huesped huesped = mapper.toEntity(huespedWrapper.getD(), helper);
     return ResponseEntity.ok(huespedService.modificarHuesped(huesped));
   }

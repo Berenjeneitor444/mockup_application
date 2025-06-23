@@ -137,6 +137,7 @@ export default function ReservaForm() {
                                     required
                                     value={dataReserva?.hotel ?? ''}
                                     onChange={handleReservaInputChange}
+                                    disabled={forEdit}
                                 >
                                     <option value="M1">M1</option>
                                     <option value="M2">M2</option>

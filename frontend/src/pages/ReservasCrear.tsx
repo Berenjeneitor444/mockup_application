@@ -8,10 +8,10 @@ import {
     ReferentialIntegrityBuilder,
 } from '../utils/EntityUtils';
 import Reserva, { reservaVacia } from '../types/Reserva';
-import { crearRegistros, reservaExiste } from '../services/HTTPOperations';
+import { crearRegistros } from '../services/HTTPOperations';
 import { ToastContainer } from 'react-toastify';
 import toastMaker from '../utils/ToastUtils';
-import { postReserva } from '../services/reserva/ReservaApi';
+import { postReserva, reservaExiste } from '../services/reserva/ReservaApi';
 const ReservasCrear = () => {
     // para guardar los huespedes ya parseados
     const [dataHuespedes, setDataHuespedes] = useState<
@@ -62,7 +62,7 @@ const ReservasCrear = () => {
                     // mostrar la reserva creada
                     setTimeout(() => {
                         void navigate(
-                            `/listar/reserva/${dataReserva.ReservationNumber}`
+                            `/listar/reserva/${dataReserva.hotel}/${dataReserva.ReservationNumber}`
                         );
                     }, 1000);
                 })
@@ -73,7 +73,7 @@ const ReservasCrear = () => {
                     toastMaker(false, res);
                     setTimeout(() => {
                         void navigate(
-                            `/listar/reserva/${dataReserva.ReservationNumber}`
+                            `/listar/reserva/${dataReserva.hotel}/${dataReserva.ReservationNumber}`
                         );
                     }, 1000);
                 })

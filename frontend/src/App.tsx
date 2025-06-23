@@ -27,16 +27,16 @@ function App() {
                     <Route path="crear" element={<Crear />}>
                         {subroutes}
                     </Route>
-                    <Route path="editar/:id" element={<Editar />}>
+                    <Route path="editar/:hotel/:id" element={<Editar />}>
                         {subroutes}
                     </Route>
                     <Route path="listar" element={<Listar />} />
                     <Route
-                        path="listar/reserva/:id"
+                        path="listar/reserva/:hotel/:id"
                         element={<ReservaDetalle />}
                     />
                     <Route
-                        path="listar/reserva/:id/huesped/:idHuesped"
+                        path="listar/reserva/:hotel/:id/huesped/:idHuesped"
                         element={<HuespedDetalle />}
                     />
                     <Route path="*" element={<NoMatch />} />

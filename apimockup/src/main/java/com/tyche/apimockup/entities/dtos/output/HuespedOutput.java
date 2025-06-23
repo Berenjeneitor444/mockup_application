@@ -16,6 +16,9 @@ public class HuespedOutput {
   @JsonProperty("hotel")
   private String hotel;
 
+  @JsonProperty("reservationNumber")
+  private String reservationNumber;
+
   @JsonProperty("DatosComunicacion")
   private DatosComunicacionOutput datosComunicacion;
 

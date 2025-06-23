@@ -9,7 +9,7 @@ public class ReservaRepository extends BaseEntityRepository<Reserva> {
   private final ReservaBasicCRUD reservaBasicCRUD;
 
   protected ReservaRepository(MongoTemplate mongoTemplate, ReservaBasicCRUD reservaBasicCRUD) {
-    super(mongoTemplate);
+    super();
     this.reservaBasicCRUD = reservaBasicCRUD;
   }
 

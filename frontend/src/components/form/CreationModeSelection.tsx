@@ -5,6 +5,7 @@ export default function CreationModeSelection() {
         setFullCreationMode: React.Dispatch<React.SetStateAction<boolean>>;
         forEdit: boolean;
         id: string;
+        hotel?: string;
         datosHuespedes: { dataHuespedes: Record<string, string>[] };
     }
     const context = useOutletContext<OutletContext>();
@@ -13,6 +14,7 @@ export default function CreationModeSelection() {
         setFullCreationMode,
         forEdit,
         id,
+        hotel,
         datosHuespedes: { dataHuespedes },
     } = context;
     const navigator = useNavigate();
@@ -20,7 +22,9 @@ export default function CreationModeSelection() {
     const changeCreationMode = (bool: boolean) => {
         console.log(dataHuespedes);
         setFullCreationMode(bool);
-        void navigator(forEdit ? `/editar/${id}/reserva` : '/crear/reserva');
+        void navigator(
+            forEdit ? `/editar/${hotel}/${id}/reserva` : '/crear/reserva'
+        );
     };
 
     return (

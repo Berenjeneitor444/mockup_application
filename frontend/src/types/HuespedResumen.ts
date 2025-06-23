@@ -2,6 +2,7 @@ import Huesped from './Huesped';
 
 interface HuespedResumen {
     IDHuesped: string;
+    hotel?: string;
     Nombre_Pila?: string;
     Nombre?: string;
     Email?: string;
@@ -50,5 +51,6 @@ export function getHuespedResumen(huesped: Huesped): HuespedResumen | null {
         Repetidor: huesped?.Repetidor === 'X' ? 'Sí' : 'No',
         TipoCliente: huesped.TipoCliente || 'N/A',
         Firma: huesped.Firma ? 'Sí' : 'No',
+        hotel: huesped.hotel,
     };
 }

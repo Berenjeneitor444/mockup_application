@@ -9,7 +9,7 @@ import ReservaCardList from '../components/display/cards/ReservaCardList';
 import { getReservaResumen, ReservaResumen } from '../types/ReservaResumen';
 
 export default function HuespedDetalle() {
-    const { id, idHuesped } = useParams();
+    const { id, idHuesped, hotel } = useParams();
     const [huesped, setHuesped] = useState<Huesped | null>(null);
     const [reserva, setReserva] = useState<Reserva | null>(null);
     const [error, setError] = useState<string[] | null>(null);
@@ -17,10 +17,11 @@ export default function HuespedDetalle() {
     useEffect(() => {
         if (!idHuesped) return;
         if (!id) return;
+        if (!hotel) return;
 
         void Promise.allSettled([
-            getHuespedById(idHuesped),
-            getReservaById(id),
+            getHuespedById(idHuesped, hotel),
+            getReservaById(id, hotel),
         ]).then((results) => {
             const [huespedRes, reservaRes] = results;
             if (huespedRes.status === 'fulfilled') {
@@ -44,7 +45,7 @@ export default function HuespedDetalle() {
                 ]);
             }
         });
-    }, [idHuesped, id]);
+    }, [idHuesped, id, hotel]);
 
     if (error)
         return (

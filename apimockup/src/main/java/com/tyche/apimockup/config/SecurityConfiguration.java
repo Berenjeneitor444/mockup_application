@@ -43,7 +43,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults()) // Usará el CorsConfigurationSource de abajo
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/reserva/crear").hasRole("FORM")
+                        .requestMatchers("/reservas/crear", "/reservas/existe").hasRole("FORM")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());

@@ -29,7 +29,7 @@ public class ReservaSaveDTO {
   @JsonProperty("Localizador")
   private String localizador = "";
 
-  @JsonView(ReservaSaveWrapper.Vista.Editar.class)
+  @JsonView(ReservaSaveWrapper.Vista.Crear.class)
   @JsonProperty("HotelFactura")
   private String hotelFactura = "";
 

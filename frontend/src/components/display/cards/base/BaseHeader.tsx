@@ -8,6 +8,7 @@ interface BaseHeaderProps {
     secondaryInfo?: string;
     variant?: 'primary' | 'secondary' | 'accent';
     idReserva?: string;
+    hotel?: string;
     idHuesped?: string;
     edit?: boolean;
     onDelete?: (IDHuesped: string) => void;
@@ -23,6 +24,7 @@ export default function BaseHeader({
     idReserva,
     idHuesped,
     edit,
+    hotel,
     onDelete,
 }: BaseHeaderProps) {
     const variants = {
@@ -49,7 +51,7 @@ export default function BaseHeader({
                             e.preventDefault();
                             if (idReserva) {
                                 // Navigate to edit page with reservation ID
-                                void navigator(`/editar/${idReserva}`);
+                                void navigator(`/editar/${hotel}/${idReserva}`);
                             }
                         }}
                         className="text-white transition hover:opacity-80"

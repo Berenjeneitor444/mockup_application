@@ -8,7 +8,13 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-public class ReservaOutput {
+public class  ReservaOutput {
+
+  @JsonProperty("ReservationNumber")
+  private String reservationNumber;
+
+  @JsonProperty("hotel")
+  private String hotel;
 
   @JsonProperty("checkoutRealized")
   private boolean checkoutRealized;

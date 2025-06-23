@@ -31,6 +31,7 @@ export default function HuespedCard({
             onDelete={onDelete}
             idHuesped={huespedResumen.IDHuesped}
             idReserva={huespedResumen.reservationNumber}
+            hotel={huespedResumen.hotel}
             edit={edit}
         />
     );

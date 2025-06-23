@@ -94,7 +94,7 @@ const ReservaView = ({ reserva }: ReservaViewProps) => {
                 />
                 <div className="col-span-full flex w-full">
                     <Link
-                        to={`/editar/${reserva.ReservationNumber}`}
+                        to={`/editar/${reserva.hotel}/${reserva.ReservationNumber}`}
                         className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus w-full rounded-md px-6 py-3 text-center text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none"
                     >
                         Editar Registros

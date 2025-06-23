@@ -26,6 +26,7 @@ export default function ReservaCard({
             variant="secondary"
             onDelete={onDelete}
             idReserva={reservaResumen.ReservationNumber}
+            hotel={reservaResumen.hotel}
             edit={edit}
         />
     );

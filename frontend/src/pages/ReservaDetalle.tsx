@@ -9,15 +9,16 @@ import { getHuespedesByReservaId } from '../services/huesped/HuespedApi';
 import HuespedResumen, { getHuespedResumen } from '../types/HuespedResumen';
 
 export default function ReservaDetalle() {
-    const { id } = useParams();
+    const { id, hotel } = useParams();
     const [reserva, setReserva] = useState<Reserva | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [huespedes, setHuespedes] = useState<Huesped[]>([]);
 
     useEffect(() => {
         if (!id) return;
+        if (!hotel) return;
 
-        getReservaById(id)
+        getReservaById(id, hotel)
             .then((res) => setReserva(res))
             .catch((err: Error) =>
                 setError(
@@ -25,10 +26,10 @@ export default function ReservaDetalle() {
                 )
             );
 
-        getHuespedesByReservaId(id)
+        getHuespedesByReservaId(id, hotel)
             .then((res) => setHuespedes(res))
             .catch((err: Error) => console.log(err));
-    }, [id]);
+    }, [hotel, id]);
 
     if (error)
         return (

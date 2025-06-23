@@ -1,5 +1,5 @@
 import Huesped from '../../types/Huesped';
-import HuespedModificar from '../../types/HuespedModificar';
+import HuespedSaveDTO from '../../types/HuespedSaveDTO';
 import HuespedResponse from '../../types/HuespedResponse';
 import apiClient from '../api/ApiClient';
 import _ from 'lodash';
@@ -8,9 +8,12 @@ export async function postHuesped(huesped: Huesped) {
     // no me interesa enviar la firma
     delete huesped.Firma;
     delete huesped.IDHuesped;
+    const huespedWrapper: HuespedSaveDTO = {
+        d: huesped,
+    };
     const response = await apiClient.post<HuespedResponse>(
         '/huespedes/crear',
-        huesped
+        huespedWrapper
     );
     if (response.status === 200 && response.data.result === 'OK') {
         return response.data.result;
@@ -20,12 +23,14 @@ export async function postHuesped(huesped: Huesped) {
 }
 
 export async function getHuespedesByReservaId(
-    reservationNumber: string
+    reservationNumber: string,
+    hotel: string
 ): Promise<Huesped[]> {
     const response = await apiClient.post<HuespedResponse>(
         '/huespedes/listar',
         {
             reservationNumber: reservationNumber,
+            hotel: hotel,
         }
     );
     if (response.status === 200 && response.data.result === 'OK') {
@@ -35,11 +40,15 @@ export async function getHuespedesByReservaId(
     }
 }
 
-export async function getHuespedById(IDHuesped: string): Promise<Huesped> {
+export async function getHuespedById(
+    IDHuesped: string,
+    hotel: string
+): Promise<Huesped> {
     const response = await apiClient.post<HuespedResponse>(
         `/huespedes/listar`,
         {
             IDHuesped: IDHuesped,
+            hotel: hotel,
         }
     );
     if (response.status === 200 && response.data.result === 'OK') {
@@ -58,12 +67,13 @@ export async function editHuesped(huespedNuevo: Huesped) {
     // obtengo el huesped existente
     delete huespedNuevo.Firma;
     const huespedExistente = await getHuespedById(
-        huespedNuevo.IDHuesped as string
+        huespedNuevo.IDHuesped as string,
+        huespedNuevo.hotel as string
     );
     // si son iguales no lo actualizo (para no aplicarle la firma)
     if (_.isEqual(huespedExistente, huespedNuevo)) return;
     // clase wrapper necesaria para adaptarse al formato requerido
-    const huespedWrapper: HuespedModificar = {
+    const huespedWrapper: HuespedSaveDTO = {
         d: huespedNuevo,
     };
     const response = await apiClient.post<HuespedResponse>(

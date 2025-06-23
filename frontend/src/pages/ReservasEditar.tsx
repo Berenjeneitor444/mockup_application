@@ -10,14 +10,14 @@ import {
     cleanObject,
 } from '../utils/EntityUtils';
 import Reserva from '../types/Reserva';
-import { editRegistros, reservaExiste } from '../services/HTTPOperations';
+import { editRegistros } from '../services/HTTPOperations';
 import { ToastContainer } from 'react-toastify';
 import toastMaker from '../utils/ToastUtils';
 import { getHuespedesByReservaId } from '../services/huesped/HuespedApi';
-import { getReservaById } from '../services/reserva/ReservaApi';
+import { getReservaById, reservaExiste } from '../services/reserva/ReservaApi';
 
 const ReservasEditar = () => {
-    const { id } = useParams();
+    const { id, hotel } = useParams();
 
     // para guardar los huespedes ya parseados
     const [dataHuespedes, setDataHuespedes] = useState<
@@ -68,7 +68,7 @@ const ReservasEditar = () => {
                 setTimeout(
                     () =>
                         void navigate(
-                            `/listar/reserva/${reserva.ReservationNumber}`
+                            `/listar/reserva/${dataReserva.hotel}/${dataReserva.ReservationNumber}`
                         ),
                     1000
                 );
@@ -79,7 +79,7 @@ const ReservasEditar = () => {
     useEffect(() => {
         const handleFormIntegrity = () => {
             if (fullCreationMode === null && location.pathname !== '/editar') {
-                void navigate(`/editar/${id}`, { replace: true });
+                void navigate(`/editar/${hotel}/${id}`, { replace: true });
             }
         };
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -124,6 +124,7 @@ const ReservasEditar = () => {
         dataHuespedes,
         dataReserva,
         fullCreationMode,
+        hotel,
         id,
         location.pathname,
         navigate,
@@ -132,10 +133,11 @@ const ReservasEditar = () => {
     // carga la reserva y sus huespedes
     useEffect(() => {
         if (!id) return;
+        if (!hotel) return;
 
         void Promise.allSettled([
-            getReservaById(id),
-            getHuespedesByReservaId(id),
+            getReservaById(id, hotel),
+            getHuespedesByReservaId(id, hotel),
         ]).then(([reservaRes, huespedesRes]) => {
             if (reservaRes.status === 'fulfilled') {
                 setDataReserva(
@@ -171,7 +173,7 @@ const ReservasEditar = () => {
                 );
             }
         });
-    }, [id]);
+    }, [hotel, id]);
 
     const handleReservaSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -232,6 +234,7 @@ const ReservasEditar = () => {
                         forEdit,
                         fullCreationMode,
                         setFullCreationMode,
+                        hotel,
                         id,
                     }}
                 />

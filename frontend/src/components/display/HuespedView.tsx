@@ -150,7 +150,7 @@ const HuespedView = ({ huesped }: HuespedViewProps) => {
                 </div>
                 <div className="col-span-full flex w-full">
                     <Link
-                        to={`/editar/${huesped.reservationNumber}`}
+                        to={`/editar/${huesped.hotel}/${huesped.reservationNumber}`}
                         className="bg-secondary hover:bg-secondary-hover focus:ring-secondary-focus w-full rounded-md px-6 py-3 text-center text-lg font-medium text-white focus:ring-2 focus:ring-offset-2 focus:outline-none"
                     >
                         Editar Registros

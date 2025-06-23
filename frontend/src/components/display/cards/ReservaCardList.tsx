@@ -33,7 +33,7 @@ export default function ReservaCardList({
                     return navModeOn ? (
                         <Link
                             key={reservaResumen.ReservationNumber}
-                            to={`/listar/reserva/${reservaResumen.ReservationNumber}`}
+                            to={`/listar/reserva/${reservaResumen.hotel}/${reservaResumen.ReservationNumber}`}
                         >
                             {card}
                         </Link>

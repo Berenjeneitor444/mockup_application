@@ -26,9 +26,9 @@ public class ReservaService {
   }
 
   public ReservaResponse listarReserva(ReservaFilter filtros) {
-    if (filtros == null || (filtros.getHotel() == null && filtros.getReservationNumber() == null)) {
+    if (filtros == null || filtros.getHotel() == null) {
       return new ReservaResponse(
-          "KO", new String[] {"Es obligatorio indicar el hotel o el número de reserva"}, null);
+          "KO", new String[] {"Es obligatorio indicar el hotel"}, null);
     }
     List<Reserva> listaReservas = reservaRepository.findByFilters(filtros);
     if (listaReservas.isEmpty()) {
@@ -61,10 +61,16 @@ public class ReservaService {
     }
     String[] errores = validationUtil.validarTotalidad(reserva, false);
     if (errores.length == 0) {
-      reservaRepository.basicCRUD().save(reserva);
-      return new ReservaResponse("OK", errores, List.of(mapper.toDTO(reserva)));
+      // Este es un huesped que solo almacena los datos que se deben actualizar
+      reservaRepository.dynamicUpdate(reserva);
+      Reserva reservaCambiada = reservaRepository.basicCRUD().findById(reserva.getReservationNumber()).orElseThrow();
+      return new ReservaResponse("OK", errores, List.of(mapper.toDTO(reservaCambiada)));
     } else {
       return new ReservaResponse("KO", errores, null);
     }
+  }
+
+  public Boolean reservaExiste(String reservationNumber) {
+    return reservaRepository.basicCRUD().existsById(reservationNumber);
   }
 }

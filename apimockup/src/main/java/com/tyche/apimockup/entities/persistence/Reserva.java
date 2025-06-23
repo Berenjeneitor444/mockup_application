@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "reservas")
 @Data
-public class Reserva {
+public class Reserva implements Entity{
 
   @Id private String reservationNumber = "";
 

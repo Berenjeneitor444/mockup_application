@@ -49,7 +49,7 @@ export default function HuespedCardList({
                     return navModeOn ? (
                         <Link
                             key={huespedResumen.IDHuesped}
-                            to={`/listar/reserva/${huespedResumen.reservationNumber}/huesped/${huespedResumen.IDHuesped}`}
+                            to={`huesped/${huespedResumen.IDHuesped}`}
                         >
                             {card}
                         </Link>

@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "huespedes")
 @Data
-public class Huesped {
+public class Huesped implements Entity{
 
   @Id private String idHuesped = "";
 

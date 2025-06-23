@@ -7,29 +7,29 @@ import com.tyche.apimockup.entities.requests.filter.ReservaFilter;
 import com.tyche.apimockup.entities.responses.ReservaResponse;
 import com.tyche.apimockup.mappers.ReservaMapper;
 import com.tyche.apimockup.services.ReservaService;
+import com.tyche.apimockup.utils.EntityMapperHelper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reservas")
 public class ReservaController {
   private final ReservaService reservaService;
   private final ReservaMapper mapper;
-  private final EntityHelper helper
+  private final EntityMapperHelper helper;
 
-  public ReservaController(ReservaService reservaService, ReservaMapper mapper) {
+  public ReservaController(
+      ReservaService reservaService, ReservaMapper mapper, EntityMapperHelper helper) {
     this.reservaService = reservaService;
     this.mapper = mapper;
+    this.helper = helper;
   }
 
   @PostMapping("/crear")
   public ResponseEntity<ReservaResponse> crearReserva(
-      @RequestBody(required = false) @JsonView(ReservaSaveWrapper.Vista.Editar.class)
+      @RequestBody(required = false) @JsonView(ReservaSaveWrapper.Vista.Crear.class)
           ReservaSaveWrapper reservaWrapper) {
-    Reserva reserva = mapper.toEntity(reservaWrapper.getD(), );
+    Reserva reserva = mapper.toEntity(reservaWrapper.getD(), helper);
     return ResponseEntity.ok(reservaService.crearReserva(reserva));
   }
 
@@ -43,7 +43,12 @@ public class ReservaController {
   public ResponseEntity<ReservaResponse> modificarReserva(
       @RequestBody(required = false) @JsonView(ReservaSaveWrapper.Vista.Editar.class)
           ReservaSaveWrapper reservaWrapper) {
-    Reserva reserva = mapper.toEntity(reservaWrapper.getD());
+    Reserva reserva = mapper.toEntity(reservaWrapper.getD(), helper);
     return ResponseEntity.ok(reservaService.modificarReserva(reserva));
+  }
+  @GetMapping("/existe")
+  public ResponseEntity<Boolean> reservaExiste(
+          @RequestParam String reservationNumber){
+    return ResponseEntity.ok(reservaService.reservaExiste(reservationNumber));
   }
 }
