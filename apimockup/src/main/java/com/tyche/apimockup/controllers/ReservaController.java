@@ -1,6 +1,5 @@
 package com.tyche.apimockup.controllers;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.tyche.apimockup.entities.dtos.input.ReservaCreateDTO;
 import com.tyche.apimockup.entities.dtos.input.ReservaUpdateDTO;
 import com.tyche.apimockup.entities.persistence.Reserva;
@@ -10,6 +9,7 @@ import com.tyche.apimockup.entities.responses.ReservaResponse;
 import com.tyche.apimockup.mappers.ReservaMapper;
 import com.tyche.apimockup.services.ReservaService;
 import com.tyche.apimockup.utils.EntityMapperHelper;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +29,15 @@ public class ReservaController {
 
   @PostMapping("/crear")
   public ResponseEntity<ReservaResponse> crearReserva(
-      @RequestBody(required = false)
-      InputDTOWrapper<ReservaCreateDTO> reservaWrapper) {
+      @RequestBody(required = false) InputDTOWrapper<ReservaCreateDTO> reservaWrapper) {
     Reserva reserva = mapper.toEntity(reservaWrapper.getD(), helper);
     return ResponseEntity.ok(reservaService.crearReserva(reserva));
+  }
+
+  @ExceptionHandler(DuplicateKeyException.class)
+  public ResponseEntity<ReservaResponse> manejarDuplicateKey(DuplicateKeyException e) {
+    return ResponseEntity.ok(
+        new ReservaResponse("KO", new String[] {"Ya existe esa reserva"}, null));
   }
 
   @PostMapping("/lista")
@@ -43,14 +48,13 @@ public class ReservaController {
 
   @PostMapping("/modificar")
   public ResponseEntity<ReservaResponse> modificarReserva(
-      @RequestBody(required = false)
-          InputDTOWrapper<ReservaUpdateDTO> reservaWrapper) {
+      @RequestBody(required = false) InputDTOWrapper<ReservaUpdateDTO> reservaWrapper) {
     Reserva reserva = mapper.toEntity(reservaWrapper.getD());
     return ResponseEntity.ok(reservaService.modificarReserva(reserva));
   }
+
   @GetMapping("/existe")
-  public ResponseEntity<Boolean> reservaExiste(
-          @RequestParam String reservationNumber){
+  public ResponseEntity<Boolean> reservaExiste(@RequestParam String reservationNumber) {
     return ResponseEntity.ok(reservaService.reservaExiste(reservationNumber));
   }
 }

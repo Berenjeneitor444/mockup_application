@@ -47,7 +47,7 @@ public class ReservaService {
     }
     String[] errores = validationUtil.validarTotalidad(reserva, true);
     if (errores.length == 0) {
-      reservaRepository.basicCRUD().save(reserva);
+      reservaRepository.basicCRUD().insert(reserva);
       return new ReservaResponse("OK", errores, List.of(mapper.toDTO(reserva)));
     } else {
       return new ReservaResponse("KO", errores, null);

@@ -79,7 +79,7 @@ public class HuespedService {
     String[] errores = validationUtil.validarTotalidad(huesped, true);
 
     if (errores.length == 0) {
-      huespedRepository.basicCRUD().save(huesped);
+      huespedRepository.basicCRUD().insert(huesped);
       return new HuespedResponse("OK", errores, List.of(mapper.toDTO(huesped)));
     } else {
 

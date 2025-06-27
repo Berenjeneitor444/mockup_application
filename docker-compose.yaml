@@ -1,44 +1,46 @@
 services:
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
-    ports:
-      - "443:443"
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./nginx/certs:/etc/nginx/certs
-      - ./frontend/dist:/usr/share/nginx/html
-    depends_on:
-      - apimockup
-    networks:
-      - app-network
+    nginx:
+        image: nginx:alpine
+        container_name: nginx
+        ports:
+            - "443:443"
+        volumes:
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./nginx/certs:/etc/nginx/certs
+            - ./frontend/dist:/usr/share/nginx/html
+        depends_on:
+            - apimockup
+        networks:
+            - app-network
 
-  apimockup:
-    build: ./apimockup
-    container_name: springboot-api-mockup
-    environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mockupUser:TestingApi2025@mongo:27017/reservasDB
-    networks:
-      - app-network
+    apimockup:
+        build: ./apimockup
+        container_name: springboot-api-mockup
+        environment:
+            SPRING_DATA_MONGODB_URI: mongodb://mockupUser:TestingApi2025@mongo:27017/reservasDB
+        networks:
+            - app-network
 
-  mongo:
-    image: mongo:6
-    container_name: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-      - ./mongo-init:/docker-entrypoint-initdb.d
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: contraseñasupersecreta
-      MONGO_INITDB_DATABASE: reservasDB
-    command: ["--auth"]
-    networks:
-      - app-network
+    mongo:
+        image: mongo:6
+        container_name: mongo
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo-data:/data/db
+            - ./mongo/init.js:/docker-entrypoint-initdb.d/init.js:ro
+            - ./mongo/mongod.conf:/etc/mongod.conf:ro
+            - ./logs:/var/log/mongodb
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: contraseñasupersecreta
+            MONGO_INITDB_DATABASE: reservasDB
+        command: ["mongod", "--config", "/etc/mongod.conf", "--auth", "--quiet"]
+        networks:
+            - app-network
 
 volumes:
-  mongo-data:
+    mongo-data:
 
 networks:
-  app-network:
+    app-network:
