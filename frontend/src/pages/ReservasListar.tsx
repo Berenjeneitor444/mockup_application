@@ -81,7 +81,7 @@ const ReservasListar = () => {
                             <input
                                 type="text"
                                 name="ReservationNumber"
-                                defaultValue={
+                                value={
                                     searchParams.get(
                                         'ReservationNumber'
                                     ) as string
@@ -95,7 +95,7 @@ const ReservasListar = () => {
                         <CampoForm label="Hotel">
                             <select
                                 name="hotel"
-                                defaultValue={
+                                value={
                                     (searchParams.get('hotel') as string) || ''
                                 }
                                 onChange={handleOnChange}
@@ -111,25 +111,28 @@ const ReservasListar = () => {
                             <input
                                 type="date"
                                 name="FechaEntrada"
-                                defaultValue={
+                                value={
                                     searchParams.get('FechaEntrada') as string
                                 }
                                 onChange={handleOnChange}
                             />
                         </CampoForm>
-                        <CampoForm label="Estado de la reserva">
+                        <CampoForm label="Estado de la Reserva">
                             <select
                                 onChange={handleOnChange}
                                 name="Estado"
-                                defaultValue={
-                                    (searchParams.get('Estado') as string) || ''
-                                }
+                                value={searchParams.get('Estado') ?? ''}
                             >
-                                <option value={''}>Seleccione un estado</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                <option value="">Seleccione Estado</option>
+                                <option value={1}>Tentativo</option>
+                                <option value={2}>
+                                    Espera de confirmación
+                                </option>
+                                <option value={3}>Confirmada</option>
+                                <option value={4}>Denegada</option>
+                                <option value={5}>No-show</option>
+                                <option value={6}>Cancelada</option>
+                                <option value={9}>Lista de espera</option>
                             </select>
                         </CampoForm>
                     </>

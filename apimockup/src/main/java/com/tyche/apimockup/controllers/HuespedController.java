@@ -1,8 +1,10 @@
 package com.tyche.apimockup.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.tyche.apimockup.entities.dtos.input.HuespedCreateDTO;
+import com.tyche.apimockup.entities.dtos.input.HuespedUpdateDTO;
 import com.tyche.apimockup.entities.persistence.Huesped;
-import com.tyche.apimockup.entities.requests.HuespedSaveWrapper;
+import com.tyche.apimockup.entities.requests.InputDTOWrapper;
 import com.tyche.apimockup.entities.requests.filter.HuespedFilter;
 import com.tyche.apimockup.entities.requests.filter.HuespedListByDateFilter;
 import com.tyche.apimockup.entities.responses.HuespedResponse;
@@ -31,7 +33,7 @@ public class HuespedController {
 
   @PostMapping("/crear")
   public ResponseEntity<HuespedResponse> huespedCrear(
-      @RequestBody(required = false) @JsonView(HuespedSaveWrapper.Vista.Crear.class) HuespedSaveWrapper huespedWrapper) {
+      @RequestBody(required = false) InputDTOWrapper<HuespedCreateDTO> huespedWrapper) {
     Huesped huesped = mapper.toEntity(huespedWrapper.getD(), helper);
     return ResponseEntity.ok(huespedService.crearHuesped(huesped));
   }
@@ -44,8 +46,8 @@ public class HuespedController {
 
   @PostMapping("/modificar")
   public ResponseEntity<HuespedResponse> huespedModificar(
-      @RequestBody(required = false) @JsonView(HuespedSaveWrapper.Vista.Editar.class) HuespedSaveWrapper huespedWrapper) {
-    Huesped huesped = mapper.toEntity(huespedWrapper.getD(), helper);
+      @RequestBody(required = false) InputDTOWrapper<HuespedUpdateDTO> huespedWrapper) {
+    Huesped huesped = mapper.toEntity(huespedWrapper.getD());
     return ResponseEntity.ok(huespedService.modificarHuesped(huesped));
   }
 

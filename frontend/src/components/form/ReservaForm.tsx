@@ -181,12 +181,22 @@ export default function ReservaForm() {
                         {/* Estado de la Reserva */}
                         <SeccionForm titulo="Estado de la Reserva">
                             <CampoForm label="Estado de la Reserva">
-                                <input
-                                    type="text"
+                                <select
                                     onChange={handleReservaInputChange}
                                     name="Estado"
                                     value={dataReserva?.Estado ?? ''}
-                                />
+                                >
+                                    <option value="">Seleccione Estado</option>
+                                    <option value={1}>Tentativo</option>
+                                    <option value={2}>
+                                        Espera de confirmación
+                                    </option>
+                                    <option value={3}>Confirmada</option>
+                                    <option value={4}>Denegada</option>
+                                    <option value={5}>No-show</option>
+                                    <option value={6}>Cancelada</option>
+                                    <option value={9}>Lista de espera</option>
+                                </select>
                             </CampoForm>
                             <CampoForm label="¿Check-out Hecho?">
                                 <div className="flex items-center">

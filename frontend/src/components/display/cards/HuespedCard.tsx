@@ -21,7 +21,7 @@ export default function HuespedCard({
             title={huespedResumen.Nombre ?? ''}
             subtitle={huespedResumen.Nombre_Pila}
             primaryInfo={`País: ${huespedResumen.Pais}`}
-            secondaryInfo={`Cliente ${huespedResumen.TipoCliente}`}
+            secondaryInfo={`Cliente ${huespedResumen.NumeroCliente}`}
             badge={
                 <Badge variant="outline" size="sm">
                     ID: {huespedResumen.IDHuesped}
@@ -40,19 +40,19 @@ export default function HuespedCard({
         { label: 'Edad', value: `${huespedResumen.Edad} años` },
         { label: 'Sexo', value: huespedResumen.Sexo },
         {
-            label: 'Cliente Repetidor',
+            label: 'Repetidor',
             value: huespedResumen.Repetidor,
             highlight: huespedResumen.Repetidor === 'Sí',
         },
-        { label: 'Tipo de Cliente', value: huespedResumen.TipoCliente },
+        { label: 'Tipo Persona', value: huespedResumen.TipoPersona },
         { label: 'Firma', value: huespedResumen.Firma },
     ];
 
     const contactItems: InfoItemProps[] = [
         { label: 'Email', value: huespedResumen.Email, fullWidth: true },
         { label: 'Teléfono', value: huespedResumen.Telefono },
-        { label: 'Tipo de Documento', value: huespedResumen.TipoDocumento },
-        { label: 'Número de Documento', value: huespedResumen.IDDocumento },
+        { label: 'Tipo Documento', value: huespedResumen.TipoDocumento },
+        { label: 'Nº Documento', value: huespedResumen.IDDocumento },
     ];
 
     const sections = [

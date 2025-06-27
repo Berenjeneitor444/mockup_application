@@ -4,8 +4,10 @@ import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.repositories.HuespedRepository;
 import com.tyche.apimockup.services.DatabaseSequenceService;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,11 +24,24 @@ public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
 
   @Override
   public String[] validarTotalidad(Huesped huesped, boolean isCreate) {
+    String errorIdHuesped = null;
     // si estamos creando creo la pk y la asigno al principio
-    if (isCreate)
+    if (isCreate) {
+      // este error solo lo puedo comprobar con certeza justo antes de crear la clave, asi que tengo
+      // que hacerlo fuera
+      errorIdHuesped =
+              (huesped.getIdHuesped() != null && !huesped.getIdHuesped().isEmpty())
+                      ? "No se puede dar de alta a un huésped si tiene un id asignado"
+                      : null;
       huesped.setIdHuesped(
           String.format("%010d", databaseSequenceService.generateSequence("huespedes")));
+    }
     String[] errores = super.validarTotalidad(huesped, isCreate);
+    if (errorIdHuesped != null) {
+      errores =
+          Stream.concat(Arrays.stream(errores), Arrays.stream(new String[] {errorIdHuesped}))
+              .toArray(String[]::new);
+    }
     if (errores.length > 0 && isCreate) {
       // si algo sale mal hago rollback para dejar la secuencia como antes
       try {
@@ -53,9 +68,6 @@ public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
         errores.add("ID del huesped no es válido");
       }
     } else { // solo al crear
-      if (!idHuesped.isEmpty()) {
-        errores.add("No se puede dar de alta a un huésped si tiene un id asignado");
-      }
 
       if (hotel == null || hotel.isEmpty()) {
         errores.add("El hotel no puede estar vacío");
@@ -98,7 +110,7 @@ public class HuespedValidationUtil extends BaseValidationUtil<Huesped> {
         errores.add("Ya existe un huesped con el mismo id");
       }
     } else if (!isCreate) {
-      errores.add("El Huesped que quieres reemplazar no existe");
+      errores.add("El Huesped que quieres editar no existe");
     }
     // comprobar que exista una reserva con el mismo NumeroReserva y que coincida el hotel
     // no lo hago si estoy editando ya que imposibilito el cambiar el reservationNumber o el hotel

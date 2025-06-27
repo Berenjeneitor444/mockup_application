@@ -14,7 +14,12 @@ public interface Filter extends Serializable {
   default Map<String, Object> toMap() {
     ObjectMapper objectMapper = new ObjectMapper();
     Map<String, Object> map = objectMapper.convertValue(this, new TypeReference<>() {});
-    map.entrySet().removeIf(entry -> entry.getValue() == null);
+    map.entrySet()
+        .removeIf(
+            entry ->
+                entry.getValue() == null
+                    || (entry.getValue() instanceof String
+                        && ((String) entry.getValue()).isEmpty()));
     return map;
   }
 }

@@ -1,10 +1,11 @@
 package com.tyche.apimockup.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tyche.apimockup.entities.dtos.input.HuespedSaveDTO;
-import com.tyche.apimockup.entities.dtos.input.ReservaSaveDTO;
+import com.tyche.apimockup.entities.dtos.input.HuespedCreateDTO;
+import com.tyche.apimockup.entities.dtos.input.ReservaCreateDTO;
 import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.repositories.HuespedRepository;
+import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,24 +14,25 @@ public class EntityMapperHelper {
   @Autowired private HuespedRepository huespedRepository;
   @Autowired private ObjectMapper objectMapper;
 
+  @Named("motivoViajeFixer")
   public String motivoViajeFixer(Huesped huesped) {
     return huespedRepository.getReservaFromHuesped(huesped).getMotivoViaje();
   }
 
-  public String hotelFixer(HuespedSaveDTO huesped) {
-    return pickFirstNonEmpty(huesped.getHotel(), huesped.getHotelFactura());
+
+  public String hotelFixer(String hotel, String hotelFactura) {
+    return pickFirstNonEmpty(hotel, hotelFactura);
   }
 
-  public String reservationNumberFixer(HuespedSaveDTO huesped) {
-    return pickFirstNonEmpty(huesped.getReservationNumber(), huesped.getNumReserva());
+  public String reservationNumberFixer(String reservationNumber, String numReserva) {
+    return pickFirstNonEmpty(reservationNumber, numReserva);
   }
 
-  public String hotelFixer(ReservaSaveDTO reserva) {
-    return pickFirstNonEmpty(reserva.getHotel(), reserva.getHotelFactura());
-  }
+  @Named("checkoutRealizedFixer")
+  public Boolean checkoutRealizedFixer(String checkOut){
+    if (checkOut == null) return null;
 
-  public String reservationNumberFixer(ReservaSaveDTO reserva) {
-    return pickFirstNonEmpty(reserva.getReservationNumber(), reserva.getNumReserva());
+    return "X".equalsIgnoreCase(checkOut);
   }
   
 

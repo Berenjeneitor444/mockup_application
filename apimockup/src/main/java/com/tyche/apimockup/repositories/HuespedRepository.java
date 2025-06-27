@@ -3,6 +3,7 @@ package com.tyche.apimockup.repositories;
 import com.tyche.apimockup.entities.persistence.Entity;
 import com.tyche.apimockup.entities.persistence.Huesped;
 import com.tyche.apimockup.entities.persistence.Reserva;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -45,14 +46,15 @@ public class HuespedRepository extends BaseEntityRepository<Huesped> {
   public Reserva getReservaFromHuesped(Huesped huesped){
     return reservaBasicCRUD.findById(huesped.getReservationNumber()).orElseThrow();
   }
-  @Override
-  public boolean dynamicUpdate(Entity reservaOHuesped) {
-    if (super.dynamicUpdate(reservaOHuesped)) {
-      Query query = new Query(Criteria.where("_id").is(((Huesped)reservaOHuesped).getIdHuesped()));
+
+  public Huesped dynamicUpdate(Huesped huesped) {
+    if (super.dynamicUpdate(huesped)) {
+      Query query = new Query(Criteria.where("_id").is(huesped.getIdHuesped()));
       Update update = new Update();
+      FindAndModifyOptions options = new FindAndModifyOptions().returnNew(true);
       update.set("Firma", "X");
-      return mongoTemplate.updateFirst(query, update, getEntityClass()).getModifiedCount() > 0;
+      return mongoTemplate.findAndModify(query, update, options, getEntityClass());
     }
-    else return false;
+    else return basicCRUD().findById(huesped.getIdHuesped()).orElseThrow();
   }
 }

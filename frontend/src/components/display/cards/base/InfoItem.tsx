@@ -20,7 +20,7 @@ export function InfoItem({
             }`}
         >
             <span
-                className={`text-xs font-medium text-gray-700 sm:text-sm ${fullWidth ? 'text-xs tracking-wide text-gray-500 uppercase' : 'flex-shrink-0 truncate'} ${fullWidth ? '' : 'max-w-[45%]'}`}
+                className={`text-xs font-medium text-gray-700 sm:text-sm ${fullWidth ? 'text-xs tracking-wide text-gray-500 uppercase' : 'flex-shrink-0 truncate'} ${fullWidth ? '' : 'max-w-[60%]'}`}
             >
                 {label}:
             </span>

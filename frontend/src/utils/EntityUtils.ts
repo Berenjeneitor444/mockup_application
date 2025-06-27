@@ -21,126 +21,73 @@ export function ReferentialIntegrityBuilder(
 export function parseToHuesped(
     huespedData: Record<string, string | undefined>
 ): Huesped {
-    // Construimos directamente el objeto result usando spread condicional
     const datosCom: Huesped['DatosComunicacion'] = {
-        ...(huespedData['DatosComunicacion.Descripcion'] && {
-            Descripcion: huespedData['DatosComunicacion.Descripcion'],
-        }),
-        ...(huespedData['DatosComunicacion.Direccion'] && {
-            Direccion: huespedData['DatosComunicacion.Direccion'],
-        }),
-        ...(huespedData['DatosComunicacion.CodigoPostal'] && {
-            CodigoPostal: huespedData['DatosComunicacion.CodigoPostal'],
-        }),
-        ...(huespedData['DatosComunicacion.Poblacion'] && {
-            Poblacion: huespedData['DatosComunicacion.Poblacion'],
-        }),
-        ...(huespedData['DatosComunicacion.Provincia'] && {
-            Provincia: huespedData['DatosComunicacion.Provincia'],
-        }),
-        ...(huespedData['DatosComunicacion.ComunidadAutonoma'] && {
-            ComunidadAutonoma:
-                huespedData['DatosComunicacion.ComunidadAutonoma'],
-        }),
-        ...(huespedData['DatosComunicacion.Pais'] && {
-            Pais: huespedData['DatosComunicacion.Pais'],
-        }),
-        ...(huespedData['DatosComunicacion.ApartadoCorreos'] && {
-            ApartadoCorreos: huespedData['DatosComunicacion.ApartadoCorreos'],
-        }),
-        ...(huespedData['DatosComunicacion.Telefono'] && {
-            Telefono: huespedData['DatosComunicacion.Telefono'],
-        }),
-        ...(huespedData['DatosComunicacion.TelefonoMovil'] && {
-            TelefonoMovil: huespedData['DatosComunicacion.TelefonoMovil'],
-        }),
-        ...(huespedData['DatosComunicacion.FaxNumber'] && {
-            FaxNumber: huespedData['DatosComunicacion.FaxNumber'],
-        }),
-        ...(huespedData['DatosComunicacion.EMail'] && {
-            EMail: huespedData['DatosComunicacion.EMail'],
-        }),
+        Descripcion: huespedData['DatosComunicacion.Descripcion'] ?? '',
+        Direccion: huespedData['DatosComunicacion.Direccion'] ?? '',
+        CodigoPostal: huespedData['DatosComunicacion.CodigoPostal'] ?? '',
+        Poblacion: huespedData['DatosComunicacion.Poblacion'] ?? '',
+        Provincia: huespedData['DatosComunicacion.Provincia'] ?? '',
+        ComunidadAutonoma:
+            huespedData['DatosComunicacion.ComunidadAutonoma'] ?? '',
+        Pais: huespedData['DatosComunicacion.Pais'] ?? '',
+        ApartadoCorreos: huespedData['DatosComunicacion.ApartadoCorreos'] ?? '',
+        Telefono: huespedData['DatosComunicacion.Telefono'] ?? '',
+        TelefonoMovil: huespedData['DatosComunicacion.TelefonoMovil'] ?? '',
+        FaxNumber: huespedData['DatosComunicacion.FaxNumber'] ?? '',
+        EMail: huespedData['DatosComunicacion.EMail'] ?? '',
     };
 
     return {
-        ...(huespedData['hotel'] && { hotel: huespedData['hotel'] }),
-        ...(huespedData['hotel'] && { HotelFactura: huespedData['hotel'] }),
-        ...(huespedData['reservationNumber'] && {
-            reservationNumber: huespedData['reservationNumber'],
-        }),
-        ...(huespedData['reservationNumber'] && {
-            NumReserva: huespedData['reservationNumber'],
-        }),
-        ...(huespedData['NumeroCliente'] && {
-            NumeroCliente: huespedData['NumeroCliente'],
-        }),
-        ...(huespedData['IDHuesped'] && {
-            IDHuesped: huespedData['IDHuesped'] ?? '',
-        }),
-        ...(huespedData['TipoPersona'] && {
-            TipoPersona: huespedData['TipoPersona'],
-        }),
-        ...(huespedData['Nombre_Pila'] && {
-            Nombre_Pila: huespedData['Nombre_Pila'],
-        }),
-        ...(huespedData['Nombre'] && { Nombre: huespedData['Nombre'] }),
-        ...(huespedData['Email'] && { Email: huespedData['Email'] }),
-        ...(huespedData['FechaNacimiento'] && {
-            FechaNacimiento: dateFormatter(
-                dateParser(huespedData['FechaNacimiento']),
-                'yyyyMMddhhmmss'
-            ),
-        }),
-        ...(huespedData['PaisNacimiento'] && {
-            PaisNacimiento: huespedData['PaisNacimiento'],
-        }),
-        ...(huespedData['TipoDocumento'] && {
-            TipoDocumento: huespedData['TipoDocumento'],
-        }),
-        ...(huespedData['FechaExpedicion'] && {
-            FechaExpedicion: dateFormatter(
-                dateParser(huespedData['FechaExpedicion']),
-                'yyyyMMddhhmmss'
-            ),
-        }),
-        ...(huespedData['FechaCaducidad'] && {
-            FechaCaducidad: dateFormatter(
-                dateParser(huespedData['FechaCaducidad']),
-                'yyyyMMddhhmmss'
-            ),
-        }),
-        ...(huespedData['Edad'] && {
-            Edad: huespedData['Edad'].padStart(3, '0'),
-        }),
-        ...(huespedData['IDDocumento'] && {
-            IDDocumento: huespedData['IDDocumento'],
-        }),
-        ...(huespedData['TipoCliente'] && {
-            TipoCliente: huespedData['TipoCliente'],
-        }),
-        ...(huespedData['Sexo'] && { Sexo: huespedData['Sexo'] }),
-        ...(huespedData['AceptaInfo'] && {
-            AceptaInfo: huespedData['AceptaInfo'],
-        }),
-        ...(huespedData['Repetidor'] && {
-            Repetidor: huespedData['Repetidor'],
-        }),
-        ...(huespedData['Vip'] && { Vip: huespedData['Vip'] }),
-        ...(huespedData['FechaEntrada'] && {
-            FechaEntrada: dateFormatter(
-                dateParser(huespedData['FechaEntrada']),
-                'yyyyMMddhhmmss'
-            ),
-        }),
-        ...(huespedData['FechaSalida'] && {
-            FechaSalida: dateFormatter(
-                dateParser(huespedData['FechaSalida']),
-                'yyyyMMddhhmmss'
-            ),
-        }),
-        ...(Object.keys(datosCom).length > 0 && {
-            DatosComunicacion: datosCom,
-        }),
+        hotel: huespedData['hotel'] ?? '',
+        HotelFactura: huespedData['hotel'] ?? '',
+        reservationNumber: huespedData['reservationNumber'] ?? '',
+        NumReserva: huespedData['reservationNumber'] ?? '',
+        NumeroCliente: huespedData['NumeroCliente'] ?? '',
+        IDHuesped: huespedData['IDHuesped'] ?? '',
+        TipoPersona: huespedData['TipoPersona'] ?? '',
+        Nombre_Pila: huespedData['Nombre_Pila'] ?? '',
+        Nombre: huespedData['Nombre'] ?? '',
+        Email: huespedData['DatosComunicacion.EMail'] ?? '',
+        FechaNacimiento: huespedData['FechaNacimiento']
+            ? dateFormatter(
+                  dateParser(huespedData['FechaNacimiento']),
+                  'yyyyMMddhhmmss'
+              )
+            : '',
+        PaisNacimiento: huespedData['PaisNacimiento'] ?? '',
+        TipoDocumento: huespedData['TipoDocumento'] ?? '',
+        FechaExpedicion: huespedData['FechaExpedicion']
+            ? dateFormatter(
+                  dateParser(huespedData['FechaExpedicion']),
+                  'yyyyMMddhhmmss'
+              )
+            : '',
+        FechaCaducidad: huespedData['FechaCaducidad']
+            ? dateFormatter(
+                  dateParser(huespedData['FechaCaducidad']),
+                  'yyyyMMddhhmmss'
+              )
+            : '',
+        Edad: huespedData['Edad']?.padStart(3, '0'),
+        IDDocumento: huespedData['IDDocumento'] ?? '',
+        TipoCliente: huespedData['TipoCliente'] ?? '',
+        Sexo: huespedData['Sexo'] ?? '',
+        AceptaInfo: huespedData['AceptaInfo'] ?? '',
+        Repetidor: huespedData['Repetidor'] ?? '',
+        Vip: huespedData['Vip'] ?? '',
+        FechaEntrada: huespedData['FechaEntrada']
+            ? dateFormatter(
+                  dateParser(huespedData['FechaEntrada']),
+                  'yyyyMMddhhmmss'
+              )
+            : '',
+        FechaSalida: huespedData['FechaSalida']
+            ? dateFormatter(
+                  dateParser(huespedData['FechaSalida']),
+                  'yyyyMMddhhmmss'
+              )
+            : '',
+        DatosComunicacion: datosCom,
     } as Huesped;
 }
 
@@ -150,74 +97,49 @@ export function parseToReserva(
     reservaData: Record<string, string | undefined>
 ): Reserva {
     return {
-        ...(reservaData['hotel'] && { hotel: reservaData['hotel'] }),
-        ...(reservaData['ReservationNumber'] && {
-            ReservationNumber: reservaData['ReservationNumber'],
-        }),
-        ...(reservaData['checkoutRealized'] != null && {
-            checkoutRealized: reservaData['checkoutRealized'] === 'true',
-        }),
-        ...(reservaData['CheckIn'] && { CheckIn: reservaData['CheckIn'] }),
-        ...(reservaData['Localizador'] && {
-            Localizador: reservaData['Localizador'],
-        }),
-        ...(reservaData['hotel'] && { HotelFactura: reservaData['hotel'] }),
-        ...(reservaData['ReservationNumber'] && {
-            NumReserva: reservaData['ReservationNumber'],
-        }),
-        ...(reservaData['Bono'] && { Bono: reservaData['Bono'] }),
-        ...(typeof reservaData['Estado'] === 'string' && {
-            Estado: Math.abs(parseInt(reservaData['Estado'], 10)),
-        }),
-        ...(reservaData['Habitacion'] && {
-            Habitacion: reservaData['Habitacion'],
-        }),
-        ...(reservaData['THDescripcion'] && {
-            THDescripcion: reservaData['THDescripcion'],
-        }),
-        ...(reservaData['THUso'] && { THUso: reservaData['THUso'] }),
-        ...(reservaData['Seccion'] && { Seccion: reservaData['Seccion'] }),
-        ...(reservaData['Tarifa'] && { Tarifa: reservaData['Tarifa'] }),
-        ...(reservaData['AD'] && { AD: parseInt(reservaData['AD'], 10) }),
-        ...(reservaData['NI'] && { NI: parseInt(reservaData['NI'], 10) }),
-        ...(reservaData['JR'] && { JR: parseInt(reservaData['JR'], 10) }),
-        ...(reservaData['CU'] && { CU: parseInt(reservaData['CU'], 10) }),
-        ...(reservaData['PreCheckIn'] && {
-            PreCheckIn: reservaData['PreCheckIn'],
-        }),
-        ...(reservaData['FechaEntrada'] && {
-            FechaEntrada: dateFormatter(
-                dateParser(reservaData['FechaEntrada']),
-                'yyyyMMddhhmmss'
-            ),
-        }),
-        ...(reservaData['FechaSalida'] && {
-            FechaSalida: dateFormatter(
-                dateParser(reservaData['FechaSalida']),
-                'yyyyMMddhhmmss'
-            ),
-        }),
-        ...(reservaData['MotivoViaje'] && {
-            MotivoViaje: reservaData['MotivoViaje'],
-        }),
-        ...(reservaData['LlegadaHora'] && {
-            LlegadaHora: timeFormatter(reservaData['LlegadaHora']),
-        }),
-        ...(reservaData['THFactura'] && {
-            THFactura: reservaData['THFactura'],
-        }),
-        ...(reservaData['Bienvenida'] && {
-            Bienvenida: reservaData['Bienvenida'],
-        }),
-        ...(reservaData['FechaBienv'] && {
-            FechaBienv: dateFormatter(
-                dateParser(reservaData['FechaBienv']),
-                'yyyyMMdd'
-            ),
-        }),
-        ...(reservaData['HoraBienv'] && {
-            HoraBienv: timeFormatter(reservaData['HoraBienv']),
-        }),
+        hotel: reservaData['hotel'] ?? '',
+        ReservationNumber: reservaData['ReservationNumber'] ?? '',
+        checkoutRealized: reservaData['checkoutRealized'] === 'true',
+        CheckIn: reservaData['CheckIn'] ?? '',
+        Localizador: reservaData['Localizador'] ?? '',
+        HotelFactura: reservaData['hotel'] ?? '',
+        NumReserva: reservaData['ReservationNumber'] ?? '',
+        Bono: reservaData['Bono'] ?? '',
+        Estado: Math.abs(parseInt(reservaData['Estado'] || '0', 10)),
+        Habitacion: reservaData['Habitacion'] ?? '',
+        THDescripcion: reservaData['THDescripcion'] ?? '',
+        THUso: reservaData['THUso'] ?? '',
+        Seccion: reservaData['Seccion'] ?? '',
+        Tarifa: reservaData['Tarifa'] ?? '',
+        AD: parseInt(reservaData['AD'] || '0', 10),
+        NI: parseInt(reservaData['NI'] || '0', 10),
+        JR: parseInt(reservaData['JR'] || '0', 10),
+        CU: parseInt(reservaData['CU'] || '0', 10),
+        PreCheckIn: reservaData['PreCheckIn'] ?? '',
+        FechaEntrada: reservaData['FechaEntrada']
+            ? dateFormatter(
+                  dateParser(reservaData['FechaEntrada']),
+                  'yyyyMMddhhmmss'
+              )
+            : '',
+        FechaSalida: reservaData['FechaSalida']
+            ? dateFormatter(
+                  dateParser(reservaData['FechaSalida']),
+                  'yyyyMMddhhmmss'
+              )
+            : '',
+        MotivoViaje: reservaData['MotivoViaje'] ?? '',
+        LlegadaHora: reservaData['LlegadaHora']
+            ? timeFormatter(reservaData['LlegadaHora'])
+            : '',
+        THFactura: reservaData['THFactura'] ?? '',
+        Bienvenida: reservaData['Bienvenida'] ?? '',
+        FechaBienv: reservaData['FechaBienv']
+            ? dateFormatter(dateParser(reservaData['FechaBienv']), 'yyyyMMdd')
+            : '',
+        HoraBienv: reservaData['HoraBienv']
+            ? timeFormatter(reservaData['HoraBienv'])
+            : '',
     } as Reserva;
 }
 
@@ -314,4 +236,94 @@ export function cleanObject<T extends object>(obj: T): T {
     }
 
     return result;
+}
+
+// -----------------------------------------
+
+export function parseSexo(sexo: string | undefined): string {
+    switch (sexo) {
+        case '1':
+            return 'Masculino';
+        case '2':
+            return 'Femenino';
+        default:
+            return 'N/A';
+    }
+}
+
+export function parseTipoPersona(tipoPersona: string | undefined): string {
+    switch (tipoPersona) {
+        case '1':
+            return 'Adulto';
+        case '2':
+            return 'Junior';
+        case '3':
+            return 'Niño';
+        case '4':
+            return 'Cunado';
+        default:
+            return 'N/A';
+    }
+}
+
+export function parseNumeroCliente(numeroCliente: string | undefined): string {
+    switch (numeroCliente) {
+        case '01':
+            return 'Titular de la Reserva';
+        case undefined:
+            return 'No especificado';
+        default:
+            return 'Acompañante';
+    }
+}
+
+export function parseTipoDocumento(tipoDocumento: string | undefined): string {
+    return tipoDocumento === '2' ? 'Pasaporte' : 'DNI';
+}
+
+export function parseEstadoReserva(estado: number | undefined): string {
+    switch (estado) {
+        case 1:
+            return 'Tentativo';
+        case 2:
+            return 'Espera de confirmación';
+        case 3:
+            return 'Confirmada';
+        case 4:
+            return 'Denegada';
+        case 5:
+            return 'No-show';
+        case 6:
+            return 'Cancelada';
+        case 9:
+            return 'Lista de espera';
+        default:
+            return 'N/A';
+    }
+}
+export function parseVip(vip: string | undefined): string {
+    switch (vip) {
+        case '1':
+            return 'Genius';
+        case '2':
+            return 'Rep2-5';
+        case '3':
+            return 'Rep6-9';
+        case '4':
+            return 'Rep+10';
+        case '7':
+            return 'VIP1';
+        case '8':
+            return 'VIP2';
+        case '9':
+            return 'VIP3';
+        case 'E':
+            return 'Expedia VIP';
+        case 'P':
+            return 'ExpPremium VIP';
+        case 'S':
+            return 'VIP2B sin flores';
+        default:
+            return 'N/A';
+    }
 }

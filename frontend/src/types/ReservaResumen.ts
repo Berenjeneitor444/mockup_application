@@ -1,10 +1,11 @@
 import { dateParser } from '../utils/DateUtils';
+import { parseEstadoReserva } from '../utils/EntityUtils';
 import Reserva from './Reserva';
 export interface ReservaResumen {
     ReservationNumber: string;
     hotel: string;
     FechaEntrada?: string;
-    Estado?: number | 'N/A';
+    Estado?: string;
     FechaSalida?: string;
     AD?: number | 'N/A';
     NI?: number | 'N/A';
@@ -32,6 +33,6 @@ export function getReservaResumen(
         CU: reserva?.CU ?? 0,
         MotivoViaje: reserva?.MotivoViaje || 'N/A',
         Habitacion: reserva?.Habitacion || 'N/A',
-        Estado: reserva?.Estado ?? 'N/A',
+        Estado: parseEstadoReserva(reserva.Estado),
     };
 }

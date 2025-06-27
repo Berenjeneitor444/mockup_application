@@ -2,6 +2,12 @@ import Huesped from '../../types/Huesped';
 import ViewField from './ViewField';
 import { dateParser } from '../../utils/DateUtils';
 import { Link } from 'react-router-dom';
+import {
+    parseNumeroCliente,
+    parseTipoDocumento,
+    parseTipoPersona,
+    parseVip,
+} from '../../utils/EntityUtils';
 
 interface HuespedViewProps {
     huesped: Huesped;
@@ -18,25 +24,25 @@ const HuespedView = ({ huesped }: HuespedViewProps) => {
                 <ViewField label="Hotel" value={huesped.hotel} />
 
                 <ViewField
-                    label="Numero de reserva"
+                    label="Número de reserva"
                     value={huesped.reservationNumber}
                 />
-                <ViewField label="Hotel Factura" value={huesped.HotelFactura} />
                 <ViewField
-                    label="Numero de reserva"
-                    value={huesped.NumReserva}
-                />
-                <ViewField
-                    label="Número de huesped"
-                    value={huesped.NumeroCliente}
+                    label="Numero Cliente"
+                    value={
+                        huesped.NumeroCliente
+                            ? huesped.NumeroCliente +
+                              ' : ' +
+                              parseNumeroCliente(huesped.NumeroCliente)
+                            : 'N/A'
+                    }
                 />
                 <ViewField
                     label="Tipo de Persona"
-                    value={huesped.TipoPersona}
+                    value={parseTipoPersona(huesped.TipoPersona)}
                 />
                 <ViewField label="Nombre de Pila" value={huesped.Nombre_Pila} />
                 <ViewField label="Apellidos" value={huesped.Nombre} />
-                <ViewField label="Email" value={huesped.Email} />
                 <ViewField
                     label="Fecha de Nacimiento"
                     value={dateParser(huesped.FechaNacimiento)}
@@ -48,7 +54,7 @@ const HuespedView = ({ huesped }: HuespedViewProps) => {
 
                 <ViewField
                     label="Tipo de Documento"
-                    value={huesped.TipoDocumento}
+                    value={parseTipoDocumento(huesped.TipoDocumento)}
                 />
                 <ViewField
                     label="Fecha de expedición"
@@ -96,7 +102,7 @@ const HuespedView = ({ huesped }: HuespedViewProps) => {
                     label="¿Repetidor?"
                     value={huesped.Repetidor === 'X'}
                 />
-                <ViewField label="VIP" value={huesped.Vip} />
+                <ViewField label="VIP" value={parseVip(huesped.Vip)} />
                 <ViewField
                     label="Dirección"
                     value={huesped.DatosComunicacion?.Direccion}

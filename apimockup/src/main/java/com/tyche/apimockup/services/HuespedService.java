@@ -46,7 +46,7 @@ public class HuespedService {
           "KO", new String[] {"No se han encontrado huespedes con los filtros solicitados"}, null);
     } else {
       List<HuespedOutput> listaHuespedesDTO =
-          listaHuespedes.stream().map(huesped -> mapper.toDTO(huesped, entityMapperHelper)).toList();
+          listaHuespedes.stream().map(mapper::toDTO).toList();
       return new HuespedResponse("OK", new String[0], listaHuespedesDTO);
     }
   }
@@ -65,7 +65,7 @@ public class HuespedService {
           null);
     } else {
       List<HuespedOutput> listaHuespedesDTO =
-          listaHuespedes.stream().map(huesped -> mapper.toDTO(huesped, entityMapperHelper)).toList();
+          listaHuespedes.stream().map(mapper::toDTO).toList();
       return new HuespedResponse("OK", new String[0], listaHuespedesDTO);
     }
   }
@@ -80,7 +80,7 @@ public class HuespedService {
 
     if (errores.length == 0) {
       huespedRepository.basicCRUD().save(huesped);
-      return new HuespedResponse("OK", errores, List.of(mapper.toDTO(huesped, entityMapperHelper)));
+      return new HuespedResponse("OK", errores, List.of(mapper.toDTO(huesped)));
     } else {
 
       return new HuespedResponse("KO", errores, null);
@@ -96,9 +96,8 @@ public class HuespedService {
     String[] errores = validationUtil.validarTotalidad(huesped, false);
     if (errores.length == 0) {
       // Este es un huesped que solo almacena los datos que se deben actualizar
-      huespedRepository.dynamicUpdate(huesped);
-      Huesped huespedCambiado = huespedRepository.basicCRUD().findById(huesped.getIdHuesped()).orElseThrow();
-      return new HuespedResponse("OK", errores, List.of(mapper.toDTO(huespedCambiado, entityMapperHelper)));
+      Huesped huespedCambiado = huespedRepository.dynamicUpdate(huesped);
+      return new HuespedResponse("OK", errores, List.of(mapper.toDTO(huespedCambiado)));
     } else {
       return new HuespedResponse("KO", errores, null);
     }

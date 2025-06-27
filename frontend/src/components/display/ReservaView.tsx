@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Reserva from '../../types/Reserva';
 import { dateParser, timeFormatter } from '../../utils/DateUtils';
 import ViewField from './ViewField';
+import { parseEstadoReserva } from '../../utils/EntityUtils';
 
 interface ReservaViewProps {
     reserva: Reserva;
@@ -28,7 +29,10 @@ const ReservaView = ({ reserva }: ReservaViewProps) => {
                 <ViewField label="Localizador" value={reserva.Localizador} />
                 <ViewField label="Hotel Factura" value={reserva.HotelFactura} />
                 <ViewField label="Bono" value={reserva.Bono} />
-                <ViewField label="Estado" value={reserva.Estado} />
+                <ViewField
+                    label="Estado"
+                    value={parseEstadoReserva(reserva.Estado)}
+                />
                 <ViewField label="Habitación" value={reserva.Habitacion} />
                 <ViewField
                     label="Descripción TH"

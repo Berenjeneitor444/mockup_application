@@ -1,3 +1,9 @@
+import {
+    parseNumeroCliente,
+    parseSexo,
+    parseTipoDocumento,
+    parseTipoPersona,
+} from '../utils/EntityUtils';
 import Huesped from './Huesped';
 
 interface HuespedResumen {
@@ -14,7 +20,8 @@ interface HuespedResumen {
     Telefono?: string;
     Pais?: string;
     Repetidor?: string;
-    TipoCliente?: string;
+    TipoPersona?: string;
+    NumeroCliente?: string;
     Firma?: string;
 }
 
@@ -24,32 +31,22 @@ export function getHuespedResumen(huesped: Huesped): HuespedResumen | null {
     if (!huesped) {
         return null;
     }
-    let sexo: string;
 
-    switch (huesped.Sexo) {
-        case '1':
-            sexo = 'Masculino';
-            break;
-        case '2':
-            sexo = 'Femenino';
-            break;
-        default:
-            sexo = 'N/A';
-    }
     return {
         IDHuesped: huesped.IDHuesped as string,
         Nombre_Pila: huesped.Nombre_Pila || 'N/A',
+        NumeroCliente: parseNumeroCliente(huesped.NumeroCliente),
         Nombre: huesped.Nombre || 'N/A',
         Email: huesped?.DatosComunicacion?.EMail || 'N/A',
-        TipoDocumento: huesped.TipoDocumento || 'N/A',
+        TipoDocumento: parseTipoDocumento(huesped.TipoDocumento),
         IDDocumento: huesped.IDDocumento || 'N/A',
         Edad: huesped.Edad || 'N/A',
-        Sexo: sexo,
+        Sexo: parseSexo(huesped.Sexo),
         reservationNumber: huesped.reservationNumber || 'N/A',
         Telefono: huesped?.DatosComunicacion?.Telefono || 'N/A',
         Pais: huesped?.DatosComunicacion?.Pais || 'N/A',
         Repetidor: huesped?.Repetidor === 'X' ? 'Sí' : 'No',
-        TipoCliente: huesped.TipoCliente || 'N/A',
+        TipoPersona: parseTipoPersona(huesped.TipoPersona),
         Firma: huesped.Firma ? 'Sí' : 'No',
         hotel: huesped.hotel,
     };
