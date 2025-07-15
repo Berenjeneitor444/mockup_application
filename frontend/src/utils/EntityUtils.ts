@@ -327,3 +327,20 @@ export function parseVip(vip: string | undefined): string {
             return 'N/A';
     }
 }
+
+export function parseMotivoViaje(motivoViaje: string | undefined): string {
+    switch (motivoViaje) {
+        case 'LUNADEMIEL':
+            return 'Luna de miel';
+        case 'ANIVERSARI':
+            return 'Aniversario';
+        case 'VACACIONES':
+            return 'Vacaciones';
+        case 'CUMPLEAÑOS':
+            return 'Cumpleaños';
+        case 'OTROS':
+            return 'Otro';
+        default:
+            return 'N/A';
+    }
+}

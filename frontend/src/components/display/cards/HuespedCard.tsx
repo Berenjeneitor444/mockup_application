@@ -49,10 +49,18 @@ export default function HuespedCard({
     ];
 
     const contactItems: InfoItemProps[] = [
-        { label: 'Email', value: huespedResumen.Email, fullWidth: true },
         { label: 'Teléfono', value: huespedResumen.Telefono },
-        { label: 'Tipo Documento', value: huespedResumen.TipoDocumento },
-        { label: 'Nº Documento', value: huespedResumen.IDDocumento },
+        { label: 'Email', value: huespedResumen.Email, fullWidth: true },
+        {
+            label: 'Tipo Documento',
+            value: huespedResumen.TipoDocumento,
+            fullWidth: true,
+        },
+        {
+            label: 'Nº Documento',
+            value: huespedResumen.IDDocumento,
+            fullWidth: true,
+        },
     ];
 
     const sections = [

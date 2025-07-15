@@ -4,6 +4,7 @@ import { dateParser } from '../../utils/DateUtils';
 import { Link } from 'react-router-dom';
 import {
     parseNumeroCliente,
+    parseSexo,
     parseTipoDocumento,
     parseTipoPersona,
     parseVip,
@@ -84,16 +85,7 @@ const HuespedView = ({ huesped }: HuespedViewProps) => {
                     value={huesped.TipoCliente}
                 />
 
-                <ViewField
-                    label="Sexo"
-                    value={
-                        huesped.Sexo === '1'
-                            ? 'Masculino'
-                            : huesped.Sexo === '2'
-                              ? 'Femenino'
-                              : 'No especificado'
-                    }
-                />
+                <ViewField label="Sexo" value={parseSexo(huesped.Sexo)} />
                 <ViewField
                     label="Acepta Información"
                     value={huesped.AceptaInfo === 'X'}

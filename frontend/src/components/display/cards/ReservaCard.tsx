@@ -38,17 +38,17 @@ export default function ReservaCard({
             highlight: true,
         },
         {
-            label: 'Motivo de Viaje',
-            value: reservaResumen.MotivoViaje || 'No especificado',
-            fullWidth: true,
-        },
-        {
             label: 'Fecha de Entrada',
             value: reservaResumen.FechaEntrada || 'N/A',
         },
         {
             label: 'Fecha de Salida',
             value: reservaResumen.FechaSalida || 'N/A',
+        },
+        {
+            label: 'Motivo de Viaje',
+            value: reservaResumen.MotivoViaje || 'No especificado',
+            fullWidth: true,
         },
     ];
 
@@ -69,7 +69,7 @@ export default function ReservaCard({
             key="occupancy"
             title="Ocupación de la Habitación"
             items={occupancyItems}
-            columns={2}
+            columns={1}
         />,
     ];
 

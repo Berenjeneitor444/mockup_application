@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Reserva from '../../types/Reserva';
 import { dateParser, timeFormatter } from '../../utils/DateUtils';
 import ViewField from './ViewField';
-import { parseEstadoReserva } from '../../utils/EntityUtils';
+import { parseEstadoReserva, parseMotivoViaje } from '../../utils/EntityUtils';
 
 interface ReservaViewProps {
     reserva: Reserva;
@@ -66,7 +66,10 @@ const ReservaView = ({ reserva }: ReservaViewProps) => {
                             : null
                     }
                 />
-                <ViewField label="Motivo Viaje" value={reserva.MotivoViaje} />
+                <ViewField
+                    label="Motivo Viaje"
+                    value={parseMotivoViaje(reserva.MotivoViaje)}
+                />
                 <ViewField
                     label="Hora Llegada"
                     value={
