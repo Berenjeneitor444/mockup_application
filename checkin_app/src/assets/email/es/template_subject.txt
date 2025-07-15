@@ -1,1 +1,0 @@
-Contrato de Alojamiento - {{hotel.name}}
